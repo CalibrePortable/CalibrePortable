@@ -3,12 +3,14 @@
 
 #### 普通用户
 
-**登陆**：
->/normaluser/login
+1.登陆：
+>/normalUser/login
 
 **请求**：
 >Method:POST
-userName: String
+
+**参数**
+>userName: String
 password: String
 
 `Response`:
@@ -20,11 +22,14 @@ password: String
 
 
 
-**注册**：
->/normaluser/register 
+2.注册：
+>/normalUser/register 
 
+**请求**
 >Method:POST
-userName：String
+
+**参数**
+>userName：String
 password：String
 rePassword:String 
 
@@ -36,11 +41,15 @@ rePassword:String
 ---
 
 
-**扫一扫借书**：
->/normaluser/borrow
+3.扫一扫借书：
+>/normalUser/borrow
+
+**请求**
 
 >Method：POST
-_bookId：String
+
+**参数**
+>_bookId：String
 password：String
 rePassword:String 
 
@@ -51,11 +60,14 @@ rePassword:String
 
 ---
 
-**获取图书列表**：
+4.获取图书列表：
 >/booklist?page=xx
 
+**请求**
 >Method:GET
-page:int
+
+**参数**
+>page:int
 
 `Response`:
 >{
@@ -65,3 +77,57 @@ books:[{
     。。。
 },。。。]
 }
+
+
+5.图书搜索
+>/search?keyword=xxx
+
+>Method:GET
+
+**参数**
+>keyword:String 
+
+`Response`:
+>{
+    status:RESULT_CONSTANT 
+}
+
+
+---
+
+
+6.已借阅
+>normalUser/return?bookId=xxx&&userName=xxx&&password&&=xxx
+
+**请求**
+>Method:GET
+
+**参数**
+>bookId:String
+userName:String
+password:String
+
+
+`Response`:
+>{
+status: RESULT_CONSTANT,
+books:[{
+},{
+    。。。
+},。。。]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
