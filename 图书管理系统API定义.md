@@ -3,7 +3,7 @@
 
 #### 普通用户
 
-1.登陆：
+1.登陆
 >/normalUser/login
 
 **请求**：
@@ -22,7 +22,7 @@ password: String
 
 
 
-2.注册：
+2.注册
 >/normalUser/register 
 
 **请求**
@@ -41,7 +41,7 @@ rePassword:String
 ---
 
 
-3.扫一扫借书：
+3.扫一扫借书
 >/normalUser/borrow
 
 **请求**
@@ -60,7 +60,7 @@ rePassword:String
 
 ---
 
-4.获取图书列表：
+4.获取图书列表
 >/booklist?page=xx
 
 **请求**
