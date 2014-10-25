@@ -3,7 +3,7 @@
 
 #### 普通用户
 
-1.登
+1.登录
 >/normalUser/login
 
 **请求**
@@ -70,12 +70,18 @@ rePassword:String
 >page:int
 
 `Response`
->{
-status: RESULT_CONSTANT,
-books:[{
+>{status: RESULT_CONSTANT,
+ books:[
+ {"book_name":书本名称,
+"book_author":书本作者,
+"book_type":书本类型,
+"book_info":书本信息,
+"book_price:"书本价格，
+"book_status":书本状态,
+"like":点赞数
 },{
-    。。。
-},。。。]
+    ...
+},...]
 }
 
 
@@ -89,7 +95,18 @@ books:[{
 
 `Response`
 >{
-    status:RESULT_CONSTANT 
+status: RESULT_CONSTANT,
+books:[
+{"book_name":书本名称,
+"book_author":书本作者,
+"book_type":书本类型,
+"book_info":书本信息,
+"book_price:"书本价格，
+"book_status":书本状态,
+"like":点赞数},
+{
+    ...
+},...]
 }
 
 
@@ -111,10 +128,17 @@ password:String
 `Response`
 >{
 status: RESULT_CONSTANT,
-books:[{
+books:[
+{"book_name":书本名称,
+"book_author":书本作者,
+"book_type":书本类型,
+"book_info":书本信息,
+"book_price:"书本价格，
+"book_status":书本状态,
+"like":点赞数
 },{
-    。。。
-},。。。]
+    ...
+},...]
 }
 
 
@@ -152,10 +176,17 @@ password: String
 `Response`
 >{
 status: RESULT_CONSTANT,
-books:[{
+books:[
+{"book_name":书本名称,
+"book_author":书本作者,
+"book_type":书本类型,
+"book_info":书本信息,
+"book_price:"书本价格，
+"book_status":书本状态,
+"like":点赞数
 },{
-    。。。
-},。。。]
+    ...
+},...]
 }
 
 
@@ -166,9 +197,14 @@ books:[{
 >POST
 
 参数
->图书属性（还没有想好）
-userName：String
-password：String
+>userName：String
+ password：String
+ book_status:String
+ book_name:String
+ book_author:String
+ book_info:String
+ 
+
 
 
 `Response `
@@ -183,14 +219,15 @@ password：String
 >/administrator/returnConfirm?bookId=xxx&&userName=xxx&&password=xxx
 
 请求
->
+>GET
 
 参数
->
+>bookId:String
+userName:String
+password:String
 
 
 ---
-
 
 5.添加图书
 >/administrator/addBook
