@@ -70,9 +70,7 @@ rePassword:String
 >page:int
 
 `Response`
->{
-status: RESULT_CONSTANT,
-
+>{status: RESULT_CONSTANT,
  books:[
  {"book_name":书本名称,
 "book_author":书本作者,
