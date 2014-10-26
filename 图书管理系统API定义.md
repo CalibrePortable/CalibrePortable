@@ -114,14 +114,13 @@ books:[
 
 
 6.已借阅
->normalUser/return?bookId=xxx&&userName=xxx&&password&&=xxx
+>normalUser/return?userName=xxx&&password&&=xxx
 
 **请求**
 >Method:GET
 
 **参数**
->bookId:String
-userName:String
+>userName:String
 password:String
 
 
@@ -255,6 +254,34 @@ userName：userName
 password:password
 
 ---
+
+
+6.查看已经借出的图书
+>administrator/return?userName=xxx&&password&&=xxx
+
+**请求**
+>Method:GET
+
+**参数**
+>userName:String
+password:String
+
+
+`Response`
+>{
+status: RESULT_CONSTANT,
+books:[
+{"book_name":书本名称,
+"book_author":书本作者,
+"book_type":书本类型,
+"book_info":书本信息,
+"book_price:"书本价格，
+"book_status":书本状态,
+"like":点赞数
+},{
+    ...
+},...]
+}
 
 
 
