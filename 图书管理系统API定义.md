@@ -10,7 +10,7 @@
 >Method:POST
 
 **参数**
->userName: String
+>userId: String
 password: String
 
 `Response`
@@ -29,7 +29,8 @@ password: String
 >Method:POST
 
 **参数**
->userName：String
+>userId：int
+userName：String
 password：String
 rePassword:String 
 
@@ -49,9 +50,9 @@ rePassword:String
 >Method：POST
 
 **参数**
->_bookId：String
+>bookId：int
+userId：int
 password：String
-rePassword:String 
 
 `Response`
 >{
