@@ -1,6 +1,7 @@
 package org.geeklub.smartlib.login;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -11,6 +12,7 @@ import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.login.presenter.LoginPresenter;
 import org.geeklub.smartlib.login.presenter.LoginPresenterImpl;
 import org.geeklub.smartlib.login.view.LoginView;
+import org.geeklub.smartlib.register.RegisterActivity;
 import org.geeklub.smartlib.utils.ToastUtil;
 
 import butterknife.ButterKnife;
@@ -82,6 +84,7 @@ public class LoginActivity extends Activity implements LoginView, View.OnClickLi
 
   @Override
   public void navigateToRegister() {
+    startActivity(new Intent(this, RegisterActivity.class));
 
   }
 

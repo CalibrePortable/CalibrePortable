@@ -11,11 +11,14 @@
   <string name="account">account</string>
   <string name="et_account_hint">et_account_hint</string>
   <string name="password">password</string>
+  <string name="re_password">re password</string>
   <string name="et_password_hint">et_password_hint</string>
+  <string name="et_re_password_hint">et_re_password_hint</string>
   <string name="login">login</string>
   <string name="register">register</string>
 
   <string name="account_not_empty">account not empty</string>
-    <string name="password_not_empty">password not empty</string>
+  <string name="password_not_empty">password not empty</string>
+  <string name="re_password_error">password not the same!!!</string>
 
 </resources>
