@@ -28,11 +28,11 @@
 
   <string name="action_search">Search</string>
   <string name="action_settings">Settings</string>
+  <string name="action_qr_code">QR CODE</string>
 
   <array name="categorys_array">
-    <item>function 1</item>
-    <item>function 2</item>
-    <item>function 3</item>
+    <item>图书馆</item>
+    <item>已借阅</item>
   </array>
 
 </resources>

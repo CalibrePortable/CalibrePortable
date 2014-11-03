@@ -4,10 +4,13 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
+import android.view.MenuItem;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.utils.LogUtil;
 
@@ -19,7 +22,14 @@ public class SearchResultsActivity extends ActionBarActivity {
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    initActionBar();
+
     handleIntent(getIntent());
+  }
+
+  private void initActionBar() {
+    ActionBar actionBar = getSupportActionBar();
+    actionBar.setDisplayHomeAsUpEnabled(true);
   }
 
   @Override protected void onNewIntent(Intent intent) {
@@ -46,5 +56,14 @@ public class SearchResultsActivity extends ActionBarActivity {
     searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
     return true;
+  }
+
+  @Override public boolean onOptionsItemSelected(MenuItem item) {
+    switch (item.getItemId()) {
+      case android.R.id.home:
+        //我也不知道这么做对不对
+        NavUtils.navigateUpTo(this, getIntent());
+    }
+    return super.onOptionsItemSelected(item);
   }
 }

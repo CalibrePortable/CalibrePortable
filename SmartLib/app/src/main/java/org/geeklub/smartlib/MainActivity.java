@@ -67,7 +67,7 @@ public class MainActivity extends ActionBarActivity {
 
     mDrawerLayout.setDrawerListener(mDrawerToggle);
     iniDrawer();
-    setCategory(Category.members);
+    setCategory(Category.library);
   }
 
   private void iniDrawer() {
@@ -135,14 +135,11 @@ public class MainActivity extends ActionBarActivity {
 
     switch (category) {
 
-      case members:
+      case library:
 
         break;
 
-      case events:
-        break;
-
-      case activiys:
+      case borrow:
         break;
 
       default:

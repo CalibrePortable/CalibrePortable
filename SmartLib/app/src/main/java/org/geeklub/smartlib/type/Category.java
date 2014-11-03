@@ -4,7 +4,7 @@ package org.geeklub.smartlib.type;
  * Created by Vass on 2014/11/3.
  */
 public enum Category {
-  members("Member"), events("Events"), activiys("Activitys");
+  library("Library"), borrow("Borrow");
 
   private String mDisplayName;
 
