@@ -10,7 +10,7 @@
 >Method:POST
 
 **参数**
->userName: String
+>userId: String
 password: String
 
 `Response`
@@ -29,7 +29,8 @@ password: String
 >Method:POST
 
 **参数**
->userName：String
+>userId：int
+userName：String
 password：String
 rePassword:String 
 
@@ -49,9 +50,9 @@ rePassword:String
 >Method：POST
 
 **参数**
->_bookId：String
+>bookId：int
+userId：int
 password：String
-rePassword:String 
 
 `Response`
 >{
@@ -78,7 +79,7 @@ rePassword:String
 "book_info":书本信息,
 "book_price:"书本价格，
 "book_status":书本状态,
-"like":点赞数
+"favour":点赞数
 },{
     ...
 },...]
@@ -103,7 +104,7 @@ books:[
 "book_info":书本信息,
 "book_price:"书本价格，
 "book_status":书本状态,
-"like":点赞数},
+"favour":点赞数},
 {
     ...
 },...]
@@ -134,7 +135,7 @@ books:[
 "book_info":书本信息,
 "book_price:"书本价格，
 "book_status":书本状态,
-"like":点赞数
+"favour":点赞数
 },{
     ...
 },...]
@@ -171,6 +172,7 @@ password: String
 
 参数
 >page:int
+userId:int
 
 `Response`
 >{
@@ -182,7 +184,7 @@ books:[
 "book_info":书本信息,
 "book_price:"书本价格，
 "book_status":书本状态,
-"like":点赞数
+"favour":点赞数
 },{
     ...
 },...]
@@ -256,7 +258,7 @@ password:password
 ---
 
 
-6.查看已经借出的图书
+7.查看已经借出的图书
 >administrator/return?userName=xxx&&password&&=xxx
 
 **请求**
@@ -277,7 +279,7 @@ books:[
 "book_info":书本信息,
 "book_price:"书本价格，
 "book_status":书本状态,
-"like":点赞数
+"favour":点赞数
 },{
     ...
 },...]
