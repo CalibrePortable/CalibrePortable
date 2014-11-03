@@ -28,6 +28,10 @@ public class RegisterModelImpl implements RegisterModel {
       matchListener.onPassWordNotMatchError();
       return;
     }
+
+
+
+
   }
 
   @Override public void verifyPassWord(String firstPassWord, String secondPassWord,

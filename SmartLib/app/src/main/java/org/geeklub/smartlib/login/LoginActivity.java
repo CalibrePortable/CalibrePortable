@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 
+import org.geeklub.smartlib.MainActivity;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.login.presenter.LoginPresenter;
 import org.geeklub.smartlib.login.presenter.LoginPresenterImpl;
@@ -79,13 +80,12 @@ public class LoginActivity extends Activity implements LoginView, View.OnClickLi
 
   @Override
   public void navigateToMain() {
-
+    startActivity(new Intent(this, MainActivity.class));
   }
 
   @Override
   public void navigateToRegister() {
     startActivity(new Intent(this, RegisterActivity.class));
-
   }
 
   @Override
