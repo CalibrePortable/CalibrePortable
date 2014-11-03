@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import org.geeklub.smartlib.drawer.DrawerFragment;
+import org.geeklub.smartlib.library.LibraryFragment;
 import org.geeklub.smartlib.type.Category;
 
 public class MainActivity extends ActionBarActivity {
@@ -136,6 +137,7 @@ public class MainActivity extends ActionBarActivity {
     switch (category) {
 
       case library:
+        mContentFragment = LibraryFragment.newInstance();
 
         break;
 
@@ -146,7 +148,7 @@ public class MainActivity extends ActionBarActivity {
         break;
     }
     setTitle(mCategory.getDisplayName());
-    //getFragmentManager().beginTransaction().replace(R.id.content_frame, mContentFragment).commit();
+    getFragmentManager().beginTransaction().replace(R.id.content_frame, mContentFragment).commit();
   }
 
   @Override public void setTitle(CharSequence title) {
