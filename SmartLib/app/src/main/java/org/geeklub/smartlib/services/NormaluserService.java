@@ -1,5 +1,6 @@
 package org.geeklub.smartlib.services;
 
+import java.util.List;
 import org.geeklub.smartlib.beans.Book;
 import retrofit.Callback;
 import retrofit.http.Field;
@@ -19,13 +20,13 @@ public interface NormalUserService {
       @Field("password") String password, @Field("rePassword") String rePassword,
       Callback<Integer> callback);
 
-  @FormUrlEncoded @POST("/normalUser/borrow/:bookId/:userId/:password") void borrow(
+  @FormUrlEncoded @POST("/normalUser/borrow/bookId/userId/password") void borrow(
       @Field("bookId") int bookId, @Field("userId") int userId, @Field("password") String password,
       Callback<Integer> callback);
 
-  @GET("/search/{type}/{page}/{keyword}") void search(@Path("type") int type,
-      @Path("page") int page, @Path("keyword") String keyword, Callback<Book.Response> callback);
+  @GET("/search/{type}/page={page}/{keyword}") void search(@Path("type") int type,
+      @Path("page") int page, @Path("keyword") String keyword, Callback<List<Book>> callback);
 
-  @GET("normalUser/return/:userId/:password") void haveBorrowed(@Path("userId") int userId,
-      @Path("password") String password, Callback<Book.Response> callback);
+  @GET("normalUser/return/userId/password") void haveBorrowed(@Path("userId") int userId,
+      @Path("password") String password, Callback<List<Book>> callback);
 }

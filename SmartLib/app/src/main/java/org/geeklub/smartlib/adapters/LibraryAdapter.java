@@ -28,18 +28,17 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     mContext = context;
   }
 
-  @Override public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+  @Override public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
     View view =
         LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview_library, null);
 
     return new ViewHolder(view);
   }
 
-  @Override public void onBindViewHolder(ViewHolder viewHolder, int i) {
-    //Book book = mData.get(i);
-    //viewHolder.mBookName.setText();
-    //viewHolder.mBookDescripion.setText();
-
+  @Override public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    Book book = mData.get(position);
+    viewHolder.mBookName.setText(book.getBook_name());
+    viewHolder.mBookDescripion.setText(book.getBook_author());
   }
 
   @Override public int getItemCount() {

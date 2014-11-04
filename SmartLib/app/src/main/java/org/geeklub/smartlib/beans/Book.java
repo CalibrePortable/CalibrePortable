@@ -1,6 +1,5 @@
 package org.geeklub.smartlib.beans;
 
-import java.util.List;
 
 /**
  * Created by Vass on 2014/11/4.
@@ -102,39 +101,5 @@ public class Book {
         ", book_status='" + book_status + '\'' +
         ", favour='" + favour + '\'' +
         '}';
-  }
-
-  public static class Response {
-    /**
-     * 书本列表
-     */
-    private List<Book> apps;
-    /**
-     * 状态
-     */
-    private int status;
-
-    public List<Book> getApps() {
-      return apps;
-    }
-
-    public void setApps(List<Book> apps) {
-      this.apps = apps;
-    }
-
-    public int getStatus() {
-      return status;
-    }
-
-    public void setStatus(int status) {
-      this.status = status;
-    }
-
-    @Override public String toString() {
-      return "Response{" +
-          "apps=" + apps +
-          ", status=" + status +
-          '}';
-    }
   }
 }
