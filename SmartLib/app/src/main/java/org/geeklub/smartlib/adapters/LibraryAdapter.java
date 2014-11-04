@@ -12,25 +12,25 @@ import butterknife.InjectView;
 import java.util.ArrayList;
 import java.util.List;
 import org.geeklub.smartlib.R;
-import org.geeklub.smartlib.beans.WebAppsReponse;
+import org.geeklub.smartlib.beans.Book;
 
 /**
  * Created by Vass on 2014/11/3.
  */
-public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHolder>{
+public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHolder> {
 
-  private List<WebAppsReponse.WebApp> mData;
+  private List<Book> mData;
 
   private Context mContext;
 
-
-  public LibraryAdapter(Context context){
-    mData = new ArrayList<WebAppsReponse.WebApp>();
+  public LibraryAdapter(Context context) {
+    mData = new ArrayList<Book>();
     mContext = context;
   }
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-    View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview_library,null);
+    View view =
+        LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.cardview_library, null);
 
     return new ViewHolder(view);
   }
@@ -46,7 +46,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     return mData.size();
   }
 
-  public static class ViewHolder extends RecyclerView.ViewHolder{
+  public static class ViewHolder extends RecyclerView.ViewHolder {
 
     @InjectView(R.id.iv_book_icon) ImageView mBookIcon;
 
@@ -54,13 +54,10 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
     @InjectView(R.id.tv_book_description) TextView mBookDescripion;
 
-
-
     public ViewHolder(View itemView) {
       super(itemView);
 
-      ButterKnife.inject(this,itemView);
-
+      ButterKnife.inject(this, itemView);
     }
   }
 }

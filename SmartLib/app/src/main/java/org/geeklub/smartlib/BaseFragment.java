@@ -21,9 +21,4 @@ public abstract class BaseFragment extends Fragment {
 
     mActivity = null;
   }
-
-
-
-
-
 }
