@@ -38,7 +38,7 @@
 		$req = $app->request(); 
 	    $xuserId = $req->params('userid'); 
 	    $xpassword = $req->params('password'); 
-		verify($xuserId,$xpassword)?found():error();
+		verify($xuserId,$xpassword)?found():error('verify_error');
 		mysql_close($con);
 	});
 
@@ -52,16 +52,16 @@
 	    $xpassword = $req->params('password');
 	    $xrepassword = $req->params('repassword');
 		if($xpassword!=$xrepassword) 
-			error();//确定password是否等于repassword
+			error('password_error');//确定password是否等于repassword
 		else{
 			if(verify($xuserId,'')){//确定user_id是否重复，重复返回0
-				error();
+				error('userid_error');
 			}
 			else{//未找到且注册成功返回1
 				$sql="insert into user (user_id,user_name,user_password) values ($xuserId,'$xuserName','$xpassword')";
 				//echo $sql;
 				$query = mysql_query($sql);
-				$query?found():error();
+				$query?found():error('sql_error');
 			}
 				/*$sql = "INSERT INTO test (user_id,user_name,user_password) VALUES (:user_id, :user_name, :user_password)";
 			    try {
@@ -84,17 +84,17 @@
 		}
 	});
 
-	//~~~~（改成get？）（已验证）POST扫一扫借书http://localhost/webservice/book/API.php/normalUser/borrow/1/12108413/12345
-	$app->post('/normalUser/borrow/:bookId/:userId/:password', function ($xbookId,$xuserId,$xpassword) {
+	//（已验证）GET扫一扫借书http://localhost/webservice/book/API.php/normalUser/borrow/1/12108413/12345
+	$app->get('/normalUser/borrow/:bookId/:userId/:password', function ($xbookId,$xuserId,$xpassword) {
 		require 'conn.php';
-		global $app;
-		$req = $app->request(); 
+		/*global $app;
+		$req = $app->request(); */
 	    //$xpassword = $req->params('password'); 
 		if(book_verify($xbookId)){//先确认书的状态book_status 1为已被借
-			error();
+			error('bookverify_error');
 		}
 		else{//再验证扫描人密码成功则借取
-			verify($xuserId,$xpassword)?swap($xbookId,$xuserId):error();
+			verify($xuserId,$xpassword)?swap($xbookId,$xuserId):error('verify_error');
 		}
 		mysql_close($con);
 		
@@ -125,7 +125,7 @@
 				$xtype='';
 				break;
 			default:
-				error();
+				error('url_error');
 				break;
 		}
 		search(0,$xtype,$page_size,$offset,$xkeyword);
@@ -137,7 +137,7 @@
 		require 'conn.php';
 		//先验证再输出
 		if(!verify($xuserId,$xpassword)){
-			error();
+			error('verify_error');
 		}
 		else{
 			$sql="SELECT book_name, book_author, book_type, book_info, book_price, book_status, favour FROM bookcirculate cir, bookbasic ba WHERE cir.book_id = ba.id AND cir.user_id = $xuserId";
@@ -145,7 +145,7 @@
 			$query = mysql_query($sql);
 			$response = array();
 			if(!$query) {
-				error();
+				error('sql_error');
 			}
 			else {
 				$i = 0;
@@ -159,7 +159,8 @@
 											'favour'=>$res['favour']);			  
 					$i++;
 				}
-				$response = json_encode($response);
+				$response = json_encode($response,JSON_UNESCAPED_UNICODE);
+				//found();
 				echo $response;
 			}
 		}
@@ -174,7 +175,7 @@
 		$req = $app->request(); 
 	    $xuserId = $req->params('userid'); 
 	    $xpassword = $req->params('password');
-		rank_verify($xuserId,$xpassword)?found():error();
+		rank_verify($xuserId,$xpassword)?found():error('rankverify_error');
 		mysql_close($con);
 	});
 
@@ -203,7 +204,7 @@
 				$xtype='';
 				break;
 			default:
-				error();
+				error('url_error');
 				break;
 		}
 		search(1,$xtype,$page_size,$offset,$xkeyword);
@@ -227,14 +228,14 @@
 	    echo $book_type;
 	    echo $book_info;
 	    echo $book_status;*/
-		rank_verify($xuserId,$xpassword)?update($xbookId,$book_name,$book_author,$book_type,$book_info,$book_status):error();
+		rank_verify($xuserId,$xpassword)?update($xbookId,$book_name,$book_author,$book_type,$book_info,$book_status):error('rankverify_error');
 		mysql_close($con);
 	});
 
 	//（已验证）GET归还图书http://localhost/webservice/book/API.php/administrator/returnConfirm/47/12108238/123
 	$app->get('/administrator/returnConfirm/:bookId/:userId/:password', function ($xbookId,$xuserId,$xpassword) {
 		require 'conn.php';
-		rank_verify($xuserId,$xpassword)?confirm($xbookId):error();
+		rank_verify($xuserId,$xpassword)?confirm($xbookId):error('rankverify_error');
 		mysql_close($con);
 	});
 
@@ -250,18 +251,18 @@
 	    $book_info= $_POST['bookinfo'];
 	    $book_price = $req->params('bookprice');
 	    $book_status = $_POST['bookstatus'];
-		rank_verify($xuserId,$xpassword)?add($book_name,$book_author,$book_type,$act_id,$book_info,$book_price,$book_status):error();
+		rank_verify($xuserId,$xpassword)?add($book_name,$book_author,$book_type,$act_id,$book_info,$book_price,$book_status):error('rankverify_error');
 		mysql_close($con);
 	});
 
-	//~~~~~(get?)（已验证）POST删除图书http://localhost/webservice/book/API.php/administrator/deleteBook/100/12108238/123
-	$app->post('/administrator/deleteBook/:bookId/:userId/:password', function ($xbookId,$xuserId,$xpassword) {
+	//已验证）GET删除图书http://localhost/webservice/book/API.php/administrator/deleteBook/100/12108238/123
+	$app->get('/administrator/deleteBook/:bookId/:userId/:password', function ($xbookId,$xuserId,$xpassword) {
 		require 'conn.php';
-		global $app;
-		$req = $app->request(); 
+		/*global $app;
+		$req = $app->request(); */
 		//$xuserId = $req->params('userid');
 	    //$xpassword = $req->params('password');
-		rank_verify($xuserId,$xpassword)?del($xbookId):error();
+		rank_verify($xuserId,$xpassword)?del($xbookId):error('rankverify_error');
 		mysql_close($con);
 	});
 
@@ -270,7 +271,7 @@
 		require 'conn.php';
 		//先验证再输出
 		if(!rank_verify($xuserId,$xpassword)){
-			error();
+			error('rankverify_error');
 		}
 		else{
 			$sql="SELECT book_name, book_author, book_type, book_info, book_price, book_status, favour FROM bookbasic WHERE book_status='已被借'";
@@ -278,7 +279,7 @@
 			$query = mysql_query($sql);
 			$response = array();
 			if(!$query) {
-				error();
+				error('sql_error');
 			}
 			else {
 				$i = 0;
@@ -293,7 +294,8 @@
 					$i++;
 				}
 				
-				$response = json_encode($response);
+				$response = json_encode($response,JSON_UNESCAPED_UNICODE);
+				//found();
 				echo $response;
 			}
 		}
@@ -319,7 +321,7 @@
 		$query = mysql_query($sql);
 		$response = array();
 		if(!$query) {
-			error();
+			error('sql_error');
 		}
 		else {
 			$i = 0;
@@ -334,7 +336,8 @@
 				$i++;
 			}
 			
-			$response = json_encode($response);
+			$response = json_encode($response, JSON_UNESCAPED_UNICODE);
+			//found();
 			echo $response;
 		}
 	}
@@ -346,7 +349,7 @@
 			$query = mysql_query($sql);
 			//echo $sql;
 			if(!$query) {
-				error();
+				error('sql_error');
 			}
 			else {
 				$updated_at = date('Y-m-d');
@@ -354,14 +357,14 @@
 				$query = mysql_query($sql);
 				//echo $sql;
 				if(!$query) {
-					error();
+					error('sql_error');
 				}
 				else {
 					found();
 				}
 			}
 		}
-		else error();
+		else error('bookverify_error');//
 	}
 
 	//完成扫一扫借书
@@ -371,13 +374,13 @@
 		$query = mysql_query($sql);
 		//echo $sql;
 		if(!$query) {
-			error();
+			error('sql_error');
 		}
 		else {
 			$sql="insert bookcirculate (book_id,user_id,created_at) values ($bookId,$userId,'$updated_at')";
 			$query = mysql_query($sql);
-			echo $sql;
-			!$query?error():found();
+			//echo $sql;
+			!$query?error('sql_error'):found();
 		}
 	}
 
@@ -388,7 +391,7 @@
 		//echo $sql;
 		//$response = array();
 		if(!$query) {
-			error();
+			error('sql_error');
 		}
 		else {
 			found();
@@ -402,7 +405,7 @@
 		//echo $sql;
 		//$response = array();
 		if(!$query) {
-			error();
+			error('sql_error');
 		}
 		else {
 			found();
@@ -413,10 +416,10 @@
 	function del($bookId){
 		$sql="delete from bookbasic where id=$bookId";
 		$query = mysql_query($sql);
-		echo $sql;
+		//echo $sql;
 		//$response = array();
 		if(!$query) {
-			error();
+			error('sql_error');
 		}
 		else {
 			found();
@@ -430,7 +433,7 @@
 		//echo $sql;
 		$response = array();
 		if(!$query) {
-			error();
+			error('sql_error');
 		}
 		else {
 			$res = mysql_fetch_array($query);
@@ -450,7 +453,7 @@
 		//echo $sql;
 		$response = array();
 		if(!$query) {
-			error();
+			error('sql_error');
 		}
 		else {
 			$res = mysql_fetch_array($query);
@@ -474,7 +477,7 @@
 		//echo $sql;
 		$response = array();
 		if(!$query) {
-			error();
+			error('sql_error');
 		}
 		else {
 			$res = mysql_fetch_array($query);
@@ -487,20 +490,47 @@
 		}
 	}
 
-	//返回json0
-	function error(){
+	function error($type){
 		$response[0]= array('status'=>"0");
-		$response = json_encode($response);
+		switch ($type) {
+			case 'rankverify_error':
+				$info="当前用户没有足够权限";
+				break;
+			case 'bookverify_error':
+				$info="书在数据库中状态出错";
+				break;
+			case 'url_error':
+				$info="post中url错误";
+				break;
+			case 'verify_error':
+				$info="后台提交的用户名密码错误";
+				break;
+			case 'password_error':
+				$info="两次输入的密码不一致";
+				break;
+			case 'userid_error':
+				$info="用户id重复";
+				break;
+			case 'sql_error':
+				$info="sql语句编写出错";
+				break;
+			
+			default:
+				$info="未知错误";
+				break;
+		}
+		$response[1]= array('info'=>$info);
+		$response = json_encode($response,JSON_UNESCAPED_UNICODE);
 		echo $response;
 	}
-
+	
 	//返回json1
 	function found(){
 		$response[0]= array('status'=>"1");
-		$response = json_encode($response);
+		$response[1]= array('info'=>"成功");
+		$response = json_encode($response,JSON_UNESCAPED_UNICODE);
 		echo $response;
 	}
-
 	/*function getConnection() {
     try {
         $db_username = "root";
