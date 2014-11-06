@@ -1,10 +1,10 @@
 <?php
-	require './../Slim/Slim.php';
+	require './Slim/Slim.php';
 	\Slim\Slim::registerAutoloader();
 	//常量定义
+	//, JSON_UNESCAPED_UNICODE可让json转为明码
 	define("pagesize", 15, true);
 	$app = new \Slim\Slim();
-
 
 	/*//POST举例
 	$app->post('/users/:id',function ($xid){
@@ -31,12 +31,31 @@
 	    found();
 	});  */
 
+	//pdo方法
+		/*$sql = "INSERT INTO test (user_id,user_name,user_password) VALUES (:user_id, :user_name, :user_password)";
+	    try {
+	        $dbCon = getConnection();
+	        $stmt = $dbCon->prepare($sql);  
+	        $stmt->bindParam("user_id", $xuserId);
+	        $stmt->bindParam("user_name",$xuserName);
+	        $stmt->bindParam("user_password", $xpassword);
+	        $stmt->execute();
+	        //echo $xuserId,$xuserName,$xpassword;
+
+	        //$user->id = $dbCon->lastInsertId();
+	        $dbCon = null;
+	        //echo json_encode($user); 
+	    } 
+	    catch(PDOException $e) {
+	        echo '{"error":{"text":'. $e->getMessage() .'}}'; 
+	    }*/
+
 	//（已验证）POST登录http://localhost/webservice/book/API.php/normalUser/login   12108413/12345
 	$app->post('/normalUser/login', function () {
 		require 'conn.php';
 		global $app;//网页中输入框name为userid、password
 		$req = $app->request(); 
-	    $xuserId = $req->params('userid'); 
+	    $xuserId = $req->params('userId'); 
 	    $xpassword = $req->params('password'); 
 		verify($xuserId,$xpassword)?found():error('verify_error');
 		mysql_close($con);
@@ -47,10 +66,10 @@
 		require 'conn.php';
 		global $app;//
 		$req = $app->request(); 
-	    $xuserId = $req->params('userid'); 
-	    $xuserName=$_POST['username']; //由于Slim中post不支持中文值得使用原始$_POST方法
+	    $xuserId = $req->params('userId'); 
+	    $xuserName=$_POST['userName']; //由于Slim中post不支持中文值得使用原始$_POST方法
 	    $xpassword = $req->params('password');
-	    $xrepassword = $req->params('repassword');
+	    $xrepassword = $req->params('rePassword');
 		if($xpassword!=$xrepassword) 
 			error('password_error');//确定password是否等于repassword
 		else{
@@ -63,23 +82,6 @@
 				$query = mysql_query($sql);
 				$query?found():error('sql_error');
 			}
-				/*$sql = "INSERT INTO test (user_id,user_name,user_password) VALUES (:user_id, :user_name, :user_password)";
-			    try {
-			        $dbCon = getConnection();
-			        $stmt = $dbCon->prepare($sql);  
-			        $stmt->bindParam("user_id", $xuserId);
-			        $stmt->bindParam("user_name",$xuserName);
-			        $stmt->bindParam("user_password", $xpassword);
-			        $stmt->execute();
-			        //echo $xuserId,$xuserName,$xpassword;
-
-			        //$user->id = $dbCon->lastInsertId();
-			        $dbCon = null;
-			        //echo json_encode($user); 
-			    } 
-			    catch(PDOException $e) {
-			        echo '{"error":{"text":'. $e->getMessage() .'}}'; 
-			    }//pdo方法*/
 			mysql_close($con);
 		}
 	});
@@ -159,7 +161,7 @@
 											'favour'=>$res['favour']);			  
 					$i++;
 				}
-				$response = json_encode($response,JSON_UNESCAPED_UNICODE);
+				$response = json_encode($response);
 				//found();
 				echo $response;
 			}
@@ -250,12 +252,12 @@
 	    $act_id = $req->params('actid');
 	    $book_info= $_POST['bookinfo'];
 	    $book_price = $req->params('bookprice');
-	    $book_status = $_POST['bookstatus'];
-		rank_verify($xuserId,$xpassword)?add($book_name,$book_author,$book_type,$act_id,$book_info,$book_price,$book_status):error('rankverify_error');
+	    //$book_status = $_POST['bookstatus'];
+		rank_verify($xuserId,$xpassword)?add($book_name,$book_author,$book_type,$act_id,$book_info,$book_price):error('rankverify_error');
 		mysql_close($con);
 	});
 
-	//已验证）GET删除图书http://localhost/webservice/book/API.php/administrator/deleteBook/100/12108238/123
+	//（已验证）GET删除图书http://localhost/webservice/book/API.php/administrator/deleteBook/100/12108238/123
 	$app->get('/administrator/deleteBook/:bookId/:userId/:password', function ($xbookId,$xuserId,$xpassword) {
 		require 'conn.php';
 		/*global $app;
@@ -294,7 +296,7 @@
 					$i++;
 				}
 				
-				$response = json_encode($response,JSON_UNESCAPED_UNICODE);
+				$response = json_encode($response);
 				//found();
 				echo $response;
 			}
@@ -336,7 +338,7 @@
 				$i++;
 			}
 			
-			$response = json_encode($response, JSON_UNESCAPED_UNICODE);
+			$response = json_encode($response);
 			//found();
 			echo $response;
 		}
@@ -399,8 +401,8 @@
 	}
 
 	//添加图书数据
-	function add($book_name,$book_author,$book_type,$act_id,$book_info,$book_price,$book_status){
-		$sql="insert bookbasic (book_name,book_author,book_type,act_id,book_info,book_price,book_status) values ('$book_name','$book_author','$book_type',$act_id,'$book_info',$book_price,'$book_status')";
+	function add($book_name,$book_author,$book_type,$act_id,$book_info,$book_price){
+		$sql="insert bookbasic (book_name,book_author,book_type,act_id,book_info,book_price) values ('$book_name','$book_author','$book_type',$act_id,'$book_info',$book_price)";
 		$query = mysql_query($sql);
 		//echo $sql;
 		//$response = array();
@@ -491,7 +493,6 @@
 	}
 
 	function error($type){
-		$response[0]= array('status'=>"0");
 		switch ($type) {
 			case 'rankverify_error':
 				$info="当前用户没有足够权限";
@@ -519,16 +520,15 @@
 				$info="未知错误";
 				break;
 		}
-		$response[1]= array('info'=>$info);
-		$response = json_encode($response,JSON_UNESCAPED_UNICODE);
+		$response[0]= array('status'=>"0",'info'=>$info);
+		$response = json_encode($response);
 		echo $response;
 	}
 	
 	//返回json1
 	function found(){
-		$response[0]= array('status'=>"1");
-		$response[1]= array('info'=>"成功");
-		$response = json_encode($response,JSON_UNESCAPED_UNICODE);
+		$response[0]= array('status'=>"1",'info'=>"成功");
+		$response = json_encode($response);
 		echo $response;
 	}
 	/*function getConnection() {
