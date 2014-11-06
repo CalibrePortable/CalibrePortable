@@ -1,10 +1,16 @@
 package org.geeklub.smartlib.beans;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 
 /**
  * Created by Vass on 2014/11/4.
  */
-public class Book {
+public class Book implements Parcelable {
+
+  public Book() {
+  }
+
 
   /**
    * 书名
@@ -102,4 +108,39 @@ public class Book {
         ", favour='" + favour + '\'' +
         '}';
   }
+
+  @Override public int describeContents() {
+    return 0;
+  }
+
+  @Override public void writeToParcel(Parcel dest, int flags) {
+    dest.writeString(this.book_name);
+    dest.writeString(this.book_author);
+    dest.writeString(this.book_type);
+    dest.writeString(this.book_price);
+    dest.writeString(this.book_info);
+    dest.writeString(this.book_status);
+    dest.writeString(this.favour);
+  }
+
+
+  private Book(Parcel in) {
+    this.book_name = in.readString();
+    this.book_author = in.readString();
+    this.book_type = in.readString();
+    this.book_price = in.readString();
+    this.book_info = in.readString();
+    this.book_status = in.readString();
+    this.favour = in.readString();
+  }
+
+  public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
+    public Book createFromParcel(Parcel source) {
+      return new Book(source);
+    }
+
+    public Book[] newArray(int size) {
+      return new Book[size];
+    }
+  };
 }

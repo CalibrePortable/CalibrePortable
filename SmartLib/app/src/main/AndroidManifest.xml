@@ -52,6 +52,13 @@
 
 
     </activity>
+
+
+    <activity
+        android:name=".detail.BookDetailActivity"
+        android:theme="@style/AppTheme.ToolBarStyle">
+
+    </activity>
   </application>
 
 </manifest>
