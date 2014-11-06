@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2014-11-04 19:22:17
+Date: 2014-11-06 18:55:53
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -48,14 +48,14 @@ CREATE TABLE `bookbasic` (
   `favour` int(11) NOT NULL DEFAULT '0',
   `dislike` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bookbasic
 -- ----------------------------
-INSERT INTO `bookbasic` VALUES ('1', 'Android应用UI设计模式', 'Greg Nudelman', '移动端', '1', '人民邮电', null, '未被借', '0', '0');
+INSERT INTO `bookbasic` VALUES ('1', 'Android应用UI设计模式', 'Greg Nudelman', '移动端', '1', '人民邮电', null, '已被借', '0', '0');
 INSERT INTO `bookbasic` VALUES ('2', 'Android和PHP开发最佳实践', '黄隽实', '移动端', '1', '机械工业', null, '未入库', '0', '0');
-INSERT INTO `bookbasic` VALUES ('3', '深入浅出PhoneGap', '饶侠', '移动端', '1', '人民邮电', null, '未被借', '0', '0');
+INSERT INTO `bookbasic` VALUES ('3', '深入浅出PhoneGap', '饶侠', '移动端', '1', '人民邮电', null, '未购买', '0', '0');
 INSERT INTO `bookbasic` VALUES ('4', '第一行代码Android', '郭霖', '移动端', '1', '人民邮电', null, '未被借', '0', '0');
 INSERT INTO `bookbasic` VALUES ('5', 'Java程序设计经典300例', '李源', 'JAVA', '1', '电子工业', null, '已超期', '0', '0');
 INSERT INTO `bookbasic` VALUES ('6', 'Java常用算法手册', '徐明远', 'JAVA', '1', '中国铁道', null, '未被借', '0', '0');
@@ -163,13 +163,14 @@ CREATE TABLE `bookcirculate` (
   `created_at` date NOT NULL,
   `updated_at` date NOT NULL DEFAULT '0000-00-00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bookcirculate
 -- ----------------------------
 INSERT INTO `bookcirculate` VALUES ('1', '47', '12108413', '2014-10-13', '0000-00-00');
 INSERT INTO `bookcirculate` VALUES ('2', '40', '12108206', '2014-10-22', '0000-00-00');
+INSERT INTO `bookcirculate` VALUES ('3', '1', '12108413', '2014-11-05', '0000-00-00');
 
 -- ----------------------------
 -- Table structure for `bookdetail`
@@ -178,14 +179,112 @@ DROP TABLE IF EXISTS `bookdetail`;
 CREATE TABLE `bookdetail` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `book_id` int(11) NOT NULL,
+  `book_pic` text,
   `book_link` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bookdetail
 -- ----------------------------
-INSERT INTO `bookdetail` VALUES ('1', '1', 'http://www.uisdc.com/android-ui-mode');
+INSERT INTO `bookdetail` VALUES ('1', '1', 'https://avatars0.githubusercontent.com/u/8351862?v=2&s=460', 'http://www.uisdc.com/android-ui-mode');
+INSERT INTO `bookdetail` VALUES ('2', '2', null, null);
+INSERT INTO `bookdetail` VALUES ('3', '3', null, null);
+INSERT INTO `bookdetail` VALUES ('4', '4', null, null);
+INSERT INTO `bookdetail` VALUES ('5', '5', null, null);
+INSERT INTO `bookdetail` VALUES ('6', '6', null, null);
+INSERT INTO `bookdetail` VALUES ('7', '7', null, null);
+INSERT INTO `bookdetail` VALUES ('8', '8', null, null);
+INSERT INTO `bookdetail` VALUES ('9', '9', null, null);
+INSERT INTO `bookdetail` VALUES ('10', '10', null, null);
+INSERT INTO `bookdetail` VALUES ('11', '11', null, null);
+INSERT INTO `bookdetail` VALUES ('12', '12', null, null);
+INSERT INTO `bookdetail` VALUES ('13', '13', null, null);
+INSERT INTO `bookdetail` VALUES ('14', '14', null, null);
+INSERT INTO `bookdetail` VALUES ('15', '15', null, null);
+INSERT INTO `bookdetail` VALUES ('16', '16', null, null);
+INSERT INTO `bookdetail` VALUES ('17', '17', null, null);
+INSERT INTO `bookdetail` VALUES ('18', '18', null, null);
+INSERT INTO `bookdetail` VALUES ('19', '19', null, null);
+INSERT INTO `bookdetail` VALUES ('20', '20', null, null);
+INSERT INTO `bookdetail` VALUES ('21', '21', null, null);
+INSERT INTO `bookdetail` VALUES ('22', '22', null, null);
+INSERT INTO `bookdetail` VALUES ('23', '23', null, null);
+INSERT INTO `bookdetail` VALUES ('24', '24', null, null);
+INSERT INTO `bookdetail` VALUES ('25', '25', null, null);
+INSERT INTO `bookdetail` VALUES ('26', '26', null, null);
+INSERT INTO `bookdetail` VALUES ('27', '27', null, null);
+INSERT INTO `bookdetail` VALUES ('28', '28', null, null);
+INSERT INTO `bookdetail` VALUES ('29', '29', null, null);
+INSERT INTO `bookdetail` VALUES ('30', '30', null, null);
+INSERT INTO `bookdetail` VALUES ('31', '31', null, null);
+INSERT INTO `bookdetail` VALUES ('32', '32', null, null);
+INSERT INTO `bookdetail` VALUES ('33', '33', null, null);
+INSERT INTO `bookdetail` VALUES ('34', '34', null, null);
+INSERT INTO `bookdetail` VALUES ('35', '35', null, null);
+INSERT INTO `bookdetail` VALUES ('36', '36', null, null);
+INSERT INTO `bookdetail` VALUES ('37', '37', null, null);
+INSERT INTO `bookdetail` VALUES ('38', '38', null, null);
+INSERT INTO `bookdetail` VALUES ('39', '39', null, null);
+INSERT INTO `bookdetail` VALUES ('40', '40', null, null);
+INSERT INTO `bookdetail` VALUES ('41', '41', null, null);
+INSERT INTO `bookdetail` VALUES ('42', '42', null, null);
+INSERT INTO `bookdetail` VALUES ('43', '43', null, null);
+INSERT INTO `bookdetail` VALUES ('44', '44', null, null);
+INSERT INTO `bookdetail` VALUES ('45', '45', null, null);
+INSERT INTO `bookdetail` VALUES ('46', '46', null, null);
+INSERT INTO `bookdetail` VALUES ('47', '47', null, null);
+INSERT INTO `bookdetail` VALUES ('48', '48', null, null);
+INSERT INTO `bookdetail` VALUES ('49', '49', null, null);
+INSERT INTO `bookdetail` VALUES ('50', '50', null, null);
+INSERT INTO `bookdetail` VALUES ('51', '51', null, null);
+INSERT INTO `bookdetail` VALUES ('52', '52', null, null);
+INSERT INTO `bookdetail` VALUES ('53', '53', null, null);
+INSERT INTO `bookdetail` VALUES ('54', '54', null, null);
+INSERT INTO `bookdetail` VALUES ('55', '55', null, null);
+INSERT INTO `bookdetail` VALUES ('56', '56', null, null);
+INSERT INTO `bookdetail` VALUES ('57', '57', null, null);
+INSERT INTO `bookdetail` VALUES ('58', '58', null, null);
+INSERT INTO `bookdetail` VALUES ('59', '59', null, null);
+INSERT INTO `bookdetail` VALUES ('60', '60', null, null);
+INSERT INTO `bookdetail` VALUES ('61', '61', null, null);
+INSERT INTO `bookdetail` VALUES ('62', '62', null, null);
+INSERT INTO `bookdetail` VALUES ('63', '63', null, null);
+INSERT INTO `bookdetail` VALUES ('64', '64', null, null);
+INSERT INTO `bookdetail` VALUES ('65', '65', null, null);
+INSERT INTO `bookdetail` VALUES ('66', '66', null, null);
+INSERT INTO `bookdetail` VALUES ('67', '67', null, null);
+INSERT INTO `bookdetail` VALUES ('68', '68', null, null);
+INSERT INTO `bookdetail` VALUES ('69', '69', null, null);
+INSERT INTO `bookdetail` VALUES ('70', '70', null, null);
+INSERT INTO `bookdetail` VALUES ('71', '71', null, null);
+INSERT INTO `bookdetail` VALUES ('72', '72', null, null);
+INSERT INTO `bookdetail` VALUES ('73', '73', null, null);
+INSERT INTO `bookdetail` VALUES ('74', '74', null, null);
+INSERT INTO `bookdetail` VALUES ('75', '75', null, null);
+INSERT INTO `bookdetail` VALUES ('76', '76', null, null);
+INSERT INTO `bookdetail` VALUES ('77', '77', null, null);
+INSERT INTO `bookdetail` VALUES ('78', '78', null, null);
+INSERT INTO `bookdetail` VALUES ('79', '79', null, null);
+INSERT INTO `bookdetail` VALUES ('80', '80', null, null);
+INSERT INTO `bookdetail` VALUES ('81', '81', null, null);
+INSERT INTO `bookdetail` VALUES ('82', '82', null, null);
+INSERT INTO `bookdetail` VALUES ('83', '83', null, null);
+INSERT INTO `bookdetail` VALUES ('84', '84', null, null);
+INSERT INTO `bookdetail` VALUES ('85', '85', null, null);
+INSERT INTO `bookdetail` VALUES ('86', '86', null, null);
+INSERT INTO `bookdetail` VALUES ('87', '87', null, null);
+INSERT INTO `bookdetail` VALUES ('88', '88', null, null);
+INSERT INTO `bookdetail` VALUES ('89', '89', null, null);
+INSERT INTO `bookdetail` VALUES ('90', '90', null, null);
+INSERT INTO `bookdetail` VALUES ('91', '91', null, null);
+INSERT INTO `bookdetail` VALUES ('92', '92', null, null);
+INSERT INTO `bookdetail` VALUES ('93', '93', null, null);
+INSERT INTO `bookdetail` VALUES ('94', '94', null, null);
+INSERT INTO `bookdetail` VALUES ('95', '95', null, null);
+INSERT INTO `bookdetail` VALUES ('96', '96', null, null);
+INSERT INTO `bookdetail` VALUES ('97', '97', null, null);
+INSERT INTO `bookdetail` VALUES ('98', '98', null, null);
 
 -- ----------------------------
 -- Table structure for `bookmessage`
