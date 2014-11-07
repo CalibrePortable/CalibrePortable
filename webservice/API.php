@@ -142,7 +142,7 @@
 			error('verify_error');
 		}
 		else{
-			$sql="SELECT book_name, book_author, book_type, book_info, book_price, book_status, favour FROM bookcirculate cir, bookbasic ba WHERE cir.book_id = ba.id AND cir.user_id = $xuserId";
+			$sql="SELECT book_name, book_author, book_type, book_info, book_price, book_status, favour, book_pic FROM bookcirculate cir, bookbasic ba, bookdetail de WHERE cir.book_id = ba.id AND cir.user_id = $xuserId AND de.book_id = ba.id";
 			//echo $sql;
 			$query = mysql_query($sql);
 			$response = array();
@@ -158,7 +158,8 @@
 											'book_info'=>$res['book_info'],
 											'book_price'=>$res['book_price'],
 											'book_status'=>$res['book_status'],
-											'favour'=>$res['favour']);			  
+											'favour'=>$res['favour'],
+											'book_pic'=>$res['book_pic']);			  
 					$i++;
 				}
 				$response = json_encode($response);
@@ -276,7 +277,7 @@
 			error('rankverify_error');
 		}
 		else{
-			$sql="SELECT book_name, book_author, book_type, book_info, book_price, book_status, favour FROM bookbasic WHERE book_status='已被借'";
+			$sql="SELECT book_name, book_author, book_type, book_info, book_price, book_status, favour, book_pic FROM bookbasic ba,bookdetail de WHERE ba.id=de.book_id and book_status='已被借'";
 			//echo $sql;
 			$query = mysql_query($sql);
 			$response = array();
@@ -292,7 +293,8 @@
 											'book_info'=>$res['book_info'],
 											'book_price'=>$res['book_price'],
 											'book_status'=>$res['book_status'],
-											'favour'=>$res['favour']);			  
+											'favour'=>$res['favour'],
+											'book_pic'=>$res['book_pic']);			  
 					$i++;
 				}
 				
@@ -310,15 +312,17 @@
 	//以下为所建函数
 	//用于搜索与获取图书列表
 	function search($flag,$xtype,$page_size,$offset,$xkeyword){
-		$where="where book_status <>''";
-		$sql="select book_name,book_author,book_type,book_info,book_price,book_status,favour from bookbasic ";
-		$turn=" LIMIT $page_size OFFSET $offset";
+		$where="where book_status <>'' ";
+		$sql="select book_name,book_author,book_type,book_info,book_price,book_status,favour,
+	book_pic from bookbasic basic join bookdetail detail on basic.id=detail.book_id ";
+		$turn=" LIMIT $page_size OFFSET $offset ";
 		if(!$flag){//1管理员0用户
-			$where="where book_status not in ('未购买' , '待入库')";//0
+			$where="where book_status not in ('未购买' , '未入库') ";//0
 		}
 		$xkeyword==''?
-		$sql=$sql.$where.$turn://true则为获取图书列表
-		$sql=$sql.$where." and $xtype like '%$xkeyword%' ".$turn;//false则为搜索
+		$sql=$sql.$where://true则为获取图书列表
+		$sql=$sql.$where." and $xtype like '%$xkeyword%' ";//false则为搜索
+		$sql=$sql.$turn;
 		//echo $sql;
 		$query = mysql_query($sql);
 		$response = array();
@@ -334,7 +338,8 @@
 										'book_info'=>$res['book_info'],
 										'book_price'=>$res['book_price'],
 										'book_status'=>$res['book_status'],
-										'favour'=>$res['favour']);			  
+										'favour'=>$res['favour'],
+										'book_pic'=>$res['book_pic']);			  
 				$i++;
 			}
 			

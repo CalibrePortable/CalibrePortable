@@ -115,7 +115,8 @@
 "book_info":书本出版社,
 "book_price:"书本价格,
 "book_status":书本状态,
-"favour":点赞数},
+"favour":点赞数,
+"book_pic":图书图片},
 {
     ...
 },...
@@ -150,7 +151,8 @@
 "book_info":书本出版社,
 "book_price:"书本价格,
 "book_status":书本状态,
-"favour":点赞数},
+"favour":点赞数,
+"book_pic":图书图片},
 {
     ...
 },...
@@ -214,7 +216,8 @@ Method:GET
 "book_info":书本出版社,
 "book_price:"书本价格,
 "book_status":书本状态,
-"favour":点赞数},
+"favour":点赞数,
+"book_pic":图书图片},
 {
     ...
 },...
@@ -367,7 +370,8 @@ API.php/administrator/return/12108238/123
 "book_info":书本信息,
 "book_price:"书本价格,
 "book_status":书本状态,
-"favour":点赞数},
+"favour":点赞数,
+"book_pic":图书图片},
 {
     ...
 },...
