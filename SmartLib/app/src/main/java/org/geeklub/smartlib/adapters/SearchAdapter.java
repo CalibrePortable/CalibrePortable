@@ -57,9 +57,9 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
   public void refresh(List<Book> bookList) {
     if (!mData.isEmpty()) {
       mData.clear();
-      mData.addAll(bookList);
-      notifyDataSetChanged();
     }
+    mData.addAll(bookList);
+    notifyDataSetChanged();
   }
 
   public void addItems(List<Book> bookList) {

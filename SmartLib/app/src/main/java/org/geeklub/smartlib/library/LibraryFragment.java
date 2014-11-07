@@ -108,7 +108,8 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
   }
 
   private void loadFirstPage() {
-    loadData(1);
+    mPage = 1;
+    loadData(mPage);
   }
 
   private void loadData(int page) {
@@ -126,9 +127,9 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
 
         if (isRefreshFromTop) {
           mAdapter.refresh(bookList);
+        } else {
+          mAdapter.addItems(bookList);
         }
-
-        mAdapter.addItems(bookList);
         mPage++;
       }
 
