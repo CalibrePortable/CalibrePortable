@@ -1,0 +1,94 @@
+package org.geeklub.smartlib.adapters;
+
+import android.content.Context;
+import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.TextView;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import java.util.ArrayList;
+import java.util.List;
+import org.geeklub.smartlib.R;
+import org.geeklub.smartlib.beans.Book;
+
+/**
+ * Created by Vass on 2014/11/7.
+ */
+public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+
+  private List<Book> mData;
+
+  private Context mContext;
+
+  private OnItemClickListener onItemClickListener;
+
+  public SearchAdapter(Context context) {
+    this.mContext = context;
+    this.mData = new ArrayList<Book>();
+  }
+
+  @Override public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
+    View view = LayoutInflater.from(viewGroup.getContext())
+        .inflate(R.layout.cardview_search, viewGroup, false);
+    return new ViewHolder(view);
+  }
+
+  @Override public void onBindViewHolder(ViewHolder viewHolder, int position) {
+    final Book book = mData.get(position);
+    viewHolder.mBookName.setText(book.getBook_name());
+    viewHolder.mBookAuthor.setText(book.getBook_author());
+    viewHolder.mBookFavour.setText(book.getFavour());
+
+    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        if (onItemClickListener != null) {
+          onItemClickListener.onItemClick(book);
+        }
+      }
+    });
+  }
+
+  @Override public int getItemCount() {
+    return mData.size();
+  }
+
+  public void refresh(List<Book> bookList) {
+    if (!mData.isEmpty()) {
+      mData.clear();
+      mData.addAll(bookList);
+      notifyDataSetChanged();
+    }
+  }
+
+  public void addItems(List<Book> bookList) {
+    if (!mData.containsAll(bookList)) {
+      mData.addAll(bookList);
+      notifyItemRangeInserted(getItemCount(), bookList.size());
+    }
+  }
+
+  public static class ViewHolder extends RecyclerView.ViewHolder {
+
+    @InjectView(R.id.tv_book_name) TextView mBookName;
+
+    @InjectView(R.id.tv_book_author) TextView mBookAuthor;
+
+    @InjectView(R.id.tv_book_favour) TextView mBookFavour;
+
+    public ViewHolder(View itemView) {
+      super(itemView);
+
+      ButterKnife.inject(itemView);
+    }
+  }
+
+  public static interface OnItemClickListener {
+    void onItemClick(Book book);
+  }
+
+  public void setOnItemClickListener(OnItemClickListener listener) {
+    this.onItemClickListener = listener;
+  }
+}

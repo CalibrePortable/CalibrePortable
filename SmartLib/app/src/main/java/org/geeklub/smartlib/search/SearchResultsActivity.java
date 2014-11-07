@@ -43,6 +43,10 @@ public class SearchResultsActivity extends ActionBarActivity {
     if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
       String query = intent.getStringExtra(SearchManager.QUERY);
       LogUtil.i("query ===>>>" + query);
+
+      getFragmentManager().beginTransaction()
+          .replace(android.R.id.content, SearchResultsFragment.newInstance(query))
+          .commit();
     }
   }
 
