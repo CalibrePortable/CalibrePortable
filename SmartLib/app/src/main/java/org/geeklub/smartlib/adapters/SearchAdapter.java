@@ -38,7 +38,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
   @Override public void onBindViewHolder(ViewHolder viewHolder, int position) {
     final Book book = mData.get(position);
     viewHolder.mBookName.setText(book.getBook_name());
-    viewHolder.mBookAuthor.setText(book.getBook_author());
+    viewHolder.mBookDescription.setText(book.getBook_author());
     viewHolder.mBookFavour.setText(book.getFavour());
 
     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -73,14 +73,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     @InjectView(R.id.tv_book_name) TextView mBookName;
 
-    @InjectView(R.id.tv_book_author) TextView mBookAuthor;
+    @InjectView(R.id.tv_book_description) TextView mBookDescription;
 
     @InjectView(R.id.tv_book_favour) TextView mBookFavour;
 
     public ViewHolder(View itemView) {
       super(itemView);
 
-      ButterKnife.inject(itemView);
+      ButterKnife.inject(this,itemView);
     }
   }
 

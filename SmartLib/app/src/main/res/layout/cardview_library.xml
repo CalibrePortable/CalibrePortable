@@ -43,6 +43,15 @@
         android:layout_alignLeft="@+id/tv_book_name"
         android:layout_marginTop="5dp"/>
 
+    <TextView
+        android:gravity="center"
+        android:drawableLeft="@drawable/ic_action_favorite"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/tv_book_favour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
 
   </RelativeLayout>
 

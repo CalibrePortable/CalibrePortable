@@ -34,9 +34,9 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
   public void refresh(List<Book> bookList) {
     if (!mData.isEmpty()) {
       mData.clear();
-      mData.addAll(bookList);
-      notifyDataSetChanged();
     }
+    mData.addAll(bookList);
+    notifyDataSetChanged();
   }
 
   public void addItems(List<Book> bookList) {
@@ -57,6 +57,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     final Book book = mData.get(position);
     viewHolder.mBookName.setText(book.getBook_name());
     viewHolder.mBookDescripion.setText(book.getBook_author());
+    viewHolder.mBookFavour.setText(book.getFavour());
 
     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -78,6 +79,8 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     @InjectView(R.id.tv_book_name) TextView mBookName;
 
     @InjectView(R.id.tv_book_description) TextView mBookDescripion;
+
+    @InjectView(R.id.tv_book_favour) TextView mBookFavour;
 
     public ViewHolder(View itemView) {
       super(itemView);

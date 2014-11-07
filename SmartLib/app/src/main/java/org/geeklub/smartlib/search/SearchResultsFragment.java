@@ -8,6 +8,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,6 +53,7 @@ public class SearchResultsFragment extends BaseFragment
     Fragment searchFragment = new SearchResultsFragment();
     Bundle args = new Bundle();
     args.putString(ARGS_KEYWORD, keyWord);
+    searchFragment.setArguments(args);
     return searchFragment;
   }
 
@@ -103,7 +105,7 @@ public class SearchResultsFragment extends BaseFragment
       }
     });
 
-    loadNextPage();
+    loadFirstPage();
 
     return view;
   }
@@ -126,7 +128,8 @@ public class SearchResultsFragment extends BaseFragment
   }
 
   private void loadFirstPage() {
-    loadData(1);
+    mPage = 1;
+    loadData(mPage);
   }
 
   private void loadData(int page) {
@@ -142,11 +145,13 @@ public class SearchResultsFragment extends BaseFragment
 
         mSwipeRefreshLayout.setRefreshing(false);
 
+        LogUtil.i(bookList.toString());
+
         if (isRefreshFromTop) {
           mAdapter.refresh(bookList);
+        } else {
+          mAdapter.addItems(bookList);
         }
-
-        mAdapter.addItems(bookList);
         mPage++;
       }
 

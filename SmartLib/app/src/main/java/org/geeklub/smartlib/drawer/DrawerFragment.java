@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.ListView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.squareup.picasso.Picasso;
 import org.geeklub.smartlib.BaseFragment;
 import org.geeklub.smartlib.MainActivity;
 import org.geeklub.smartlib.R;
@@ -24,6 +26,8 @@ public class DrawerFragment extends BaseFragment {
   private ArrayAdapter<String> mAdapter;
 
   @InjectView(R.id.listview) ListView mDrawerList;
+
+  @InjectView(R.id.custom_icon) ImageView mCustomIcon;
 
   public static Fragment newInstance() {
     Fragment drawerFragment = new DrawerFragment();
@@ -45,6 +49,8 @@ public class DrawerFragment extends BaseFragment {
     mDrawerList.setAdapter(mAdapter);
     mDrawerList.setItemChecked(0, true);
     mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
+
+    Picasso.with(mActivity).load(R.drawable.drawer_header).centerCrop().into(mCustomIcon);
 
     return view;
   }
