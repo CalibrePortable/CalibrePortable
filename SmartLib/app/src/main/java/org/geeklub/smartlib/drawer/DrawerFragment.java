@@ -27,7 +27,6 @@ public class DrawerFragment extends BaseFragment {
 
   @InjectView(R.id.listview) ListView mDrawerList;
 
-  @InjectView(R.id.custom_icon) ImageView mCustomIcon;
 
   public static Fragment newInstance() {
     Fragment drawerFragment = new DrawerFragment();
@@ -50,7 +49,7 @@ public class DrawerFragment extends BaseFragment {
     mDrawerList.setItemChecked(0, true);
     mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-    Picasso.with(mActivity).load(R.drawable.drawer_header).centerCrop().into(mCustomIcon);
+
 
     return view;
   }

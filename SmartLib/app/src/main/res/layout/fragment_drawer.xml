@@ -7,9 +7,11 @@
 
 
   <ImageView
-      android:id="@+id/custom_icon"
+      android:id="@+id/drawer_header"
       android:layout_height="0dp"
-      android:layout_weight="4"
+      android:layout_weight="3"
+      android:scaleType="centerCrop"
+      android:background="@drawable/drawer_header"
       android:layout_width="match_parent"/>
 
 
