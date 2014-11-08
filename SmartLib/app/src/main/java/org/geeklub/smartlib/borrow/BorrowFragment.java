@@ -101,6 +101,8 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     //loadFirstPage();
 
+    loadFirstPage();
+
     return view;
   }
 
