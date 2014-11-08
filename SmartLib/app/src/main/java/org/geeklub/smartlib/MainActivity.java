@@ -17,6 +17,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import org.geeklub.smartlib.borrow.BorrowFragment;
 import org.geeklub.smartlib.drawer.DrawerFragment;
 import org.geeklub.smartlib.library.LibraryFragment;
 import org.geeklub.smartlib.type.Category;
@@ -142,6 +143,7 @@ public class MainActivity extends ActionBarActivity {
         break;
 
       case borrow:
+        mContentFragment = BorrowFragment.newInstance();
         break;
 
       default:

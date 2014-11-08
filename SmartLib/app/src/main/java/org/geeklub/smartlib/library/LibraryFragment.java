@@ -32,7 +32,7 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
 
   @InjectView(R.id.swipe_layout) SwipeRefreshLayout mSwipeRefreshLayout;
 
-  @InjectView(R.id.recycler_view) RecyclerView mRecycleView;
+  @InjectView(R.id.recycle_view) RecyclerView mRecycleView;
 
   private RestAdapter mRestAdapter;
 
@@ -41,6 +41,8 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
   private LibraryAdapter mAdapter;
 
   private int mPage = 1;
+
+
 
   public static Fragment newInstance() {
 
