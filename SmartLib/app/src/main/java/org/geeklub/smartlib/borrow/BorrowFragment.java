@@ -20,6 +20,7 @@ import org.geeklub.smartlib.adapters.BorrowAdapter;
 import org.geeklub.smartlib.beans.Book;
 import org.geeklub.smartlib.detail.BookDetailActivity;
 import org.geeklub.smartlib.services.NormalUserService;
+import org.geeklub.smartlib.utils.LogUtil;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -40,7 +41,7 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
   private BorrowAdapter mAdapter;
 
-  private int mPage = 1;
+  //private int mPage = 1;
 
   public static Fragment newInstance() {
 
@@ -85,31 +86,31 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     mRecycleView.setAdapter(mAdapter);
 
-    mRecycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-      @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-        super.onScrollStateChanged(recyclerView, newState);
+    //mRecycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+    //  @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+    //    super.onScrollStateChanged(recyclerView, newState);
+    //
+    //    switch (newState) {
+    //      case RecyclerView.SCROLL_STATE_IDLE:
+    //        loadNextPage();
+    //
+    //        break;
+    //    }
+    //  }
+    //});
 
-        switch (newState) {
-          case RecyclerView.SCROLL_STATE_IDLE:
-            loadNextPage();
-
-            break;
-        }
-      }
-    });
-
-    loadFirstPage();
+    //loadFirstPage();
 
     return view;
   }
 
-  private void loadNextPage() {
-    loadData(mPage);
-  }
+  //private void loadNextPage() {
+  //  loadData(mPage);
+  //}
 
   private void loadFirstPage() {
-    mPage = 1;
-    loadData(mPage);
+    //mPage = 1;
+    loadData(1);
   }
 
   private void loadData(int page) {
@@ -119,23 +120,24 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
       mSwipeRefreshLayout.setRefreshing(true);
     }
 
-    mService.search(5, page, "all", new Callback<List<Book>>() {
+    mService.haveBorrowed(12108413, "12345", new Callback<List<Book>>() {
       @Override public void success(List<Book> bookList, Response response) {
-        //LogUtil.i(bookList.toString());
-
         mSwipeRefreshLayout.setRefreshing(false);
+
+        LogUtil.i(bookList.toString());
 
         if (isRefreshFromTop) {
           mAdapter.refresh(bookList);
         } else {
           mAdapter.addItems(bookList);
         }
-        mPage++;
+        //mPage++;
       }
 
       @Override public void failure(RetrofitError error) {
-        //LogUtil.i(error.getMessage());
         mSwipeRefreshLayout.setRefreshing(false);
+
+        LogUtil.i(error.getMessage());
       }
     });
   }

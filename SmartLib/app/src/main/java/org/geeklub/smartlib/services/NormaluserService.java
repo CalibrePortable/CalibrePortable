@@ -27,6 +27,6 @@ public interface NormalUserService {
   @GET("/search/{type}/page={page}/{keyword}") void search(@Path("type") int type,
       @Path("page") int page, @Path("keyword") String keyword, Callback<List<Book>> callback);
 
-  @GET("normalUser/return/userId/password") void haveBorrowed(@Path("userId") int userId,
+  @GET("/normalUser/return/{userId}/{password}") void haveBorrowed(@Path("userId") int userId,
       @Path("password") String password, Callback<List<Book>> callback);
 }
