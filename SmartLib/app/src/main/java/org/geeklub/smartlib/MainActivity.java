@@ -2,6 +2,7 @@ package org.geeklub.smartlib;
 
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -10,6 +11,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.view.Gravity;
+import android.widget.Toast;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 import android.app.Fragment;
@@ -17,6 +19,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 import org.geeklub.smartlib.borrow.BorrowFragment;
 import org.geeklub.smartlib.drawer.DrawerFragment;
 import org.geeklub.smartlib.library.LibraryFragment;
@@ -112,6 +116,7 @@ public class MainActivity extends ActionBarActivity {
         return true;
 
       case R.id.action_qr_code:
+        new IntentIntegrator(this).initiateScan();
         return true;
 
       default:
@@ -154,6 +159,21 @@ public class MainActivity extends ActionBarActivity {
     }
     setTitle(mCategory.getDisplayName());
     getFragmentManager().beginTransaction().replace(R.id.content_frame, mContentFragment).commit();
+  }
+
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+    IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+    if (result != null) {
+      if (result.getContents() == null) {
+        Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+      } else {
+        Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+      }
+    } else {
+      // This is important, otherwise the result will not be passed to the fragment
+      super.onActivityResult(requestCode, resultCode, data);
+    }
   }
 
   @Override public void setTitle(CharSequence title) {
