@@ -10,7 +10,7 @@
       app:actionViewClass="android.support.v7.widget.SearchView"/>
 
   <item
-      android:id="@+id/action_QR_CODE"
+      android:id="@+id/action_qr_code"
       android:title="@string/action_qr_code"
       app:showAsAction="never"/>
 

@@ -82,14 +82,17 @@
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="library" exported="" name="cardview-v7-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="recyclerview-v7-21.0.0" level="project" />
-    <orderEntry type="library" exported="" name="support-annotations-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v4-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="retrofit-1.7.1" level="project" />
-    <orderEntry type="library" exported="" name="butterknife-5.1.1" level="project" />
+    <orderEntry type="library" exported="" name="zxing-android-integration-2.0.0" level="project" />
     <orderEntry type="library" exported="" name="picasso-2.3.2" level="project" />
+    <orderEntry type="library" exported="" name="support-annotations-21.0.0" level="project" />
+    <orderEntry type="library" exported="" name="butterknife-5.1.1" level="project" />
+    <orderEntry type="library" exported="" name="core-3.0.1" level="project" />
     <orderEntry type="library" exported="" name="gson-2.3" level="project" />
-    <orderEntry type="library" exported="" name="appcompat-v7-21.0.0" level="project" />
     <orderEntry type="library" exported="" name="support-v13-21.0.0" level="project" />
+    <orderEntry type="library" exported="" name="appcompat-v7-21.0.0" level="project" />
+    <orderEntry type="library" exported="" name="zxing-android-minimal-2.0.0" level="project" />
   </component>
 </module>
 

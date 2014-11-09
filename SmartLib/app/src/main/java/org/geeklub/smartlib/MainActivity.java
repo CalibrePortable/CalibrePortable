@@ -111,6 +111,9 @@ public class MainActivity extends ActionBarActivity {
       case R.id.action_settings:
         return true;
 
+      case R.id.action_qr_code:
+        return true;
+
       default:
         return super.onOptionsItemSelected(item);
     }
