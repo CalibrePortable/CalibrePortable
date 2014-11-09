@@ -142,32 +142,8 @@
 			error('verify_error');
 		}
 		else{
-			$sql="SELECT book_name, book_author, book_type, book_info, book_price, book_status, favour, book_pic FROM bookcirculate cir, bookbasic ba, bookdetail de WHERE cir.book_id = ba.id AND cir.user_id = $xuserId AND de.book_id = ba.id";
-			//echo $sql;
-			$query = mysql_query($sql);
-			$response = array();
-			if(!$query) {
-				error('sql_error');
-			}
-			else {
-				$i = 0;
-				while($res = mysql_fetch_array($query)) {
-					$response[$i] = array(  'book_name'=>$res['book_name'],
-											'book_author'=>$res['book_author'],
-											'book_type'=>$res['book_type'],
-											'book_info'=>$res['book_info'],
-											'book_price'=>$res['book_price'],
-											'book_status'=>$res['book_status'],
-											'favour'=>$res['favour'],
-											'book_pic'=>$res['book_pic']);			  
-					$i++;
-				}
-				$response = json_encode($response);
-				//found();
-				echo $response;
-			}
+			usershow($xuserId);	
 		}
-		
 		mysql_close($con);
 	});
 
@@ -225,12 +201,6 @@
 	    $book_type= $_POST['booktype'];
 	    $book_info= $_POST['bookinfo'];
 	    $book_status = $_POST['bookstatus'];
-	    /*echo $xpassword,'<br/>';
-	    echo $book_name;
-	    echo $book_author;
-	    echo $book_type;
-	    echo $book_info;
-	    echo $book_status;*/
 		rank_verify($xuserId,$xpassword)?update($xbookId,$book_name,$book_author,$book_type,$book_info,$book_status):error('rankverify_error');
 		mysql_close($con);
 	});
@@ -269,39 +239,17 @@
 		mysql_close($con);
 	});
 
-	//（已验证）GET查看已经借出的图书http://localhost/webservice/book/API.php/administrator/return/12108238/123
-	$app->get('/administrator/return/:userId/:password', function ($xuserId,$xpassword) {
+	//（已验证）GET查看已经借出的图书http://localhost/webservice/book/API.php/administrator/return/12108238/123/page=1
+	$app->get('/administrator/return/:userId/:password/page=:page', function ($xuserId,$xpassword,$xpage) {
 		require 'conn.php';
+		$page_size=pagesize;
+		$offset=($xpage-1)*$page_size;
 		//先验证再输出
 		if(!rank_verify($xuserId,$xpassword)){
 			error('rankverify_error');
 		}
 		else{
-			$sql="SELECT book_name, book_author, book_type, book_info, book_price, book_status, favour, book_pic FROM bookbasic ba,bookdetail de WHERE ba.id=de.book_id and book_status='已被借'";
-			//echo $sql;
-			$query = mysql_query($sql);
-			$response = array();
-			if(!$query) {
-				error('sql_error');
-			}
-			else {
-				$i = 0;
-				while($res = mysql_fetch_array($query)) {
-					$response[$i] = array(  'book_name'=>$res['book_name'],
-											'book_author'=>$res['book_author'],
-											'book_type'=>$res['book_type'],
-											'book_info'=>$res['book_info'],
-											'book_price'=>$res['book_price'],
-											'book_status'=>$res['book_status'],
-											'favour'=>$res['favour'],
-											'book_pic'=>$res['book_pic']);			  
-					$i++;
-				}
-				
-				$response = json_encode($response);
-				//found();
-				echo $response;
-			}
+			adminshow($page_size,$offset);
 		}
 		mysql_close($con);
 	});
@@ -312,7 +260,7 @@
 	//以下为所建函数
 	//用于搜索与获取图书列表
 	function search($flag,$xtype,$page_size,$offset,$xkeyword){
-		$where="where book_status <>'' ";
+		$where="";
 		$sql="select book_name,book_author,book_type,book_info,book_price,book_status,favour,
 	book_pic from bookbasic basic join bookdetail detail on basic.id=detail.book_id ";
 		$turn=" LIMIT $page_size OFFSET $offset ";
@@ -372,6 +320,63 @@
 			}
 		}
 		else error('bookverify_error');//
+	}
+
+	//查看曾借过的书
+	function usershow($userId){
+		$sql="SELECT book_name, book_author, book_type, book_info, book_price, CASE updated_at WHEN '0000-00-00' THEN '未还' ELSE '已还' END AS book_status, favour, book_pic FROM bookcirculate cir, bookbasic ba, bookdetail de WHERE cir.book_id = ba.id AND cir.user_id = $userId AND de.book_id = ba.id";
+		//echo $sql;
+		$query = mysql_query($sql);
+		$response = array();
+		if(!$query) {
+			error('sql_error');
+		}
+		else {
+			$i = 0;
+			while($res = mysql_fetch_array($query)) {
+				$response[$i] = array(  'book_name'=>$res['book_name'],
+										'book_author'=>$res['book_author'],
+										'book_type'=>$res['book_type'],
+										'book_info'=>$res['book_info'],
+										'book_price'=>$res['book_price'],
+										'book_status'=>$res['book_status'],
+										'favour'=>$res['favour'],
+										'book_pic'=>$res['book_pic']);			  
+				$i++;
+			}
+			$response = json_encode($response);
+			//found();
+			echo $response;
+		}
+	}
+
+	//查看已借出的书
+	function adminshow($page_size,$offset){
+		$sql="SELECT book_name, book_author, book_type, book_info, book_price, book_status, favour, book_pic FROM bookbasic ba,bookdetail de WHERE ba.id=de.book_id and book_status='已被借' LIMIT $page_size OFFSET $offset ";
+		//echo $sql;
+		$query = mysql_query($sql);
+		$response = array();
+		if(!$query) {
+			error('sql_error');
+		}
+		else {
+			$i = 0;
+			while($res = mysql_fetch_array($query)) {
+				$response[$i] = array(  'book_name'=>$res['book_name'],
+										'book_author'=>$res['book_author'],
+										'book_type'=>$res['book_type'],
+										'book_info'=>$res['book_info'],
+										'book_price'=>$res['book_price'],
+										'book_status'=>$res['book_status'],
+										'favour'=>$res['favour'],
+										'book_pic'=>$res['book_pic']);			  
+				$i++;
+			}
+			
+			$response = json_encode($response);
+			//found();
+			echo $response;
+		}
 	}
 
 	//完成扫一扫借书
