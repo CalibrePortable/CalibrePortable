@@ -19,11 +19,11 @@ public interface NormalUserService {
 
   @FormUrlEncoded @POST("/normalUser/register") void register(@Field("userId") int userId,
       @Field("password") String password, @Field("rePassword") String rePassword,
-      Callback<Integer> callback);
+      Callback<ServerResponse> callback);
 
-  @FormUrlEncoded @POST("/normalUser/borrow/bookId/userId/password") void borrow(
+  @FormUrlEncoded @POST("/normalUser/borrow/{bookId}/{userId}/{password}") void borrow(
       @Field("bookId") int bookId, @Field("userId") int userId, @Field("password") String password,
-      Callback<Integer> callback);
+      Callback<ServerResponse> callback);
 
   @GET("/search/{type}/page={page}/{keyword}") void search(@Path("type") int type,
       @Path("page") int page, @Path("keyword") String keyword, Callback<List<Book>> callback);

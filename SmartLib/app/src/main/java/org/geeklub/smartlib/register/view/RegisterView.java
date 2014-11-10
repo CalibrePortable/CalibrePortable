@@ -17,5 +17,7 @@ public interface RegisterView {
 
   void showMessage(String msg);
 
+  void moveToMain();
+
 
 }

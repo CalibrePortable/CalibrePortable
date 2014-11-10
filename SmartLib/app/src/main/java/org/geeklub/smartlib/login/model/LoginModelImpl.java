@@ -8,7 +8,6 @@ import org.geeklub.smartlib.login.presenter.OnLoginFinishedListener;
 import org.geeklub.smartlib.login.presenter.OnUserInputListener;
 import org.geeklub.smartlib.services.NormalUserService;
 import org.geeklub.smartlib.utils.GlobalContext;
-import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SharedPreferencesUtil;
 import retrofit.Callback;
 import retrofit.RestAdapter;

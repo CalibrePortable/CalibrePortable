@@ -54,5 +54,6 @@ public class RegisterPresenterImpl
   @Override public void onSuccess(String msg) {
     mRegisterView.hideProgressBar();
     mRegisterView.showMessage(msg);
+    mRegisterView.moveToMain();
   }
 }

@@ -75,6 +75,10 @@ public class RegisterActivity extends Activity
     ToastUtil.showShort(msg);
   }
 
+  @Override public void moveToMain() {
+    finish();
+  }
+
   @Override public void onClick(View v) {
 
     switch (v.getId()) {

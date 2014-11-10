@@ -21,10 +21,20 @@ import android.view.MenuItem;
 import android.view.View;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import org.geeklub.smartlib.beans.SLUser;
+import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.borrow.BorrowFragment;
 import org.geeklub.smartlib.drawer.DrawerFragment;
 import org.geeklub.smartlib.library.LibraryFragment;
+import org.geeklub.smartlib.services.NormalUserService;
 import org.geeklub.smartlib.type.Category;
+import org.geeklub.smartlib.utils.LogUtil;
+import org.geeklub.smartlib.utils.SharedPreferencesUtil;
+import org.geeklub.smartlib.utils.ToastUtil;
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -166,9 +176,27 @@ public class MainActivity extends ActionBarActivity {
     IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
     if (result != null) {
       if (result.getContents() == null) {
-        Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+        ToastUtil.showShort("取消...");
       } else {
-        Toast.makeText(this, "Scanned: " + result.getContents(), Toast.LENGTH_LONG).show();
+
+        RestAdapter restAdapter =
+            new RestAdapter.Builder().setEndpoint("http://book.duanpengfei.com/API.php").build();
+
+        NormalUserService service = restAdapter.create(NormalUserService.class);
+
+        SharedPreferencesUtil preferencesUtil = new SharedPreferencesUtil(this);
+        SLUser user = preferencesUtil.getUser();
+
+        service.borrow(Integer.valueOf(result.getContents()), user.getUserName(),
+            user.getPassword(), new Callback<ServerResponse>() {
+              @Override public void success(ServerResponse serverResponse, Response response) {
+                LogUtil.i(serverResponse.getInfo());
+              }
+
+              @Override public void failure(RetrofitError error) {
+                LogUtil.i(error.getMessage());
+              }
+            });
       }
     } else {
       // This is important, otherwise the result will not be passed to the fragment
