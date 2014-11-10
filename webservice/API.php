@@ -152,9 +152,9 @@
 		require 'conn.php';
 		global $app;
 		$req = $app->request(); 
-	    $xuserId = $req->params('userid'); 
+	    $xuserId = $req->params('userId'); 
 	    $xpassword = $req->params('password');
-		rank_verify($xuserId,$xpassword)?found():error('rankverify_error');
+		rank_verify_json($xuserId,$xpassword);
 		mysql_close($con);
 	});
 
@@ -196,19 +196,19 @@
 		global $app;
 		$req = $app->request(); 
 	    //$xpassword = $req->params('password');
-	    $book_name = $_POST['bookname'];
-	    $book_author = $_POST['bookauthor'];
-	    $book_type= $_POST['booktype'];
-	    $book_info= $_POST['bookinfo'];
-	    $book_status = $_POST['bookstatus'];
-		rank_verify($xuserId,$xpassword)?update($xbookId,$book_name,$book_author,$book_type,$book_info,$book_status):error('rankverify_error');
+	    $book_name = $_POST['bookName'];
+	    $book_author = $_POST['bookAuthor'];
+	    $book_type= $_POST['bookType'];
+	    $book_info= $_POST['bookInfo'];
+	    $book_status = $_POST['bookStatus'];
+		rank_verify_bool($xuserId,$xpassword)?update($xbookId,$book_name,$book_author,$book_type,$book_info,$book_status):error('rankverify_error');
 		mysql_close($con);
 	});
 
 	//（已验证）GET归还图书http://localhost/webservice/book/API.php/administrator/returnConfirm/47/12108238/123
 	$app->get('/administrator/returnConfirm/:bookId/:userId/:password', function ($xbookId,$xuserId,$xpassword) {
 		require 'conn.php';
-		rank_verify($xuserId,$xpassword)?confirm($xbookId):error('rankverify_error');
+		rank_verify_bool($xuserId,$xpassword)?confirm($xbookId):error('rankverify_error');
 		mysql_close($con);
 	});
 
@@ -217,14 +217,14 @@
 		require 'conn.php';
 		global $app;
 		$req = $app->request(); 
-	    $book_name = $_POST['bookname'];
-	    $book_author = $_POST['bookauthor'];
-	    $book_type = $_POST['booktype'];
-	    $act_id = $req->params('actid');
-	    $book_info= $_POST['bookinfo'];
-	    $book_price = $req->params('bookprice');
+	    $book_name = $_POST['bookName'];
+	    $book_author = $_POST['bookAuthor'];
+	    $book_type = $_POST['bookType'];
+	    $act_id = $req->params('actId');
+	    $book_info= $_POST['bookInfo'];
+	    $book_price = $req->params('bookPrice');
 	    //$book_status = $_POST['bookstatus'];
-		rank_verify($xuserId,$xpassword)?add($book_name,$book_author,$book_type,$act_id,$book_info,$book_price):error('rankverify_error');
+		rank_verify_bool($xuserId,$xpassword)?add($book_name,$book_author,$book_type,$act_id,$book_info,$book_price):error('rankverify_error');
 		mysql_close($con);
 	});
 
@@ -235,7 +235,7 @@
 		$req = $app->request(); */
 		//$xuserId = $req->params('userid');
 	    //$xpassword = $req->params('password');
-		rank_verify($xuserId,$xpassword)?del($xbookId):error('rankverify_error');
+		rank_verify_bool($xuserId,$xpassword)?del($xbookId):error('rankverify_error');
 		mysql_close($con);
 	});
 
@@ -245,12 +245,7 @@
 		$page_size=pagesize;
 		$offset=($xpage-1)*$page_size;
 		//先验证再输出
-		if(!rank_verify($xuserId,$xpassword)){
-			error('rankverify_error');
-		}
-		else{
-			adminshow($page_size,$offset);
-		}
+		!rank_verify_bool($xuserId,$xpassword)?error('rankverify_error'):adminshow($page_size,$offset);
 		mysql_close($con);
 	});
 
@@ -459,13 +454,35 @@
 	}
 
 	//确认用户权限
-	function rank_verify($userId,$password){
+	function rank_verify_json($userId,$password){
 		$sql="select count(*) from user where user_id=$userId and user_rank='图书管理'";
 		$query = mysql_query($sql);
 		//echo $sql;
 		$response = array();
 		if(!$query) {
-			error('sql_error');
+			//error('sql_error');
+		}
+		else {
+			$res = mysql_fetch_array($query);
+			if($res['count(*)']!=0){//找到则为重复返回1				
+				if(verify($userId,$password)){
+					found();
+				}
+			}
+			else{
+				error('rankverify_error');
+			}
+		}
+	}
+
+	//确认用户权限
+	function rank_verify_bool($userId,$password){
+		$sql="select count(*) from user where user_id=$userId and user_rank='图书管理'";
+		$query = mysql_query($sql);
+		//echo $sql;
+		$response = array();
+		if(!$query) {
+			//error('sql_error');
 		}
 		else {
 			$res = mysql_fetch_array($query);
@@ -489,7 +506,7 @@
 		//echo $sql;
 		$response = array();
 		if(!$query) {
-			error('sql_error');
+			//error('sql_error');
 		}
 		else {
 			$res = mysql_fetch_array($query);
@@ -530,16 +547,17 @@
 				$info="未知错误";
 				break;
 		}
-		$response[0]= array('status'=>"0",'info'=>$info);
+		$response = array('status'=>"0",'info'=>$info);
 		$response = json_encode($response);
 		echo $response;
 	}
 	
 	//返回json1
 	function found(){
-		$response[0]= array('status'=>"1",'info'=>"成功");
+		$response = array('status'=>"1",'info'=>"成功");
 		$response = json_encode($response);
-		echo $response;
+		//echo $response;
+		echo '{"status":"1","info":"成功"}';
 	}
 	/*function getConnection() {
     try {

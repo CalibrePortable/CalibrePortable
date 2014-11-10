@@ -240,11 +240,11 @@ Method:GET
 
 ***参数***
 
->book_name:String
->>book_author:String
->>>book_type:String
->>>>book_info:String
->>>>>book_status:String(填写)
+>bookName:String
+>>bookAuthor:String
+>>>bookType:String
+>>>>bookInfo:String
+>>>>>bookStatus:String(填写)
 >>>>>>userId:int
 >>>>>>>bookId:int
 >>>>>>>>password:String(获取)
@@ -299,12 +299,12 @@ Method:GET
 
 ***参数***
 
->book_name
->>book_author
->>>book_type
->>>>act_id
->>>>>book_info
->>>>>>book_price(填写)
+>bookName:String
+>>bookAuthor:String
+>>>bookType:String
+>>>>actId:int
+>>>>>bookInfo:String
+>>>>>>bookPrice:int(填写)
 >>>>>>>userId：int
 >>>>>>>>password:String(获取)
 
