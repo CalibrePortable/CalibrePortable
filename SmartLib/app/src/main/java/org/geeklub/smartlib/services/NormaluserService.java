@@ -2,6 +2,7 @@ package org.geeklub.smartlib.services;
 
 import java.util.List;
 import org.geeklub.smartlib.beans.Book;
+import org.geeklub.smartlib.beans.ServerResponse;
 import retrofit.Callback;
 import retrofit.http.Field;
 import retrofit.http.FormUrlEncoded;
@@ -14,7 +15,7 @@ import retrofit.http.Path;
  */
 public interface NormalUserService {
   @FormUrlEncoded @POST("/normalUser/login") void login(@Field("userId") int userId,
-      @Field("password") String password, Callback<Integer> callback);
+      @Field("password") String password, Callback<ServerResponse> callback);
 
   @FormUrlEncoded @POST("/normalUser/register") void register(@Field("userId") int userId,
       @Field("password") String password, @Field("rePassword") String rePassword,
