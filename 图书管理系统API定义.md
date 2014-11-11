@@ -23,10 +23,10 @@
 >>password: String(填写)
 
 `Response`
->[{
+>{
     "status":RESULT_CONSTANT,
 	"info":"成功/错误原因"
-}]
+}
 
 ---
 
@@ -52,10 +52,10 @@
 >>>>rePassword:String (填写)
 
 `Response`
->[{
+>{
     "status":RESULT_CONSTANT,
 	"info":"成功/错误原因"
-}]
+}
 
 ---
 
@@ -79,10 +79,10 @@
 >>>password：String(获取)
 
 `Response`
->[{
+>{
     "status":RESULT_CONSTANT,
 	"info":"成功/错误原因"
-}]
+}
 
 ---
 
@@ -109,7 +109,8 @@
 
 `Response`
 >[
-{"book_name":书本名称,
+{"book_id":书本id,
+"book_name":书本名称,
 "book_author":书本作者,
 "book_type":书本类型,
 "book_info":书本出版社,
@@ -145,7 +146,8 @@
 
 `Response`
 >[
-{"book_name":书本名称,
+{"book_id":书本id,
+"book_name":书本名称,
 "book_author":书本作者,
 "book_type":书本类型,
 "book_info":书本出版社,
@@ -180,10 +182,10 @@ Method:POST
 >>password: String(填写)
 
 `Response`
->[{
+>{
     "status":RESULT_CONSTANT,
 	"info":"成功/错误原因"
-}]
+}
 
 ---
 
@@ -210,7 +212,8 @@ Method:GET
 
 `Response`
 >[
-{"book_name":书本名称,
+{"book_id":书本id,
+"book_name":书本名称,
 "book_author":书本作者,
 "book_type":书本类型,
 "book_info":书本出版社,
@@ -250,10 +253,10 @@ Method:GET
 >>>>>>>>password:String(获取)
 
 `Response `
->[{
+>{
     "status":RESULT_CONSTANT,
 	"info":"成功/错误原因"
-}]
+}
 
 ---
 
@@ -277,10 +280,10 @@ Method:GET
 >>>password:String(获取)
 
 `Response `
->[{
+>{
     "status":RESULT_CONSTANT,
 	"info":"成功/错误原因"
-}]
+}
 
 ---
 
@@ -309,10 +312,10 @@ Method:GET
 >>>>>>>>password:String(获取)
 
 `Response `
->[{
+>{
     "status":RESULT_CONSTANT,
 	"info":"成功/错误原因"
-}]
+}
 
 ---
 
@@ -337,10 +340,10 @@ Method:GET
 >>>password:String(获取)
 
 `Response `
->[{
+>{
     "status":RESULT_CONSTANT,
 	"info":"成功/错误原因"
-}]
+}
 
 ---
 
@@ -364,7 +367,8 @@ API.php/administrator/return/12108238/123
 
 `Response`
 >[
-{"book_name":书本名称,
+{"book_id":书本id,
+"book_name":书本名称,
 "book_author":书本作者,
 "book_type":书本类型,
 "book_info":书本信息,
