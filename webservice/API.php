@@ -6,6 +6,11 @@
 	define("pagesize", 15, true);
 	$app = new \Slim\Slim();
 
+	header("Access-Control-Allow-Origin: *");
+	header("Access-Control-Allow-Methods: 'GET'");
+	header("Access-Control-Allow-Methods: 'POST'");
+	header("Access-Control-Max-Age: '60'");
+
 	/*//POST举例
 	$app->post('/users/:id',function ($xid){
 		global $app;
@@ -556,8 +561,8 @@
 	function found(){
 		$response = array('status'=>"1",'info'=>"成功");
 		$response = json_encode($response);
-		//echo $response;
-		echo '{"status":"1","info":"成功"}';
+		echo $response;
+		//echo '{"status":"1","info":"成功"}';
 	}
 	/*function getConnection() {
     try {

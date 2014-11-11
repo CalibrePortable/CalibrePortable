@@ -1,7 +1,7 @@
 ##  图书管理系统API定义 
 手机后端REST API
 
-当前域名：book.duanpengfei.com/
+当前域名：http://www.flappyant.com/book/
 
 #### 普通用户
 
