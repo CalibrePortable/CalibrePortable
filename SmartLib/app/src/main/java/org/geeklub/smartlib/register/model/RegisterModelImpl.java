@@ -17,21 +17,24 @@ import retrofit.client.Response;
  */
 public class RegisterModelImpl implements RegisterModel {
 
-  @Override public void register(String account, String userName, String passWord,
+  @Override public void register(String userId, String userName, String password,
       String passWordConfirm, OnUserInputListener userInputListener,
       OnPassWordMatchListener matchListener, final OnRegisterFinishedListener finishedListener) {
 
+    if (TextUtils.isEmpty(userId)) {
+      userInputListener.userIdError();
+    }
     if (TextUtils.isEmpty(userName)) {
-      userInputListener.accountError();
+      userInputListener.userNameError();
       return;
     }
 
-    if (TextUtils.isEmpty(passWord)) {
+    if (TextUtils.isEmpty(password)) {
       userInputListener.passwordError();
       return;
     }
 
-    if (!isPasswordSame(passWord, passWordConfirm)) {
+    if (!isPasswordSame(password, passWordConfirm)) {
       matchListener.onPassWordNotMatchError();
       return;
     }
@@ -41,21 +44,20 @@ public class RegisterModelImpl implements RegisterModel {
 
     NormalUserService service = restAdapter.create(NormalUserService.class);
 
-    service.register(account, userName, passWord, passWordConfirm, new Callback<ServerResponse>() {
+    service.register(userId, userName, password, passWordConfirm, new Callback<ServerResponse>() {
       @Override public void success(ServerResponse serverResponse, Response response) {
 
-        LogUtil.i("===>>>" + response.toString());
-
         if (serverResponse.getStatus() == 0) {
+          LogUtil.i("注册成功");
           finishedListener.onSuccess(serverResponse.getInfo());
         } else {
-          LogUtil.i(serverResponse.toString());
+          LogUtil.i("注册失败");
           finishedListener.onFail(serverResponse.getInfo());
         }
       }
 
       @Override public void failure(RetrofitError error) {
-        LogUtil.i(error.toString());
+        LogUtil.i("注册失败");
         finishedListener.onFail(error.getMessage());
       }
     });

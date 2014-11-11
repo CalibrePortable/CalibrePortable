@@ -5,7 +5,9 @@ package org.geeklub.smartlib.register.presenter;
  */
 public interface OnUserInputListener {
 
-  void accountError();
+  void userIdError();
+
+  void userNameError();
 
   void passwordError();
 

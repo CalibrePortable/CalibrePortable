@@ -26,7 +26,7 @@ public class LoginActivity extends Activity implements LoginView, View.OnClickLi
 
   private LoginPresenter mLoginPresenter;
 
-  @InjectView(R.id.et_account) EditText mEditTextAccount;
+  @InjectView(R.id.et_user_id) EditText mEditTextUserId;
 
   @InjectView(R.id.et_password) EditText mEditTextPassWord;
 
@@ -70,7 +70,7 @@ public class LoginActivity extends Activity implements LoginView, View.OnClickLi
 
   @Override
   public void setAccountError() {
-    mEditTextAccount.setError(getString(R.string.account_not_empty));
+    mEditTextUserId.setError(getString(R.string.user_id_not_empty));
   }
 
   @Override
@@ -92,7 +92,7 @@ public class LoginActivity extends Activity implements LoginView, View.OnClickLi
   public void onClick(View v) {
     switch (v.getId()) {
       case R.id.btn_login:
-        mLoginPresenter.validateCredentials(mEditTextAccount.getText().toString(),
+        mLoginPresenter.validateCredentials(mEditTextUserId.getText().toString(),
             mEditTextPassWord.getText().toString());
         break;
       case R.id.btn_register:

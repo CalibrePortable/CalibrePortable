@@ -22,12 +22,12 @@
 
       <TextView
           android:layout_height="wrap_content"
-          android:text="@string/account"/>
+          android:text="@string/user_id"/>
 
       <EditText
-          android:id="@+id/et_account"
+          android:id="@+id/et_user_id"
           android:layout_height="wrap_content"
-          android:hint="@string/et_account_hint"/>
+          android:hint="@string/et_user_id_hint"/>
 
     </TableRow>
 
@@ -53,6 +53,7 @@
           android:text="@string/password"/>
 
       <EditText
+          android:inputType="textPassword"
           android:id="@+id/et_password"
           android:layout_height="wrap_content"
           android:hint="@string/et_password_hint"/>
@@ -65,7 +66,8 @@
           android:text="@string/re_password"/>
 
       <EditText
-          android:id="@+id/et_rePassword"
+          android:inputType="textPassword"
+          android:id="@+id/et_re_password"
           android:layout_height="wrap_content"
           android:hint="@string/et_re_password_hint"/>
 

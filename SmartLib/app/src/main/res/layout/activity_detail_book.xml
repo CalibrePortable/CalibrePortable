@@ -14,19 +14,17 @@
     <LinearLayout
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
       <include layout="@layout/toolbar"/>
 
       <TextView
-          android:text="fsdfdsfsdfa"
           android:layout_gravity="center_horizontal|start"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:id="@+id/tv_book_author"/>
 
       <TextView
-          android:text="dsfdsafadsfsa"
           android:layout_gravity="center_horizontal|start"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
@@ -34,14 +32,10 @@
 
 
       <TextView
-          android:text="fdsfdsafasd"
           android:layout_gravity="center_horizontal|start"
           android:layout_width="wrap_content"
           android:layout_height="wrap_content"
           android:id="@+id/tv_book_status"/>
-
-
-
 
 
     </LinearLayout>

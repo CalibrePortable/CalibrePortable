@@ -62,4 +62,9 @@ public class BookDetailActivity extends BaseActivity {
         return super.onOptionsItemSelected(item);
     }
   }
+
+  @Override public void setTitle(CharSequence title) {
+    super.setTitle(title);
+    mToolBar.setTitle(title);
+  }
 }

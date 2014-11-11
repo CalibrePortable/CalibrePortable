@@ -20,9 +20,14 @@ public class RegisterPresenterImpl
     mRegisterModel = new RegisterModelImpl();
   }
 
-  @Override public void accountError() {
+  @Override public void userIdError() {
     mRegisterView.hideProgressBar();
-    mRegisterView.setAccountError();
+    mRegisterView.setUserIdError();
+  }
+
+  @Override public void userNameError() {
+    mRegisterView.hideProgressBar();
+    mRegisterView.setUserNameError();
   }
 
   @Override public void passwordError() {
@@ -32,7 +37,7 @@ public class RegisterPresenterImpl
 
   @Override public void onPassWordNotMatchError() {
     mRegisterView.hideProgressBar();
-    mRegisterView.setRepasswordError();
+    mRegisterView.setRePasswordError();
   }
 
   @Override public void validateCredentials(String account, String userName, String passWord,

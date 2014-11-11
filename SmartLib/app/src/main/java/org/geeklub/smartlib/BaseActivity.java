@@ -10,7 +10,8 @@ import butterknife.InjectView;
  * Created by Vass on 2014/11/6.
  */
 public abstract class BaseActivity extends ActionBarActivity {
-  @InjectView(R.id.toolbar) Toolbar mToolBar;
+
+  public  @InjectView(R.id.toolbar) Toolbar mToolBar;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);

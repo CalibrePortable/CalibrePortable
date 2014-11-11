@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import org.geeklub.smartlib.R;
@@ -57,6 +58,12 @@ public class BorrowAdapter extends RecyclerView.Adapter<BorrowAdapter.ViewHolder
     viewHolder.mBookName.setText(book.getBook_name());
     viewHolder.mBookDescripion.setText(book.getBook_author());
     viewHolder.mBookFavour.setText(book.getFavour());
+
+    Picasso.with(mContext)
+        .load(book.getBook_pic())
+        .placeholder(R.drawable.ic_launcher)
+        .error(R.drawable.ic_launcher)
+        .into(viewHolder.mBookIcon);
 
     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {

@@ -22,13 +22,13 @@ import org.geeklub.smartlib.utils.ToastUtil;
 public class RegisterActivity extends Activity
     implements RegisterView, View.OnClickListener, TextWatcher {
 
-  @InjectView(R.id.et_account) EditText mEditTextAccount;
+  @InjectView(R.id.et_user_id) EditText mUserId;
 
-  @InjectView(R.id.et_user_name) EditText mEditTextUserName;
+  @InjectView(R.id.et_user_name) EditText mUserName;
 
-  @InjectView(R.id.et_password) EditText mEditTextPassword;
+  @InjectView(R.id.et_password) EditText mPassword;
 
-  @InjectView(R.id.et_rePassword) EditText mEditTextRePassword;
+  @InjectView(R.id.et_re_password) EditText mRePassword;
 
   @InjectView(R.id.progressBar) ProgressBar mProgressBar;
 
@@ -50,7 +50,7 @@ public class RegisterActivity extends Activity
 
   private void initCallBacks() {
     mBtnRegister.setOnClickListener(this);
-    mEditTextRePassword.addTextChangedListener(this);
+    mRePassword.addTextChangedListener(this);
   }
 
   @Override public void showProgressbar() {
@@ -61,16 +61,20 @@ public class RegisterActivity extends Activity
     mProgressBar.setVisibility(View.GONE);
   }
 
-  @Override public void setAccountError() {
-    mEditTextAccount.setError(getString(R.string.account_not_empty));
+  @Override public void setUserIdError() {
+    mUserId.setError(getString(R.string.user_id_not_empty));
+  }
+
+  @Override public void setUserNameError() {
+    mUserName.setError(getString(R.string.user_name_not_empty));
   }
 
   @Override public void setPasswordError() {
-    mEditTextPassword.setError(getString(R.string.password_not_empty));
+    mPassword.setError(getString(R.string.password_not_empty));
   }
 
-  @Override public void setRepasswordError() {
-    mEditTextRePassword.setError(getString(R.string.re_password_error));
+  @Override public void setRePasswordError() {
+    mRePassword.setError(getString(R.string.re_password_error));
   }
 
   @Override public void showMessage(String msg) {
@@ -86,9 +90,9 @@ public class RegisterActivity extends Activity
     switch (v.getId()) {
 
       case R.id.btn_register:
-        mRegisterPresenter.validateCredentials(mEditTextAccount.getText().toString(),
-            mEditTextUserName.getText().toString(), mEditTextPassword.getText().toString(),
-            mEditTextRePassword.getText().toString());
+        mRegisterPresenter.validateCredentials(mUserId.getText().toString(),
+            mUserName.getText().toString(), mPassword.getText().toString(),
+            mRePassword.getText().toString());
         break;
 
       default:
@@ -105,7 +109,7 @@ public class RegisterActivity extends Activity
   }
 
   @Override public void afterTextChanged(Editable s) {
-    mRegisterPresenter.validatePassWord(mEditTextPassword.getText().toString(),
-        mEditTextRePassword.getText().toString());
+    mRegisterPresenter.validatePassWord(mPassword.getText().toString(),
+        mRePassword.getText().toString());
   }
 }

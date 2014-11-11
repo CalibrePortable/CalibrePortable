@@ -40,6 +40,10 @@ public class Book implements Parcelable {
    * 点赞数
    */
   private String favour;
+  /**
+   * 图片地址
+   */
+  private String book_pic;
 
   public String getBook_name() {
     return book_name;
@@ -97,6 +101,14 @@ public class Book implements Parcelable {
     this.favour = favour;
   }
 
+  public String getBook_pic() {
+    return book_pic;
+  }
+
+  public void setBook_pic(String book_pic) {
+    this.book_pic = book_pic;
+  }
+
   @Override public String toString() {
     return "Book{" +
         "book_name='" + book_name + '\'' +
@@ -117,21 +129,22 @@ public class Book implements Parcelable {
     dest.writeString(this.book_name);
     dest.writeString(this.book_author);
     dest.writeString(this.book_type);
-    dest.writeString(this.book_price);
     dest.writeString(this.book_info);
+    dest.writeString(this.book_price);
     dest.writeString(this.book_status);
     dest.writeString(this.favour);
+    dest.writeString(this.book_pic);
   }
-
 
   private Book(Parcel in) {
     this.book_name = in.readString();
     this.book_author = in.readString();
     this.book_type = in.readString();
-    this.book_price = in.readString();
     this.book_info = in.readString();
+    this.book_price = in.readString();
     this.book_status = in.readString();
     this.favour = in.readString();
+    this.book_pic = in.readString();
   }
 
   public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {

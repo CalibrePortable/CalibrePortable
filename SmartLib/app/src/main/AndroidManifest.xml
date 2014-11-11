@@ -22,15 +22,17 @@
 
 
       <!--<intent-filter>-->
-        <!--<action android:name="android.intent.action.MAIN"/>-->
-        <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+      <!--<action android:name="android.intent.action.MAIN"/>-->
+      <!--<category android:name="android.intent.category.LAUNCHER"/>-->
       <!--</intent-filter>-->
 
 
     </activity>
 
 
-    <activity android:name=".login.LoginActivity">
+    <activity
+        android:screenOrientation="portrait"
+        android:name=".login.LoginActivity">
 
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
@@ -62,6 +64,7 @@
 
 
     <activity
+        android:screenOrientation="portrait"
         android:name=".detail.BookDetailActivity"
         android:theme="@style/AppTheme.ToolBarStyle">
 

@@ -14,6 +14,7 @@ import retrofit.http.Path;
  * Created by Vass on 2014/11/3.
  */
 public interface NormalUserService {
+
   @FormUrlEncoded @POST("/normalUser/login") void login(@Field("userId") String userId,
       @Field("password") String password, Callback<ServerResponse> callback);
 
@@ -21,7 +22,7 @@ public interface NormalUserService {
       @Field("userName") String userName, @Field("password") String password,
       @Field("rePassword") String rePassword, Callback<ServerResponse> callback);
 
-  @FormUrlEncoded @POST("/normalUser/borrow/{bookId}/{userId}/{password}") void borrow(
+  @FormUrlEncoded @GET("/normalUser/borrow/{bookId}/{userId}/{password}") void borrow(
       @Field("bookId") String bookId, @Field("userId") String userId,
       @Field("password") String password, Callback<ServerResponse> callback);
 

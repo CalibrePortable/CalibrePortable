@@ -23,12 +23,12 @@
 
       <TextView
           android:layout_height="wrap_content"
-          android:text="@string/account"/>
+          android:text="@string/user_id"/>
 
       <EditText
-          android:id="@+id/et_account"
+          android:id="@+id/et_user_id"
           android:layout_height="wrap_content"
-          android:hint="@string/et_account_hint"/>
+          android:hint="@string/et_user_id_hint"/>
 
     </TableRow>
 

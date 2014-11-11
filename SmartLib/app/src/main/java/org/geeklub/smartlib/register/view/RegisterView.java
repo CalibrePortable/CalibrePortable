@@ -9,11 +9,13 @@ public interface RegisterView {
 
   void hideProgressBar();
 
-  void setAccountError();
+  void setUserIdError();
+
+  void setUserNameError();
 
   void setPasswordError();
 
-  void setRepasswordError();
+  void setRePasswordError();
 
   void showMessage(String msg);
 
