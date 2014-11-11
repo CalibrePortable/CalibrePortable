@@ -25,10 +25,6 @@ public class ServerResponse {
     this.info = info;
   }
 
-
-
-
-
   @Override public String toString() {
     return "Response{" +
         "status=" + status +

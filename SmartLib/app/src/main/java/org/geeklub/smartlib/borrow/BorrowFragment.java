@@ -41,7 +41,6 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
   private BorrowAdapter mAdapter;
 
-  //private int mPage = 1;
 
   public static Fragment newInstance() {
 
@@ -86,32 +85,13 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     mRecycleView.setAdapter(mAdapter);
 
-    //mRecycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-    //  @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-    //    super.onScrollStateChanged(recyclerView, newState);
-    //
-    //    switch (newState) {
-    //      case RecyclerView.SCROLL_STATE_IDLE:
-    //        loadNextPage();
-    //
-    //        break;
-    //    }
-    //  }
-    //});
-
-    //loadFirstPage();
-
     loadFirstPage();
 
     return view;
   }
 
-  //private void loadNextPage() {
-  //  loadData(mPage);
-  //}
 
   private void loadFirstPage() {
-    //mPage = 1;
     loadData(1);
   }
 
@@ -133,7 +113,6 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
         } else {
           mAdapter.addItems(bookList);
         }
-        //mPage++;
       }
 
       @Override public void failure(RetrofitError error) {

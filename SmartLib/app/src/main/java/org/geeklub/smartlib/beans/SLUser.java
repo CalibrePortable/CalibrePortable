@@ -5,9 +5,9 @@ package org.geeklub.smartlib.beans;
  */
 public class SLUser {
 
-  public final static String USER_NAME = "user_name";
+  public final static String SMART_LIB_USER_NAME = "user_name";
 
-  public final static String PASS_WORD = "pass_word";
+  public final static String SMART_LIB_PASS_WORD = "pass_word";
 
   private int userName;
 
