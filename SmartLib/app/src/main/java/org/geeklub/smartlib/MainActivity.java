@@ -187,7 +187,7 @@ public class MainActivity extends ActionBarActivity {
         SharedPreferencesUtil preferencesUtil = new SharedPreferencesUtil(this);
         SLUser user = preferencesUtil.getUser();
 
-        service.borrow(Integer.valueOf(result.getContents()), user.getUserName(),
+        service.borrow(result.getContents(), user.getUserName(),
             user.getPassword(), new Callback<ServerResponse>() {
               @Override public void success(ServerResponse serverResponse, Response response) {
                 LogUtil.i(serverResponse.getInfo());

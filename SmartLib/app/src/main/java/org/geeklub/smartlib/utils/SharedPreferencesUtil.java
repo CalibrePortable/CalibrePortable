@@ -19,13 +19,13 @@ public class SharedPreferencesUtil {
 
   public void saveUser(SLUser user) {
     SharedPreferences.Editor editor = mSharedPreferences.edit();
-    editor.putInt(SLUser.SMART_LIB_USER_NAME, user.getUserName());
+    editor.putString(SLUser.SMART_LIB_USER_NAME, user.getUserName());
     editor.putString(SLUser.SMART_LIB_PASS_WORD, user.getPassword());
     editor.apply();
   }
 
   public SLUser getUser() {
-    int userName = mSharedPreferences.getInt(SLUser.SMART_LIB_USER_NAME, -1);
+    String userName = mSharedPreferences.getString(SLUser.SMART_LIB_USER_NAME, "");
     String password = mSharedPreferences.getString(SLUser.SMART_LIB_PASS_WORD, "");
     return new SLUser(userName, password);
   }

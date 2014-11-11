@@ -40,8 +40,7 @@ public class RegisterModelImpl implements RegisterModel {
 
     NormalUserService service = restAdapter.create(NormalUserService.class);
 
-    service.register(Integer.valueOf(userName), passWord, passWordConfirm,
-        new Callback<ServerResponse>() {
+    service.register(userName, passWord, passWordConfirm, new Callback<ServerResponse>() {
           @Override public void success(ServerResponse serverResponse, Response response) {
 
             if (serverResponse.getStatus() == 0) {

@@ -41,7 +41,6 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
   private BorrowAdapter mAdapter;
 
-
   public static Fragment newInstance() {
 
     Fragment borrowFragment = new BorrowFragment();
@@ -90,7 +89,6 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
     return view;
   }
 
-
   private void loadFirstPage() {
     loadData(1);
   }
@@ -102,7 +100,7 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
       mSwipeRefreshLayout.setRefreshing(true);
     }
 
-    mService.haveBorrowed(12108413, "12345", new Callback<List<Book>>() {
+    mService.haveBorrowed("12108413", "12345", new Callback<List<Book>>() {
       @Override public void success(List<Book> bookList, Response response) {
         mSwipeRefreshLayout.setRefreshing(false);
 

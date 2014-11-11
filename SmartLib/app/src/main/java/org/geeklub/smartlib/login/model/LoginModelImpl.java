@@ -38,14 +38,14 @@ public class LoginModelImpl implements LoginModel {
 
     NormalUserService service = restAdapter.create(NormalUserService.class);
 
-    service.login(Integer.valueOf(username), password, new Callback<ServerResponse>() {
+    service.login(username, password, new Callback<ServerResponse>() {
       @Override public void success(ServerResponse serverResponse, Response response) {
 
         if (serverResponse.getStatus() == 0) {
 
           SharedPreferencesUtil preferencesUtil =
               new SharedPreferencesUtil(GlobalContext.getInstance());
-          preferencesUtil.saveUser(new SLUser(Integer.valueOf(username), password));
+          preferencesUtil.saveUser(new SLUser(username, password));
 
           loginFinishedListener.onSuccess(serverResponse.getInfo());
         } else {

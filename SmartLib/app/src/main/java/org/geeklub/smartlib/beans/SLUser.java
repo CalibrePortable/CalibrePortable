@@ -9,20 +9,20 @@ public class SLUser {
 
   public final static String SMART_LIB_PASS_WORD = "pass_word";
 
-  private int userName;
+  private String userName;
 
   private String password;
 
-  public SLUser(int userName, String password) {
+  public SLUser(String userName, String password) {
     this.userName = userName;
     this.password = password;
   }
 
-  public int getUserName() {
+  public String getUserName() {
     return userName;
   }
 
-  public void setUserName(int userName) {
+  public void setUserName(String userName) {
     this.userName = userName;
   }
 
