@@ -6,6 +6,7 @@ import org.geeklub.smartlib.register.presenter.OnPassWordMatchListener;
 import org.geeklub.smartlib.register.presenter.OnRegisterFinishedListener;
 import org.geeklub.smartlib.register.presenter.OnUserInputListener;
 import org.geeklub.smartlib.services.NormalUserService;
+import org.geeklub.smartlib.utils.LogUtil;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -16,9 +17,9 @@ import retrofit.client.Response;
  */
 public class RegisterModelImpl implements RegisterModel {
 
-  @Override public void register(String userName, String passWord, String passWordConfirm,
-      OnUserInputListener userInputListener, OnPassWordMatchListener matchListener,
-      final OnRegisterFinishedListener finishedListener) {
+  @Override public void register(String account, String userName, String passWord,
+      String passWordConfirm, OnUserInputListener userInputListener,
+      OnPassWordMatchListener matchListener, final OnRegisterFinishedListener finishedListener) {
 
     if (TextUtils.isEmpty(userName)) {
       userInputListener.accountError();
@@ -36,24 +37,28 @@ public class RegisterModelImpl implements RegisterModel {
     }
 
     RestAdapter restAdapter =
-        new RestAdapter.Builder().setEndpoint("http://book.duanpengfei.com/API.php").build();
+        new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
 
     NormalUserService service = restAdapter.create(NormalUserService.class);
 
-    service.register(userName, passWord, passWordConfirm, new Callback<ServerResponse>() {
-          @Override public void success(ServerResponse serverResponse, Response response) {
+    service.register(account, userName, passWord, passWordConfirm, new Callback<ServerResponse>() {
+      @Override public void success(ServerResponse serverResponse, Response response) {
 
-            if (serverResponse.getStatus() == 0) {
-              finishedListener.onSuccess(serverResponse.getInfo());
-            } else {
-              finishedListener.onFail(serverResponse.getInfo());
-            }
-          }
+        LogUtil.i("===>>>" + response.toString());
 
-          @Override public void failure(RetrofitError error) {
-            finishedListener.onFail(error.getMessage());
-          }
-        });
+        if (serverResponse.getStatus() == 0) {
+          finishedListener.onSuccess(serverResponse.getInfo());
+        } else {
+          LogUtil.i(serverResponse.toString());
+          finishedListener.onFail(serverResponse.getInfo());
+        }
+      }
+
+      @Override public void failure(RetrofitError error) {
+        LogUtil.i(error.toString());
+        finishedListener.onFail(error.getMessage());
+      }
+    });
   }
 
   @Override public void verifyPassWord(String firstPassWord, String secondPassWord,

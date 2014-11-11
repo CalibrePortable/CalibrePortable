@@ -24,6 +24,8 @@ public class RegisterActivity extends Activity
 
   @InjectView(R.id.et_account) EditText mEditTextAccount;
 
+  @InjectView(R.id.et_user_name) EditText mEditTextUserName;
+
   @InjectView(R.id.et_password) EditText mEditTextPassword;
 
   @InjectView(R.id.et_rePassword) EditText mEditTextRePassword;
@@ -85,7 +87,8 @@ public class RegisterActivity extends Activity
 
       case R.id.btn_register:
         mRegisterPresenter.validateCredentials(mEditTextAccount.getText().toString(),
-            mEditTextPassword.getText().toString(), mEditTextRePassword.getText().toString());
+            mEditTextUserName.getText().toString(), mEditTextPassword.getText().toString(),
+            mEditTextRePassword.getText().toString());
         break;
 
       default:

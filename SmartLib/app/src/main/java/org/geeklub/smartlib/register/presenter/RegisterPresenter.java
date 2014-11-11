@@ -8,7 +8,7 @@ public interface RegisterPresenter {
   /**
    * 注册验证逻辑
    */
-  void validateCredentials(String userName, String passWord, String rePassword);
+  void validateCredentials(String account,String userName, String passWord, String rePassword);
 
   /**
    * 验证两次输入的密码是否一致

@@ -11,7 +11,7 @@ public interface RegisterModel {
   /**
    * 验证注册的逻辑
    */
-  void register(String userName, String passWord, String passWordConfirm,
+  void register(String account,String userName, String passWord, String passWordConfirm,
       OnUserInputListener userInputListener, OnPassWordMatchListener matchListener,
       OnRegisterFinishedListener finishedListener);
 

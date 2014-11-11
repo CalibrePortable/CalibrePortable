@@ -18,8 +18,8 @@ public interface NormalUserService {
       @Field("password") String password, Callback<ServerResponse> callback);
 
   @FormUrlEncoded @POST("/normalUser/register") void register(@Field("userId") String userId,
-      @Field("password") String password, @Field("rePassword") String rePassword,
-      Callback<ServerResponse> callback);
+      @Field("userName") String userName, @Field("password") String password,
+      @Field("rePassword") String rePassword, Callback<ServerResponse> callback);
 
   @FormUrlEncoded @POST("/normalUser/borrow/{bookId}/{userId}/{password}") void borrow(
       @Field("bookId") String bookId, @Field("userId") String userId,

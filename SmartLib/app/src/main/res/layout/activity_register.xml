@@ -36,6 +36,20 @@
 
       <TextView
           android:layout_height="wrap_content"
+          android:text="@string/user_name"/>
+
+      <EditText
+          android:id="@+id/et_user_name"
+          android:layout_height="wrap_content"
+          android:hint="@string/et_user_name_hint"/>
+
+    </TableRow>
+
+
+    <TableRow>
+
+      <TextView
+          android:layout_height="wrap_content"
           android:text="@string/password"/>
 
       <EditText

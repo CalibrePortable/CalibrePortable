@@ -2,6 +2,7 @@ package org.geeklub.smartlib.login.model;
 
 import android.text.TextUtils;
 
+import org.geeklub.smartlib.api.Constant;
 import org.geeklub.smartlib.beans.SLUser;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.login.presenter.OnLoginFinishedListener;
@@ -34,14 +35,14 @@ public class LoginModelImpl implements LoginModel {
     }
 
     RestAdapter restAdapter =
-        new RestAdapter.Builder().setEndpoint("http://book.duanpengfei.com/API.php").build();
+        new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
 
     NormalUserService service = restAdapter.create(NormalUserService.class);
 
     service.login(username, password, new Callback<ServerResponse>() {
       @Override public void success(ServerResponse serverResponse, Response response) {
 
-        if (serverResponse.getStatus() == 0) {
+        if (serverResponse.getStatus() == Constant.RESULT_SUCCESS) {
 
           SharedPreferencesUtil preferencesUtil =
               new SharedPreferencesUtil(GlobalContext.getInstance());

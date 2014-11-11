@@ -7,10 +7,12 @@
 
 
   <string name="account">account</string>
+  <string name="user_name">user name</string>
   <string name="password">password</string>
   <string name="re_password">re password</string>
 
   <string name="et_account_hint">et_account_hint</string>
+  <string name="et_user_name_hint">et_user_name_hint</string>
   <string name="et_password_hint">et_password_hint</string>
   <string name="et_re_password_hint">et_re_password_hint</string>
   <string name="search_hint">search books</string>

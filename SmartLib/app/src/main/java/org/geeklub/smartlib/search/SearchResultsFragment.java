@@ -62,7 +62,7 @@ public class SearchResultsFragment extends BaseFragment
 
     mAdapter = new SearchAdapter(mActivity);
     mRestAdapter =
-        new RestAdapter.Builder().setEndpoint("http://book.duanpengfei.com/API.php").build();
+        new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
 
     mService = mRestAdapter.create(NormalUserService.class);
   }

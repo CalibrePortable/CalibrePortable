@@ -20,7 +20,6 @@ public class RegisterPresenterImpl
     mRegisterModel = new RegisterModelImpl();
   }
 
-
   @Override public void accountError() {
     mRegisterView.hideProgressBar();
     mRegisterView.setAccountError();
@@ -36,10 +35,10 @@ public class RegisterPresenterImpl
     mRegisterView.setRepasswordError();
   }
 
-
-  @Override public void validateCredentials(String userName, String passWord, String rePassword) {
+  @Override public void validateCredentials(String account, String userName, String passWord,
+      String rePassword) {
     mRegisterView.showProgressbar();
-    mRegisterModel.register(userName, passWord, rePassword, this, this,this);
+    mRegisterModel.register(account, userName, passWord, rePassword, this, this, this);
   }
 
   @Override public void validatePassWord(String firstPassWord, String secondPassWord) {

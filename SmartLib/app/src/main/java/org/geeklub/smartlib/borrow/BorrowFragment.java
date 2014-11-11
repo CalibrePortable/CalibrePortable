@@ -54,7 +54,7 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
     mAdapter = new BorrowAdapter(mActivity);
 
     mRestAdapter =
-        new RestAdapter.Builder().setEndpoint("http://book.duanpengfei.com/API.php").build();
+        new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
 
     mService = mRestAdapter.create(NormalUserService.class);
   }
