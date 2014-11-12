@@ -27,6 +27,7 @@ public class DrawerFragment extends BaseFragment {
 
   @InjectView(R.id.listview) ListView mDrawerList;
 
+  @InjectView(R.id.drawer_header) ImageView mDrawerHeader;
 
   public static Fragment newInstance() {
     Fragment drawerFragment = new DrawerFragment();
@@ -49,7 +50,7 @@ public class DrawerFragment extends BaseFragment {
     mDrawerList.setItemChecked(0, true);
     mDrawerList.setOnItemClickListener(new DrawerItemClickListener());
 
-
+    mDrawerHeader.setClickable(true);
 
     return view;
   }

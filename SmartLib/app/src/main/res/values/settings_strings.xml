@@ -22,6 +22,5 @@
 
   <string name="settings_key_modefy_password">settings_key_modefy_password</string>
   <string name="settings_key_modefy_password_title">Modefy Password</string>
-  <!--<string name="settings_key_modefy_password_summary"></string>-->
 
 </resources>

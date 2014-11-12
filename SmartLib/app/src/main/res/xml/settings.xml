@@ -22,7 +22,7 @@
 
     </Preference>
 
-    
+
 
     <Preference
         android:key="@string/settings_key_androider"
