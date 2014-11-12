@@ -15,6 +15,10 @@ import retrofit.http.Path;
  */
 public interface NormalUserService {
 
+  @GET("/passChange/{userId}/{oldPass}/{newPass}/{renewPass}") void modifyPassword(
+      @Path("userId") String userId, @Path("oldPass") String oldPassword,
+      @Path("newPass") String newPassword, @Path("renewPass") String reNewPassword);
+
   @FormUrlEncoded @POST("/normalUser/login") void login(@Field("userId") String userId,
       @Field("password") String password, Callback<ServerResponse> callback);
 
@@ -22,9 +26,9 @@ public interface NormalUserService {
       @Field("userName") String userName, @Field("password") String password,
       @Field("rePassword") String rePassword, Callback<ServerResponse> callback);
 
-  @FormUrlEncoded @GET("/normalUser/borrow/{bookId}/{userId}/{password}") void borrow(
-      @Field("bookId") String bookId, @Field("userId") String userId,
-      @Field("password") String password, Callback<ServerResponse> callback);
+  @GET("/normalUser/borrow/{bookId}/{userId}/{password}") void borrow(@Path("bookId") String bookId,
+      @Path("userId") String userId, @Path("password") String password,
+      Callback<ServerResponse> callback);
 
   @GET("/search/{type}/page={page}/{keyword}") void search(@Path("type") int type,
       @Path("page") int page, @Path("keyword") String keyword, Callback<List<Book>> callback);

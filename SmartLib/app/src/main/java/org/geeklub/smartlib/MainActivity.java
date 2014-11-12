@@ -123,6 +123,7 @@ public class MainActivity extends ActionBarActivity {
 
     switch (item.getItemId()) {
       case R.id.action_settings:
+        startActivity(new Intent(this,SettingsActivity.class));
         return true;
 
       case R.id.action_qr_code:
