@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <string name="settings_key_version">pref_key_version</string>
+
+
+  <string name="settings_category_about">ABOUT</string>
+  <string name="settings_category_functions">FUNCTIONS</string>
+
+  <string name="settings_key_phper">settings_key_phper</string>
+  <string name="settings_summary_phper">phper</string>
+  <string name="settings_title_phper">\@小黄鸡</string>
+
+  <string name="settings_key_androider">settings_key_androider</string>
+  <string name="settings_summary_androider">androider</string>
+  <string name="settings_title_androider">\@Va-doubles</string>
+
+
+
+  <string name="settings_key_github">settings_key_github</string>
+  <string name="settings_title_github">GitHub</string>
+
+
+  <string name="settings_key_modefy_password">settings_key_modefy_password</string>
+  <string name="settings_key_modefy_password_title">Modefy Password</string>
+  <!--<string name="settings_key_modefy_password_summary"></string>-->
+
+</resources>

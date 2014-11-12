@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+  <PreferenceCategory android:title="@string/settings_category_functions">
+
+    <Preference
+        android:key="@string/settings_key_modefy_password"
+        android:title="@string/settings_key_modefy_password_title">
+
+
+    </Preference>
+
+  </PreferenceCategory>
+
+  <PreferenceCategory android:title="@string/settings_category_about">
+    <Preference
+        android:key="@string/settings_key_phper"
+        android:summary="@string/settings_summary_phper"
+        android:title="@string/settings_title_phper">
+
+    </Preference>
+
+    
+
+    <Preference
+        android:key="@string/settings_key_androider"
+        android:summary="@string/settings_summary_androider"
+        android:title="@string/settings_title_androider">
+
+    </Preference>
+
+    <Preference
+        android:key="@string/settings_key_version">
+    </Preference>
+
+    <Preference
+        android:key="@string/settings_key_github"
+        android:title="@string/settings_title_github">
+      <intent
+          android:action="android.intent.action.VIEW"
+          android:data="https://github.com/CalibrePortable/CalibrePortable"/>
+    </Preference>
+
+  </PreferenceCategory>
+
+</PreferenceScreen>
