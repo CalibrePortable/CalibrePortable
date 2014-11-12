@@ -3,6 +3,7 @@ package org.geeklub.smartlib;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -11,7 +12,9 @@ import butterknife.InjectView;
  */
 public abstract class BaseActivity extends ActionBarActivity {
 
-  public  @InjectView(R.id.toolbar) Toolbar mToolBar;
+  public @InjectView(R.id.toolbar) Toolbar mToolBar;
+
+  public @InjectView(R.id.toolbar_title) TextView mToolBarTitle;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -29,4 +32,8 @@ public abstract class BaseActivity extends ActionBarActivity {
   protected abstract void initActionBar();
 
   protected abstract int getLayoutResource();
+
+  @Override public void setTitle(CharSequence title) {
+    mToolBarTitle.setText(title);
+  }
 }
