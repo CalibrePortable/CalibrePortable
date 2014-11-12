@@ -46,7 +46,7 @@
 	        $stmt->bindParam("user_password", $xpassword);
 	        $stmt->execute();
 	        //echo $xuserId,$xuserName,$xpassword;
-
+			//$xpassword = $req->params('password');
 	        //$user->id = $dbCon->lastInsertId();
 	        $dbCon = null;
 	        //echo json_encode($user); 
@@ -55,25 +55,28 @@
 	        echo '{"error":{"text":'. $e->getMessage() .'}}'; 
 	    }*/
 
-	//GET修改密码http://localhost/webservice/book/API.php/passChange/12108413/12345/23456
+	//GET修改密码http://localhost/webservice/book/API.php/passChange/12108413/12345/23456/23456
 	$app->get('/passChange/:userId/:oldPass/:newPass/:renewPass',function($xuserId,$xoldPass,$xnewPass,$xrenewPass){
 		require 'conn.php';
 		//将来修改
 		if($xoldPass=='null')
 			$xoldPass=null;
-
 		if($xnewPass!=$xrenewPass) 
 			error('password_error');//确定password是否等于repassword
 		else{
-			if(!verify($xuserId,$xoldPass)){//确定旧密码是否正确，错误返回0
-				error('verify_error');
-			}
-			else{//未找到且注册成功返回1
-				$sql="update user set user_password='$xnewPass' where user_id=$xuserId";
-				//echo $sql;
-				$query = mysql_query($sql);
-				$query?found():error('sql_error');
-			}
+			!verify($xuserId,$xoldPass)?error('verify_error'):passChange($xuserId,$xnewPass);
+		}
+		mysql_close($con);
+	});
+
+	//GET点赞http://localhost/webservice/book/API.php/like/1/12108238/123
+	$app->get('/like/:bookId/:userId/:password',function($xbookId,$xuserId,$xpassword){
+		require 'conn.php';
+		if(like_verify($xuserId,$xbookId)){
+			error('like_error');
+		}
+		else{
+			!verify($xuserId,$xpassword)?error('verify_error'):like($xbookId,$xuserId);
 		}
 		mysql_close($con);
 	});
@@ -83,8 +86,10 @@
 		require 'conn.php';
 		global $app;//网页中输入框name为userid、password
 		$req = $app->request(); 
-	    $xuserId = $_POST['userId']; 
-	    $xpassword = $_POST['password']; 
+		$postdata = file_get_contents("php://input");
+		$request = json_decode($postdata);
+		$xuserId = $request->userId;
+		$xpassword = $request->password;
 		verify($xuserId,$xpassword)?found():error('verify_error');
 		mysql_close($con);
 	});
@@ -94,10 +99,12 @@
 		require 'conn.php';
 		global $app;//
 		$req = $app->request(); 
-	    $xuserId = $_POST['userId']; 
-	    $xuserName=$_POST['userName']; //由于Slim中post不支持中文值得使用原始$_POST方法
-	    $xpassword = $_POST['password'];
-	    $xrepassword = $_POST['rePassword'];
+		$postdata = file_get_contents("php://input");
+		$request = json_decode($postdata);
+		$xuserId = $request->userId;
+		$xuserName = $request->userName;
+		$xpassword = $request->password;
+		$xrepassword = $request->rePassword;
 		if($xpassword!=$xrepassword) 
 			error('password_error');//确定password是否等于repassword
 		else{
@@ -117,9 +124,6 @@
 	//（已验证）GET扫一扫借书http://localhost/webservice/book/API.php/normalUser/borrow/1/12108413/12345
 	$app->get('/normalUser/borrow/:bookId/:userId/:password', function ($xbookId,$xuserId,$xpassword) {
 		require 'conn.php';
-		/*global $app;
-		$req = $app->request(); */
-	    //$xpassword = $req->params('password'); 
 		if(book_verify($xbookId)){//先确认书的状态book_status 1为已被借
 			error('bookverify_error');
 		}
@@ -129,9 +133,9 @@
 		mysql_close($con);
 	});
 	
-	//（已验证）GET图书搜索http://localhost/webservice/book/API.php/search/1/page=1/php
-	//（已验证）GET获取图书列表http://localhost/webservice/book/API.php/search/5/page=1/all
-	$app->get('/search/:type/page=:page/:keyword', function ($xtype,$xpage,$xkeyword) {
+	//（已验证）GET图书搜索http://localhost/webservice/book/API.php/search/12108413/1/page=1/php
+	//（已验证）GET获取图书列表http://localhost/webservice/book/API.php/search/12108413/5/page=1/all
+	$app->get('/search/:userId/:type/page=:page/:keyword', function ($xuserId,$xtype,$xpage,$xkeyword) {
 		if($xtype=='5')
 			$xkeyword='';//~~~~~必须要传$xkeyword不然无法访问，将input中空值自动变为all
 		$page_size=pagesize;
@@ -157,7 +161,7 @@
 				error('url_error');
 				break;
 		}
-		search(0,$xtype,$page_size,$offset,$xkeyword);
+		search($xuserId,0,$xtype,$page_size,$offset,$xkeyword);
 		mysql_close($con);
 	});
 
@@ -165,29 +169,26 @@
 	$app->get('/normalUser/return/:userId/:password', function ($xuserId,$xpassword) {
 		require 'conn.php';
 		//先验证再输出
-		if(!verify($xuserId,$xpassword)){
-			error('verify_error');
-		}
-		else{
-			usershow($xuserId);	
-		}
+		!verify($xuserId,$xpassword)?error('verify_error'):usershow($xuserId);
 		mysql_close($con);
 	});
 
-	//（已验证）POST登录http://localhost/webservice/book/API.php/Administrator/login   12108238/123
-	$app->post('/Administrator/login', function () {
+	//（已验证）POST登录http://localhost/webservice/book/API.php/administrator/login   12108238/123
+	$app->post('/administrator/login', function () {
 		require 'conn.php';
 		global $app;
 		$req = $app->request(); 
-	    $xuserId = $_POST['userId']; 
-	    $xpassword = $_POST['password'];
+		$postdata = file_get_contents("php://input");
+		$request = json_decode($postdata);
+		$xuserId = $request->userId;
+		$xpassword = $request->password;
 		rank_verify_json($xuserId,$xpassword);
 		mysql_close($con);
 	});
 
-	//（已验证）GET图书搜索http://localhost/webservice/book/API.php/searchA/1/page=1/php
-	//（已验证）GET获取图书列表http://localhost/webservice/book/API.php/searchA/5/page=1/all
-	$app->get('/searchA/:type/page=:page/:keyword', function ($xtype,$xpage,$xkeyword) {
+	//（已验证）GET图书搜索http://localhost/webservice/book/API.php/searchA/12108238/1/page=1/php
+	//（已验证）GET获取图书列表http://localhost/webservice/book/API.php/searchA/12108238/5/page=1/all
+	$app->get('/searchA/:userId/:type/page=:page/:keyword', function ($xuserId,$xtype,$xpage,$xkeyword) {
 		if($xtype=='5')
 			$xkeyword='';//必须要传$xkeyword不然无法访问，将input中空值自动变为all
 		$page_size=pagesize;
@@ -213,7 +214,7 @@
 				error('url_error');
 				break;
 		}
-		search(1,$xtype,$page_size,$offset,$xkeyword);
+		search($xuserId,1,$xtype,$page_size,$offset,$xkeyword);
 		mysql_close($con);
 	});
 
@@ -222,12 +223,13 @@
 		require 'conn.php';
 		global $app;
 		$req = $app->request(); 
-	    //$xpassword = $req->params('password');
-	    $book_name = $_POST['bookName'];
-	    $book_author = $_POST['bookAuthor'];
-	    $book_type= $_POST['bookType'];
-	    $book_info= $_POST['bookInfo'];
-	    $book_status = $_POST['bookStatus'];
+		$postdata = file_get_contents("php://input");
+		$request = json_decode($postdata);
+		$book_name = $request->bookName;
+		$book_author = $request->bookAuthor;
+		$book_type = $request->bookType;
+		$book_info = $request->bookInfo;
+		$book_status = $request->bookStatus;
 		rank_verify_bool($xuserId,$xpassword)?update($xbookId,$book_name,$book_author,$book_type,$book_info,$book_status):error('rankverify_error');
 		mysql_close($con);
 	});
@@ -244,13 +246,14 @@
 		require 'conn.php';
 		global $app;
 		$req = $app->request(); 
-	    $book_name = $_POST['bookName'];
-	    $book_author = $_POST['bookAuthor'];
-	    $book_type = $_POST['bookType'];
-	    $act_id = $_POST['actId'];
-	    $book_info= $_POST['bookInfo'];
-	    $book_price = $_POST['bookPrice'];
-	    //$book_status = $_POST['bookstatus'];
+		$postdata = file_get_contents("php://input");
+		$request = json_decode($postdata);
+		$book_name = $request->bookName;
+		$book_author = $request->bookAuthor;
+		$book_type = $request->bookType;
+		$act_id = $request->actId;
+		$book_info = $request->bookInfo;
+		$book_price = $request->bookPrice;
 		rank_verify_bool($xuserId,$xpassword)?add($book_name,$book_author,$book_type,$act_id,$book_info,$book_price):error('rankverify_error');
 		mysql_close($con);
 	});
@@ -258,10 +261,6 @@
 	//（已验证）GET删除图书http://localhost/webservice/book/API.php/administrator/deleteBook/100/12108238/123
 	$app->get('/administrator/deleteBook/:bookId/:userId/:password', function ($xbookId,$xuserId,$xpassword) {
 		require 'conn.php';
-		/*global $app;
-		$req = $app->request(); */
-		//$xuserId = $req->params('userid');
-	    //$xpassword = $req->params('password');
 		rank_verify_bool($xuserId,$xpassword)?del($xbookId):error('rankverify_error');
 		mysql_close($con);
 	});
@@ -280,18 +279,49 @@
 	$app->run();
 
 	//以下为所建函数
-	//用于搜索与获取图书列表
-	function search($flag,$xtype,$page_size,$offset,$xkeyword){
-		$where="";
-		$sql="select basic.id as id,book_name,book_author,book_type,book_info,book_price,book_status,favour,
-	book_pic from bookbasic basic join bookdetail detail on basic.id=detail.book_id ";
-		$turn=" LIMIT $page_size OFFSET $offset ";
-		if(!$flag){//1管理员0用户
-			$where="where book_status not in ('未购买' , '未入库') ";//0
+	//用于更改密码
+	function passChange($userId,$password){
+		$sql="update user set user_password='$password' where user_id=$userId";
+		//echo $sql;
+		$query = mysql_query($sql);
+		$query?found():error('sql_error');
+	}
+
+	//
+	function like($bookId,$userId){
+		$sql="update bookbasic set favour=favour+1 where id=$bookId";
+		//echo $sql;
+		$query = mysql_query($sql);
+		if(!$query) {
+			error('sql_error');
 		}
-		$xkeyword==''?
-		$sql=$sql.$where://true则为获取图书列表
-		$sql=$sql.$where." and $xtype like '%$xkeyword%' ";//false则为搜索
+		else {
+			$sql="insert booklike (book_id,user_id) values ($bookId,$userId)";
+			$query = mysql_query($sql);
+			//echo $sql;
+			!$query?error('sql_error'):found();
+		}
+	}
+
+	//用于搜索与获取图书列表
+	function search($user_id,$flag,$xtype,$page_size,$offset,$xkeyword){
+		$where="";
+		$sql="SELECT basic.id AS id, book_name, book_author, book_type, book_info, book_price, book_status, favour, book_pic, CASE basic.id IN ( SELECT book_id FROM booklike WHERE user_id = $user_id ) WHEN FALSE THEN '0' ELSE '1' END AS isLike FROM bookbasic basic JOIN bookdetail detail ON basic.id = detail.book_id LEFT JOIN booklike ON booklike.book_id = basic.id ";
+		if($xkeyword==''){//获取列表
+			if(!$flag){//用户
+				$where=" where book_status in ('已被借','未被借') ";
+			}
+		}
+		else{//搜索
+			if(!$flag){//用户
+				$where=" where book_status in ('已被借','未被借') and $xtype like '%$xkeyword%' ";
+			}
+			else{//管理员
+				$where=" where $xtype like '%$xkeyword%' ";
+			}
+		}
+		$sql=$sql.$where;
+		$turn=" order by id LIMIT $page_size OFFSET $offset ";
 		$sql=$sql.$turn;
 		//echo $sql;
 		$query = mysql_query($sql);
@@ -310,7 +340,8 @@
 										'book_price'=>$res['book_price'],
 										'book_status'=>$res['book_status'],
 										'favour'=>$res['favour'],
-										'book_pic'=>$res['book_pic']);			  
+										'book_pic'=>$res['book_pic'],
+										'isLike'=>$res['isLike']);			  
 				$i++;
 			}
 			
@@ -334,12 +365,7 @@
 				$sql="update bookcirculate set updated_at='$updated_at' where book_id=$bookId and updated_at='0000-00-00'";
 				$query = mysql_query($sql);
 				//echo $sql;
-				if(!$query) {
-					error('sql_error');
-				}
-				else {
-					found();
-				}
+				!$query?error('sql_error'):found();
 			}
 		}
 		else error('bookverify_error');//
@@ -347,8 +373,8 @@
 
 	//查看曾借过的书
 	function usershow($userId){//增加显示借阅时间、剩余时间
-		$sql="SELECT ba.id as id,book_name, book_author, book_type, book_info, book_price,created_at,datediff(date_add(created_at, interval 1 month),now()) as return_at, CASE updated_at WHEN '0000-00-00' THEN '未还' ELSE '已还' END AS book_status, favour, book_pic FROM bookcirculate cir, bookbasic ba, bookdetail de WHERE cir.book_id = ba.id AND cir.user_id = $userId AND de.book_id = ba.id";
-		//echo $sql;
+		$sql="SELECT ba.id as id,book_name, book_author, book_type, book_info, book_price,created_at,datediff(date_add(created_at, interval 1 month),now()) as return_at, CASE updated_at WHEN '0000-00-00' THEN '未还' ELSE '已还' END AS book_status, favour, book_pic, CASE ba.id IN ( SELECT book_id FROM booklike WHERE user_id = 12108238 ) WHEN FALSE THEN '0' ELSE '1' END AS isLike FROM bookcirculate cir, bookbasic ba, bookdetail de WHERE cir.book_id = ba.id AND cir.user_id = $userId AND de.book_id = ba.id";
+		echo $sql;
 		$query = mysql_query($sql);
 		$response = array();
 		if(!$query) {
@@ -367,7 +393,8 @@
 										'created_at'=>$res['created_at'],
 										'return_at'=>$res['return_at'],
 										'favour'=>$res['favour'],
-										'book_pic'=>$res['book_pic']);			  
+										'book_pic'=>$res['book_pic'],
+										'isLike'=>$res['isLike']);			  
 				$i++;
 			}
 			$response = json_encode($response);
@@ -377,7 +404,7 @@
 
 	//查看已借出的书
 	function adminshow($page_size,$offset){//增加显示借阅人、借书时间、剩余天数（30天）
-		$sql="SELECT ba.id AS id, book_name, book_author, book_type, book_info, book_price, book_status, `user`.user_name, created_at, datediff( date_add(created_at, INTERVAL 1 MONTH), now()) AS return_at, favour, book_pic FROM bookbasic ba, bookdetail de, bookcirculate cir, `user` WHERE ba.id = de.book_id AND book_status = '已被借' AND cir.book_id = ba.id AND `user`.user_id = cir.user_id LIMIT $page_size OFFSET $offset";
+		$sql="SELECT ba.id AS id, book_name, book_author, book_type, book_info, book_price, book_status, `user`.user_name, created_at, datediff( date_add(created_at, INTERVAL 1 MONTH), now()) AS return_at, favour, book_pic, CASE ba.id IN ( SELECT book_id FROM booklike WHERE user_id = 12108238 ) WHEN FALSE THEN '0' ELSE '1' END AS isLike FROM bookbasic ba, bookdetail de, bookcirculate cir, `user` WHERE ba.id = de.book_id AND book_status = '已被借' AND cir.book_id = ba.id AND `user`.user_id = cir.user_id LIMIT $page_size OFFSET $offset";
 		//echo $sql;
 		$query = mysql_query($sql);
 		$response = array();
@@ -398,7 +425,8 @@
 										'created_at'=>$res['created_at'],
 										'return_at'=>$res['return_at'],
 										'favour'=>$res['favour'],
-										'book_pic'=>$res['book_pic']);			  
+										'book_pic'=>$res['book_pic'],
+										'isLike'=>$res['isLike']);			  
 				$i++;
 			}
 			
@@ -429,12 +457,7 @@
 		$sql="update bookbasic set book_name='$book_name',book_author='$book_author',book_type='$book_type',book_info='$book_info',book_status='$book_status' where id=$bookId";
 		$query = mysql_query($sql);
 		//echo $sql;
-		if(!$query) {
-			error('sql_error');
-		}
-		else {
-			found();
-		}
+		!$query?error('sql_error'):found();
 	}
 
 	//添加图书数据
@@ -533,6 +556,26 @@
 		}
 	}
 
+	//确认用户是否已赞过此书
+	function like_verify($userId,$bookId){
+		$sql="select count(*) from booklike where user_id=$userId and book_id=$bookId";
+		$query = mysql_query($sql);
+		//echo $sql;
+		$response = array();
+		if(!$query) {
+			//error('sql_error');
+		}
+		else {
+			$res = mysql_fetch_array($query);
+			if($res['count(*)']!=0){//找到则为重复返回1				
+				return 1;
+			}
+			else{
+				return 0;
+			}
+		}
+	}
+
 	//1.确认用户名是否存在2.验证用户登录
 	function verify($userId,$password){
 		$password==''?
@@ -577,6 +620,9 @@
 				break;
 			case 'sql_error':
 				$info="sql语句编写出错";
+				break;
+			case 'like_error':
+				$info="您已赞过此书";
 				break;
 			
 			default:

@@ -29,6 +29,35 @@
 	"info":"成功/错误原因"
 }
 
+---
+
+
+
+2.点赞
+>API.php/like/:bookId/:userId/:password
+
+**请求**
+
+>Method:GET
+
+**用例**
+
+>12
+>12108413
+>12345
+
+**参数**
+
+>bookId:String
+>>userId:String
+>>>password:String(获取)
+
+`Response`
+>{
+    "status":RESULT_CONSTANT,
+	"info":"成功/错误原因"
+}
+
 #### 普通用户
 
 1.登录
@@ -115,7 +144,7 @@
 
 
 4.图书搜索/获取图书列表
->API.php/search/:type/page=:page/:keyword
+>API.php/search/:userId/:type/page=:page/:keyword
 
 **请求**
 
@@ -123,15 +152,16 @@
 
 **用例**
 
->API.php/search/1/page=1/php
+>API.php/search/12108413/1/page=1/php
 
->API.php/search/5/page=1/all
+>API.php/search/12108413/5/page=1/all
 
 **参数**
 
->type:int(12345)对应(书名 出版社 作者 种类 全部)
->>page:int
->>>keyword:String (获取)
+>userId:String
+>>type:int(12345)对应(书名 出版社 作者 种类 全部)
+>>>page:int
+>>>>keyword:String (获取)
 
 `Response`
 >[
@@ -143,7 +173,8 @@
 "book_price":书本价格,
 "book_status":书本状态,
 "favour":点赞数,
-"book_pic":图书图片},
+"book_pic":图书图片,
+"isLike":是否被赞},
 {
     ...
 },...
@@ -182,7 +213,8 @@
 "created_at":借阅时间,
 "return_at":剩余天数,
 "favour":点赞数,
-"book_pic":图书图片},
+"book_pic":图书图片,
+"isLike":是否被赞},
 {
     ...
 },...
@@ -193,7 +225,7 @@
 ####图书管理员
 
 1.登陆
->API.php/Administrator/login
+>API.php/administrator/login
 
 **请求**
 
@@ -220,7 +252,7 @@ Method:POST
 
 
 2.图书搜索/获取图书列表
->API.php/searchA/:type/page=:page/:keyword
+>API.php/searchA/:userId/:type/page=:page/:keyword
 
 **请求**
 
@@ -228,15 +260,16 @@ Method:GET
 
 **用例**
 
->API.php/searchA/1/page=1/php
+>API.php/searchA/12108238/1/page=1/php
 
->API.php/searchA/5/page=1/all
+>API.php/searchA/12108238/5/page=1/all
 
 **参数**
 
->type:int(12345)对应(书名 出版社 作者 种类 全部)
->>page:int
->>>keyword:String (获取)
+>userId:String
+>>type:int(12345)对应(书名 出版社 作者 种类 全部)
+>>>page:int
+>>>>keyword:String (获取)
 
 `Response`
 >[
@@ -248,7 +281,8 @@ Method:GET
 "book_price":书本价格,
 "book_status":书本状态,
 "favour":点赞数,
-"book_pic":图书图片},
+"book_pic":图书图片,
+"isLike":是否被赞},
 {
     ...
 },...
@@ -378,7 +412,7 @@ Method:GET
 
 
 7.查看已经借出的图书
->API.php/administrator/return/:userId/:password
+>API.php/administrator/return/:userId/:password/page=:page
 
 ***请求***
 
@@ -386,12 +420,13 @@ Method:GET
 
 ***用例***
 
-API.php/administrator/return/12108238/123
+API.php/administrator/return/12108238/123/page=1
 
 ***参数***
 
 >userId:String
->>password:String(获取)
+>>password:String
+>>>page:int(获取)
 
 `Response`
 >[
@@ -406,7 +441,8 @@ API.php/administrator/return/12108238/123
 "created_at":借阅时间,
 "return_at"剩余天数:,
 "favour":点赞数,
-"book_pic":图书图片},
+"book_pic":图书图片,
+"isLike":是否被赞},
 {
     ...
 },...
