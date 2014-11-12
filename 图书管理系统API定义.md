@@ -3,6 +3,32 @@
 
 当前域名：http://www.flappyant.com/book/
 
+#### 公共
+1.修改密码
+>API.php/passChange/:userId/:oldPass/:newPass/:renewPass
+
+**请求**
+
+>Method:GET
+
+**用例**
+
+>12108413
+>12345
+
+**参数**
+
+>userId:String
+>>oldPass:String
+>>>newPass:String
+>>>>renewPass:String(获取)
+
+`Response`
+>{
+    "status":RESULT_CONSTANT,
+	"info":"成功/错误原因"
+}
+
 #### 普通用户
 
 1.登录
@@ -19,7 +45,7 @@
 
 **参数**
 
->userId: int
+>userId: String
 >>password: String(填写)
 
 `Response`
@@ -46,7 +72,7 @@
 
 **参数**
 
->userId：int
+>userId：String
 >>userName：String
 >>>password：String
 >>>>rePassword:String (填写)
@@ -74,8 +100,8 @@
 
 **参数**
 
->bookId：int
->>userId：int
+>bookId：String
+>>userId：String
 >>>password：String(获取)
 
 `Response`
@@ -114,7 +140,7 @@
 "book_author":书本作者,
 "book_type":书本类型,
 "book_info":书本出版社,
-"book_price:"书本价格,
+"book_price":书本价格,
 "book_status":书本状态,
 "favour":点赞数,
 "book_pic":图书图片},
@@ -140,7 +166,7 @@
 
 **参数**
 
->userId:int
+>userId:String
 >>password:String(获取)
 
 
@@ -151,8 +177,10 @@
 "book_author":书本作者,
 "book_type":书本类型,
 "book_info":书本出版社,
-"book_price:"书本价格,
+"book_price":书本价格,
 "book_status":书本状态,
+"created_at":借阅时间,
+"return_at":剩余天数,
 "favour":点赞数,
 "book_pic":图书图片},
 {
@@ -178,7 +206,7 @@ Method:POST
 
 **参数**
 
->userId: int
+>userId: String
 >>password: String(填写)
 
 `Response`
@@ -217,7 +245,7 @@ Method:GET
 "book_author":书本作者,
 "book_type":书本类型,
 "book_info":书本出版社,
-"book_price:"书本价格,
+"book_price":书本价格,
 "book_status":书本状态,
 "favour":点赞数,
 "book_pic":图书图片},
@@ -248,8 +276,8 @@ Method:GET
 >>>bookType:String
 >>>>bookInfo:String
 >>>>>bookStatus:String(填写)
->>>>>>userId:int
->>>>>>>bookId:int
+>>>>>>userId:String
+>>>>>>>bookId:String
 >>>>>>>>password:String(获取)
 
 `Response `
@@ -275,8 +303,8 @@ Method:GET
 
 ***参数***
 
->bookId:int
->>userId:int
+>bookId:String
+>>userId:String
 >>>password:String(获取)
 
 `Response `
@@ -305,10 +333,10 @@ Method:GET
 >bookName:String
 >>bookAuthor:String
 >>>bookType:String
->>>>actId:int
+>>>>actId:String
 >>>>>bookInfo:String
->>>>>>bookPrice:int(填写)
->>>>>>>userId：int
+>>>>>>bookPrice:String(填写)
+>>>>>>>userId：String
 >>>>>>>>password:String(获取)
 
 `Response `
@@ -335,8 +363,8 @@ Method:GET
 
 ***参数***
 
->bookId:int
->>userId：int
+>bookId:String
+>>userId：String
 >>>password:String(获取)
 
 `Response `
@@ -362,7 +390,7 @@ API.php/administrator/return/12108238/123
 
 ***参数***
 
->userId:int
+>userId:String
 >>password:String(获取)
 
 `Response`
@@ -372,8 +400,11 @@ API.php/administrator/return/12108238/123
 "book_author":书本作者,
 "book_type":书本类型,
 "book_info":书本信息,
-"book_price:"书本价格,
+"book_price":书本价格,
 "book_status":书本状态,
+"user_name":借阅人,
+"created_at":借阅时间,
+"return_at"剩余天数:,
 "favour":点赞数,
 "book_pic":图书图片},
 {
