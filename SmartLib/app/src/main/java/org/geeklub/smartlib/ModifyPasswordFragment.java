@@ -13,6 +13,8 @@ import butterknife.ButterKnife;
 import butterknife.InjectView;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.services.NormalUserService;
+import org.geeklub.smartlib.utils.LogUtil;
+import org.geeklub.smartlib.utils.SharedPreferencesUtil;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -45,11 +47,14 @@ public class ModifyPasswordFragment extends BaseFragment {
 
     mRestAdapter =
         new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
+
+    mService = mRestAdapter.create(NormalUserService.class);
   }
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     View view = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_modify_password, null);
+
     ButterKnife.inject(this, view);
 
     mConfirm.setOnClickListener(new View.OnClickListener() {
@@ -71,16 +76,21 @@ public class ModifyPasswordFragment extends BaseFragment {
       mNewPassword.setError("empty new repassword...");
     }
 
-    if (!newPassword.equals(reNewPassword)) {
-      mService.modifyPassword("", "", newPassword, reNewPassword, new Callback<ServerResponse>() {
-        @Override public void success(ServerResponse serverResponse, Response response) {
+    SharedPreferencesUtil preferencesUtil = new SharedPreferencesUtil(mActivity);
 
-        }
+    if (newPassword.equals(reNewPassword)) {
+      mService.modifyPassword(preferencesUtil.getUser().getUserName(),
+          preferencesUtil.getUser().getPassword(), newPassword, reNewPassword,
+          new Callback<ServerResponse>() {
+            @Override public void success(ServerResponse serverResponse, Response response) {
 
-        @Override public void failure(RetrofitError error) {
+              LogUtil.i(serverResponse.getInfo());
+            }
 
-        }
-      });
+            @Override public void failure(RetrofitError error) {
+              LogUtil.i(error.getMessage());
+            }
+          });
     }
   }
 }

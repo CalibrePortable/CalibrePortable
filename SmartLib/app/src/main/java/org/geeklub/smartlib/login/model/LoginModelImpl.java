@@ -3,12 +3,14 @@ package org.geeklub.smartlib.login.model;
 import android.text.TextUtils;
 
 import org.geeklub.smartlib.api.Constant;
+import org.geeklub.smartlib.beans.LoginUser;
 import org.geeklub.smartlib.beans.SLUser;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.login.presenter.OnLoginFinishedListener;
 import org.geeklub.smartlib.login.presenter.OnUserInputListener;
 import org.geeklub.smartlib.services.NormalUserService;
 import org.geeklub.smartlib.utils.GlobalContext;
+import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SharedPreferencesUtil;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -39,8 +41,9 @@ public class LoginModelImpl implements LoginModel {
 
     NormalUserService service = restAdapter.create(NormalUserService.class);
 
-    service.login(username, password, new Callback<ServerResponse>() {
+    service.login(new LoginUser(username, password), new Callback<ServerResponse>() {
       @Override public void success(ServerResponse serverResponse, Response response) {
+        LogUtil.i(serverResponse.getInfo());
 
         if (serverResponse.getStatus() == Constant.RESULT_SUCCESS) {
 
@@ -55,6 +58,7 @@ public class LoginModelImpl implements LoginModel {
       }
 
       @Override public void failure(RetrofitError error) {
+        LogUtil.i(error.getMessage());
 
         loginFinishedListener.onFail(error.getMessage());
       }

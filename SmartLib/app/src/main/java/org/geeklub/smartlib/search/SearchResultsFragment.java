@@ -22,6 +22,7 @@ import org.geeklub.smartlib.beans.Book;
 import org.geeklub.smartlib.detail.BookDetailActivity;
 import org.geeklub.smartlib.services.NormalUserService;
 import org.geeklub.smartlib.utils.LogUtil;
+import org.geeklub.smartlib.utils.SharedPreferencesUtil;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -139,26 +140,29 @@ public class SearchResultsFragment extends BaseFragment
       mSwipeRefreshLayout.setRefreshing(true);
     }
 
-    mService.search(5, page, mKeyword, new Callback<List<Book>>() {
-      @Override public void success(List<Book> bookList, Response response) {
-        LogUtil.i(bookList.toString());
+    SharedPreferencesUtil preferencesUtil = new SharedPreferencesUtil(mActivity);
 
-        mSwipeRefreshLayout.setRefreshing(false);
+    mService.search(preferencesUtil.getUser().getUserName(), 5, page, mKeyword,
+        new Callback<List<Book>>() {
+          @Override public void success(List<Book> bookList, Response response) {
+            LogUtil.i(bookList.toString());
 
-        LogUtil.i(bookList.toString());
+            mSwipeRefreshLayout.setRefreshing(false);
 
-        if (isRefreshFromTop) {
-          mAdapter.refresh(bookList);
-        } else {
-          mAdapter.addItems(bookList);
-        }
-        mPage++;
-      }
+            LogUtil.i(bookList.toString());
 
-      @Override public void failure(RetrofitError error) {
-        LogUtil.i(error.getMessage());
-        mSwipeRefreshLayout.setRefreshing(false);
-      }
-    });
+            if (isRefreshFromTop) {
+              mAdapter.refresh(bookList);
+            } else {
+              mAdapter.addItems(bookList);
+            }
+            mPage++;
+          }
+
+          @Override public void failure(RetrofitError error) {
+            LogUtil.i(error.getMessage());
+            mSwipeRefreshLayout.setRefreshing(false);
+          }
+        });
   }
 }

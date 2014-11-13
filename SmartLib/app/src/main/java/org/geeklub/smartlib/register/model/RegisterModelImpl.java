@@ -1,6 +1,7 @@
 package org.geeklub.smartlib.register.model;
 
 import android.text.TextUtils;
+import org.geeklub.smartlib.beans.NewUser;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.register.presenter.OnPassWordMatchListener;
 import org.geeklub.smartlib.register.presenter.OnRegisterFinishedListener;
@@ -44,23 +45,26 @@ public class RegisterModelImpl implements RegisterModel {
 
     NormalUserService service = restAdapter.create(NormalUserService.class);
 
-    service.register(userId, userName, password, passWordConfirm, new Callback<ServerResponse>() {
-      @Override public void success(ServerResponse serverResponse, Response response) {
 
-        if (serverResponse.getStatus() == 0) {
-          LogUtil.i("注册成功");
-          finishedListener.onSuccess(serverResponse.getInfo());
-        } else {
-          LogUtil.i("注册失败");
-          finishedListener.onFail(serverResponse.getInfo());
-        }
-      }
 
-      @Override public void failure(RetrofitError error) {
-        LogUtil.i("注册失败");
-        finishedListener.onFail(error.getMessage());
-      }
-    });
+    service.register(new NewUser(userId, userName, password, passWordConfirm),
+        new Callback<ServerResponse>() {
+          @Override public void success(ServerResponse serverResponse, Response response) {
+
+            if (serverResponse.getStatus() == 0) {
+              LogUtil.i("注册成功");
+              finishedListener.onSuccess(serverResponse.getInfo());
+            } else {
+              LogUtil.i("注册失败");
+              finishedListener.onFail(serverResponse.getInfo());
+            }
+          }
+
+          @Override public void failure(RetrofitError error) {
+            LogUtil.i("注册失败");
+            finishedListener.onFail(error.getMessage());
+          }
+        });
   }
 
   @Override public void verifyPassWord(String firstPassWord, String secondPassWord,

@@ -20,6 +20,7 @@ import org.geeklub.smartlib.adapters.LibraryAdapter;
 import org.geeklub.smartlib.beans.Book;
 import org.geeklub.smartlib.detail.BookDetailActivity;
 import org.geeklub.smartlib.services.NormalUserService;
+import org.geeklub.smartlib.utils.SharedPreferencesUtil;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -41,8 +42,6 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
   private LibraryAdapter mAdapter;
 
   private int mPage = 1;
-
-
 
   public static Fragment newInstance() {
 
@@ -121,25 +120,28 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
       mSwipeRefreshLayout.setRefreshing(true);
     }
 
-    mService.search(5, page, "all", new Callback<List<Book>>() {
-      @Override public void success(List<Book> bookList, Response response) {
-        //LogUtil.i(bookList.toString());
+    SharedPreferencesUtil preferencesUtil = new SharedPreferencesUtil(mActivity);
 
-        mSwipeRefreshLayout.setRefreshing(false);
+    mService.search(preferencesUtil.getUser().getUserName(), 5, page, "all",
+        new Callback<List<Book>>() {
+          @Override public void success(List<Book> bookList, Response response) {
+            //LogUtil.i(bookList.toString());
 
-        if (isRefreshFromTop) {
-          mAdapter.refresh(bookList);
-        } else {
-          mAdapter.addItems(bookList);
-        }
-        mPage++;
-      }
+            mSwipeRefreshLayout.setRefreshing(false);
 
-      @Override public void failure(RetrofitError error) {
-        //LogUtil.i(error.getMessage());
-        mSwipeRefreshLayout.setRefreshing(false);
-      }
-    });
+            if (isRefreshFromTop) {
+              mAdapter.refresh(bookList);
+            } else {
+              mAdapter.addItems(bookList);
+            }
+            mPage++;
+          }
+
+          @Override public void failure(RetrofitError error) {
+            //LogUtil.i(error.getMessage());
+            mSwipeRefreshLayout.setRefreshing(false);
+          }
+        });
   }
 
   @Override public void onRefresh() {

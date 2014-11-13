@@ -21,6 +21,7 @@ import org.geeklub.smartlib.beans.Book;
 import org.geeklub.smartlib.detail.BookDetailActivity;
 import org.geeklub.smartlib.services.NormalUserService;
 import org.geeklub.smartlib.utils.LogUtil;
+import org.geeklub.smartlib.utils.SharedPreferencesUtil;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -100,7 +101,10 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
       mSwipeRefreshLayout.setRefreshing(true);
     }
 
-    mService.haveBorrowed("12108413", "12345", new Callback<List<Book>>() {
+    SharedPreferencesUtil preferencesUtil = new SharedPreferencesUtil(mActivity);
+
+    mService.haveBorrowed(preferencesUtil.getUser().getUserName(),
+        preferencesUtil.getUser().getPassword(), new Callback<List<Book>>() {
       @Override public void success(List<Book> bookList, Response response) {
         mSwipeRefreshLayout.setRefreshing(false);
 
