@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.view.MenuItem;
+import org.geeklub.smartlib.utils.LogUtil;
 
 /**
  * Created by Vass on 2014/11/12.
@@ -34,6 +35,7 @@ public class SettingsActivity extends BaseActivity {
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home:
+        LogUtil.i("back to setting main activity");
         NavUtils.navigateUpFromSameTask(this);
         return true;
       default:

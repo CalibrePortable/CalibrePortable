@@ -3,6 +3,7 @@ package org.geeklub.smartlib.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,7 +23,7 @@ import butterknife.InjectView;
 /**
  * Created by Vass on 2014/10/26.
  */
-public class LoginActivity extends Activity implements LoginView, View.OnClickListener {
+public class LoginActivity extends ActionBarActivity implements LoginView, View.OnClickListener {
 
   private LoginPresenter mLoginPresenter;
 

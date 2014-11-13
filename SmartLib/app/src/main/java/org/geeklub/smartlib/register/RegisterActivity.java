@@ -2,6 +2,7 @@ package org.geeklub.smartlib.register;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -19,7 +20,7 @@ import org.geeklub.smartlib.utils.ToastUtil;
 /**
  * Created by Vass on 2014/10/26.
  */
-public class RegisterActivity extends Activity
+public class RegisterActivity extends ActionBarActivity
     implements RegisterView, View.OnClickListener, TextWatcher {
 
   @InjectView(R.id.et_user_id) EditText mUserId;

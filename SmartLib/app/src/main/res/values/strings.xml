@@ -12,13 +12,16 @@
   <string name="et_user_id_hint">enter your user id</string>
   <string name="et_user_name_hint">enter your user name</string>
   <string name="et_password_hint">enter your password</string>
-  <string name="et_re_password_hint">enter your password again</string>
+  <string name="et_re_password_hint">enter your password again </string>
   <string name="search_hint">Search Books you want...</string>
 
   <string name="et_old_password_hint">enter your old password...</string>
   <string name="et_new_password_hint">enter your new password...</string>
   <string name="et_new_re_password_hint">enter your new password again...</string>
 
+
+  <string name="new_password">New Password</string>
+  <string name="new_re_password">New Re Password</string>
 
   <string name="login">login</string>
   <string name="register">register</string>
@@ -36,6 +39,8 @@
   <string name="action_qr_code">QR Code</string>
 
   <string name="modify_password">Modify Your Password</string>
+
+  <string name="confirm">confirm</string>
 
 
 
