@@ -271,7 +271,7 @@
 		$page_size=pagesize;
 		$offset=($xpage-1)*$page_size;
 		//先验证再输出
-		!rank_verify_bool($xuserId,$xpassword)?error('rankverify_error'):adminshow($page_size,$offset);
+		!rank_verify_bool($xuserId,$xpassword)?error('rankverify_error'):adminshow($xuserId,$page_size,$offset);
 		mysql_close($con);
 	});
 
@@ -306,7 +306,7 @@
 	//用于搜索与获取图书列表
 	function search($user_id,$flag,$xtype,$page_size,$offset,$xkeyword){
 		$where="";
-		$sql="SELECT basic.id AS id, book_name, book_author, book_type, book_info, book_price, book_status, favour, book_pic, CASE basic.id IN ( SELECT book_id FROM booklike WHERE user_id = $user_id ) WHEN FALSE THEN '0' ELSE '1' END AS isLike FROM bookbasic basic JOIN bookdetail detail ON basic.id = detail.book_id LEFT JOIN booklike ON booklike.book_id = basic.id ";
+		$sql="SELECT DISTINCT basic.id AS id, book_name, book_author, book_type, book_info, book_price, book_status, favour, book_pic, CASE basic.id IN ( SELECT book_id FROM booklike WHERE user_id = $user_id ) WHEN FALSE THEN '0' ELSE '1' END AS isLike FROM bookbasic basic JOIN bookdetail detail ON basic.id = detail.book_id LEFT JOIN booklike ON booklike.book_id = basic.id ";
 		if($xkeyword==''){//获取列表
 			if(!$flag){//用户
 				$where=" where book_status in ('已被借','未被借') ";
@@ -373,8 +373,8 @@
 
 	//查看曾借过的书
 	function usershow($userId){//增加显示借阅时间、剩余时间
-		$sql="SELECT ba.id as id,book_name, book_author, book_type, book_info, book_price,created_at,datediff(date_add(created_at, interval 1 month),now()) as return_at, CASE updated_at WHEN '0000-00-00' THEN '未还' ELSE '已还' END AS book_status, favour, book_pic, CASE ba.id IN ( SELECT book_id FROM booklike WHERE user_id = 12108238 ) WHEN FALSE THEN '0' ELSE '1' END AS isLike FROM bookcirculate cir, bookbasic ba, bookdetail de WHERE cir.book_id = ba.id AND cir.user_id = $userId AND de.book_id = ba.id";
-		echo $sql;
+		$sql="SELECT ba.id as id,book_name, book_author, book_type, book_info, book_price,created_at,datediff(date_add(created_at, interval 1 month),now()) as return_at, CASE updated_at WHEN '0000-00-00' THEN '未还' ELSE '已还' END AS book_status, favour, book_pic, CASE ba.id IN ( SELECT book_id FROM booklike WHERE user_id = $userId ) WHEN FALSE THEN '0' ELSE '1' END AS isLike FROM bookcirculate cir, bookbasic ba, bookdetail de WHERE cir.book_id = ba.id AND cir.user_id = $userId AND de.book_id = ba.id";
+		//echo $sql;
 		$query = mysql_query($sql);
 		$response = array();
 		if(!$query) {
@@ -403,8 +403,8 @@
 	}
 
 	//查看已借出的书
-	function adminshow($page_size,$offset){//增加显示借阅人、借书时间、剩余天数（30天）
-		$sql="SELECT ba.id AS id, book_name, book_author, book_type, book_info, book_price, book_status, `user`.user_name, created_at, datediff( date_add(created_at, INTERVAL 1 MONTH), now()) AS return_at, favour, book_pic, CASE ba.id IN ( SELECT book_id FROM booklike WHERE user_id = 12108238 ) WHEN FALSE THEN '0' ELSE '1' END AS isLike FROM bookbasic ba, bookdetail de, bookcirculate cir, `user` WHERE ba.id = de.book_id AND book_status = '已被借' AND cir.book_id = ba.id AND `user`.user_id = cir.user_id LIMIT $page_size OFFSET $offset";
+	function adminshow($userId,$page_size,$offset){//增加显示借阅人、借书时间、剩余天数（30天）
+		$sql="SELECT ba.id AS id, book_name, book_author, book_type, book_info, book_price, book_status, `user`.user_name, created_at, datediff( date_add(created_at, INTERVAL 1 MONTH), now()) AS return_at, favour, book_pic, CASE ba.id IN ( SELECT book_id FROM booklike WHERE user_id = $userId ) WHEN FALSE THEN '0' ELSE '1' END AS isLike FROM bookbasic ba, bookdetail de, bookcirculate cir, `user` WHERE ba.id = de.book_id AND book_status = '已被借' AND cir.book_id = ba.id AND `user`.user_id = cir.user_id LIMIT $page_size OFFSET $offset";
 		//echo $sql;
 		$query = mysql_query($sql);
 		$response = array();

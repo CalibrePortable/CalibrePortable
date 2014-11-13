@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50620
 File Encoding         : 65001
 
-Date: 2014-11-06 18:55:53
+Date: 2014-11-13 08:36:20
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -48,17 +48,17 @@ CREATE TABLE `bookbasic` (
   `favour` int(11) NOT NULL DEFAULT '0',
   `dislike` int(11) NOT NULL DEFAULT '0',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bookbasic
 -- ----------------------------
-INSERT INTO `bookbasic` VALUES ('1', 'Android应用UI设计模式', 'Greg Nudelman', '移动端', '1', '人民邮电', null, '已被借', '0', '0');
-INSERT INTO `bookbasic` VALUES ('2', 'Android和PHP开发最佳实践', '黄隽实', '移动端', '1', '机械工业', null, '未入库', '0', '0');
-INSERT INTO `bookbasic` VALUES ('3', '深入浅出PhoneGap', '饶侠', '移动端', '1', '人民邮电', null, '未购买', '0', '0');
+INSERT INTO `bookbasic` VALUES ('1', 'Android应用UI设计模式', 'Greg Nudelman', '移动端', '1', '人民邮电', null, '已被借', '2', '0');
+INSERT INTO `bookbasic` VALUES ('2', 'Android和PHP开发最佳实践', '黄隽实', '移动端', '1', '机械工业', null, '已被借', '0', '0');
+INSERT INTO `bookbasic` VALUES ('3', '深入浅出PhoneGap', '饶侠', '移动端', '1', '人民邮电', null, '未购买', '1', '0');
 INSERT INTO `bookbasic` VALUES ('4', '第一行代码Android', '郭霖', '移动端', '1', '人民邮电', null, '未被借', '0', '0');
 INSERT INTO `bookbasic` VALUES ('5', 'Java程序设计经典300例', '李源', 'JAVA', '1', '电子工业', null, '已超期', '0', '0');
-INSERT INTO `bookbasic` VALUES ('6', 'Java常用算法手册', '徐明远', 'JAVA', '1', '中国铁道', null, '未被借', '0', '0');
+INSERT INTO `bookbasic` VALUES ('6', 'Java常用算法手册', '徐明远', 'JAVA', '1', '中国铁道', null, '未被借', '1', '0');
 INSERT INTO `bookbasic` VALUES ('7', 'Web3.0与Semantic Web编程', 'John Hebeler', 'JAVA', '1', '清华大学', null, '未被借', '0', '0');
 INSERT INTO `bookbasic` VALUES ('8', 'Java Web整合开发王者归来', '刘京华', 'JAVA', '1', '清华大学', null, '未被借', '0', '0');
 INSERT INTO `bookbasic` VALUES ('9', 'Java编程思想', 'Bruce Eckel', 'JAVA', '1', '机械工业', null, '未被借', '0', '0');
@@ -99,7 +99,7 @@ INSERT INTO `bookbasic` VALUES ('43', 'PHP与MySQL程序设计', 'W.Jason Gilmor
 INSERT INTO `bookbasic` VALUES ('44', '利用Python进行数据分析', 'Wes McKinney', '数据挖掘', '1', '机械工业', null, '未被借', '0', '0');
 INSERT INTO `bookbasic` VALUES ('45', 'Hadoop权威指南', 'Tom White', '数据挖掘', '1', '清华大学', null, '未被借', '0', '0');
 INSERT INTO `bookbasic` VALUES ('46', '数据挖掘', 'Jiawei Han', '数据挖掘', '1', '机械工业', null, '未被借', '0', '0');
-INSERT INTO `bookbasic` VALUES ('47', 'HTML5实战', '陶国荣', '前端', '1', '机械工业', null, '已被借', '0', '0');
+INSERT INTO `bookbasic` VALUES ('47', 'HTML5实战', '陶国荣', '前端', '1', '机械工业', null, '已被借', '1', '0');
 INSERT INTO `bookbasic` VALUES ('48', 'Web前端黑客技术揭秘', '钟晨鸣', '前端', '1', '电子工业', null, '未被借', '0', '0');
 INSERT INTO `bookbasic` VALUES ('49', 'HTML5与CSS3权威指南', '陆凌牛', '前端', '1', '机械工业', null, '未被借', '0', '0');
 INSERT INTO `bookbasic` VALUES ('50', 'CSS高效开发实战', '谢郁', '前端', '1', '电子工业', null, '未被借', '0', '0');
@@ -151,6 +151,7 @@ INSERT INTO `bookbasic` VALUES ('95', '关键设计报告', '比尔·莫格里�
 INSERT INTO `bookbasic` VALUES ('96', '物联网导论', '刘云浩', '杂项', '1', '科学', null, '未被借', '0', '0');
 INSERT INTO `bookbasic` VALUES ('97', '用AngularJS开发下一代Web应用', 'Brad Green', '前端', '1', '电子工业', null, '未被借', '0', '0');
 INSERT INTO `bookbasic` VALUES ('98', 'CSS设计指南', 'Charles Wyke-Smith', '前端', '1', '人民邮电', null, '未被借', '0', '0');
+INSERT INTO `bookbasic` VALUES ('106', 'new book', '123', '46', '78', '90', '12', '未被借', '0', '0');
 
 -- ----------------------------
 -- Table structure for `bookcirculate`
@@ -163,14 +164,16 @@ CREATE TABLE `bookcirculate` (
   `created_at` date NOT NULL,
   `updated_at` date NOT NULL DEFAULT '0000-00-00',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bookcirculate
 -- ----------------------------
-INSERT INTO `bookcirculate` VALUES ('1', '47', '12108413', '2014-10-13', '0000-00-00');
+INSERT INTO `bookcirculate` VALUES ('1', '47', '12108413', '2014-10-13', '2014-11-12');
 INSERT INTO `bookcirculate` VALUES ('2', '40', '12108206', '2014-10-22', '0000-00-00');
 INSERT INTO `bookcirculate` VALUES ('3', '1', '12108413', '2014-11-05', '0000-00-00');
+INSERT INTO `bookcirculate` VALUES ('4', '47', '12108438', '2014-11-25', '0000-00-00');
+INSERT INTO `bookcirculate` VALUES ('5', '2', '12108413', '2014-11-10', '0000-00-00');
 
 -- ----------------------------
 -- Table structure for `bookdetail`
@@ -182,7 +185,7 @@ CREATE TABLE `bookdetail` (
   `book_pic` text,
   `book_link` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=99 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=104 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of bookdetail
@@ -285,6 +288,26 @@ INSERT INTO `bookdetail` VALUES ('95', '95', null, null);
 INSERT INTO `bookdetail` VALUES ('96', '96', null, null);
 INSERT INTO `bookdetail` VALUES ('97', '97', null, null);
 INSERT INTO `bookdetail` VALUES ('98', '98', null, null);
+INSERT INTO `bookdetail` VALUES ('103', '106', null, null);
+
+-- ----------------------------
+-- Table structure for `booklike`
+-- ----------------------------
+DROP TABLE IF EXISTS `booklike`;
+CREATE TABLE `booklike` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `book_id` int(11) NOT NULL,
+  `user_id` int(11) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of booklike
+-- ----------------------------
+INSERT INTO `booklike` VALUES ('1', '1', '12108413');
+INSERT INTO `booklike` VALUES ('2', '3', '12108413');
+INSERT INTO `booklike` VALUES ('3', '1', '12108238');
+INSERT INTO `booklike` VALUES ('4', '6', '12108238');
 
 -- ----------------------------
 -- Table structure for `bookmessage`
@@ -334,7 +357,7 @@ CREATE TABLE `user` (
   `user_password` varchar(255) DEFAULT NULL,
   `user_rank` varchar(255) NOT NULL DEFAULT '普通用户',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=27 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=28 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of user
@@ -365,3 +388,4 @@ INSERT INTO `user` VALUES ('23', '12108318', '罗鹏展', '', '普通用户');
 INSERT INTO `user` VALUES ('24', '12108327', '谢俊杰', '', '购书管理');
 INSERT INTO `user` VALUES ('25', '12108331', '许鹏飞', '', '普通用户');
 INSERT INTO `user` VALUES ('26', '12108413', '黄可庆', '12345', '普通用户');
+INSERT INTO `user` VALUES ('27', '0', '', '123', '');
