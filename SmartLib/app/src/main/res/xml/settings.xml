@@ -5,9 +5,16 @@
 
   <PreferenceCategory android:title="@string/settings_category_functions">
 
+
     <Preference
         android:key="@string/settings_key_modefy_password"
         android:title="@string/settings_key_modefy_password_title">
+
+      <intent
+          android:targetClass="org.geeklub.smartlib.ModifyPasswordActivity"
+          android:targetPackage="org.geeklub.smartlib">
+
+      </intent>
 
 
     </Preference>
@@ -21,7 +28,6 @@
         android:title="@string/settings_title_phper">
 
     </Preference>
-
 
 
     <Preference

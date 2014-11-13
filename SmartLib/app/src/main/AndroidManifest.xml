@@ -72,6 +72,7 @@
     </activity>
 
     <activity
+        android:launchMode="singleTop"
         android:theme="@style/AppTheme.ToolBarStyle"
         android:parentActivityName=".MainActivity"
         android:screenOrientation="portrait"
@@ -80,6 +81,18 @@
       <meta-data
           android:name="android.support.PARENT_ACTIVITY"
           android:value="org.geeklub.smartlib.MainActivity"/>
+
+    </activity>
+
+    <activity
+        android:parentActivityName=".SettingsActivity"
+        android:screenOrientation="portrait"
+        android:theme="@style/AppTheme.ToolBarStyle"
+        android:name=".ModifyPasswordActivity">
+
+      <meta-data
+          android:name="android.support.PARENT_ACTIVITY"
+          android:value="org.geeklub.smartlib.SettingsActivity"/>
 
     </activity>
   </application>

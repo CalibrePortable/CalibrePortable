@@ -17,7 +17,7 @@ public interface NormalUserService {
 
   @GET("/passChange/{userId}/{oldPass}/{newPass}/{renewPass}") void modifyPassword(
       @Path("userId") String userId, @Path("oldPass") String oldPassword,
-      @Path("newPass") String newPassword, @Path("renewPass") String reNewPassword);
+      @Path("newPass") String newPassword, @Path("renewPass") String reNewPassword,Callback<ServerResponse> callback);
 
   @FormUrlEncoded @POST("/normalUser/login") void login(@Field("userId") String userId,
       @Field("password") String password, Callback<ServerResponse> callback);
