@@ -58,6 +58,31 @@
 	"info":"成功/错误原因"
 }
 
+---
+
+
+
+3.书本总数
+>API.php/bookSum/:flag
+
+**请求**
+
+>Method:GET
+
+**用例**
+
+>API.php/bookSum/0
+
+**参数**
+
+>flag:String(获取)
+>0为用户1为管理员
+
+`Response`
+>{
+    "sum":COUNT
+}
+
 #### 普通用户
 
 1.登录
@@ -351,7 +376,7 @@ Method:GET
 
 
 
-5.添加图书
+5.添加图书(仅用于捐赠的图书添加，购买的图书通过购买系统添加)
 >API.php/administrator/addBook/:userId/:password
 
 ***请求***
@@ -369,9 +394,10 @@ Method:GET
 >>>bookType:String
 >>>>actId:String
 >>>>>bookInfo:String
->>>>>>bookPrice:String(填写)
->>>>>>>userId：String
->>>>>>>>password:String(获取)
+>>>>>>bookPrice:String
+>>>>>>>bookPic:String(填写)
+>>>>>>>>userId：String
+>>>>>>>>>password:String(获取)
 
 `Response `
 >{
