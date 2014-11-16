@@ -6,6 +6,8 @@ package org.geeklub.smartlib.api;
 public class Constant {
   public static final int RESULT_SUCCESS = 1;
 
+  public static final int RESULT_FAIL = 0;
+
 
 
 }

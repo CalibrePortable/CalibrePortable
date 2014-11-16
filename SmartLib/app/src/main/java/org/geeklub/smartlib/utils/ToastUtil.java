@@ -2,6 +2,7 @@ package org.geeklub.smartlib.utils;
 
 import android.content.Context;
 import android.widget.Toast;
+import org.geeklub.smartlib.GlobalContext;
 
 /**
  * Created by Vass on 2014/10/7.

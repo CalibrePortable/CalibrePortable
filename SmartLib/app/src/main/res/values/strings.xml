@@ -12,7 +12,7 @@
   <string name="et_user_id_hint">enter your user id</string>
   <string name="et_user_name_hint">enter your user name</string>
   <string name="et_password_hint">enter your password</string>
-  <string name="et_re_password_hint">enter your password again </string>
+  <string name="et_re_password_hint">enter your password again</string>
   <string name="search_hint">Search Books you want...</string>
 
   <string name="et_old_password_hint">enter your old password...</string>
@@ -43,10 +43,14 @@
   <string name="confirm">confirm</string>
 
 
+  <array name="normal_user_functions">
+    <item>全部</item>
+    <item>已借</item>
+  </array>
 
-  <array name="categorys_array">
-    <item>图书馆</item>
-    <item>已借阅</item>
+  <array name="administrators_functions">
+    <item>全部</item>
+    <item>借出</item>
   </array>
 
 </resources>
