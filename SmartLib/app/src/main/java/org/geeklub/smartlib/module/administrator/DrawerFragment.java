@@ -9,6 +9,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.module.base.BaseDrawerFragment;
+import org.geeklub.smartlib.module.type.AdministratorFunctions;
 
 /**
  * Created by Vass on 2014/11/15.
@@ -21,7 +22,8 @@ public class DrawerFragment extends BaseDrawerFragment {
 
     mDrawerList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
       @Override public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //((NormalUserMainActivity) mActivity).setCategory(AdministratorFunctions.values()[position]);
+        ((AdministratorMainActivity) mActivity).setCategory(
+            AdministratorFunctions.values()[position]);
       }
     });
 

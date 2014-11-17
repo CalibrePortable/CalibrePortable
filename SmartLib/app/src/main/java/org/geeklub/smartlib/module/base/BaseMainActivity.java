@@ -13,7 +13,6 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.View;
 import org.geeklub.smartlib.R;
-import org.geeklub.smartlib.module.type.NormalUserFunctions;
 
 public abstract class BaseMainActivity extends ActionBarActivity {
 
@@ -24,8 +23,6 @@ public abstract class BaseMainActivity extends ActionBarActivity {
   private CharSequence mDrawerTitle;
 
   private CharSequence mTitle;
-
-  protected NormalUserFunctions mNormalUserFunctions;
 
   protected Fragment mDrawerFragment;
 

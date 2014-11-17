@@ -1,22 +1,19 @@
-package org.geeklub.smartlib.module.user.borrow;
+package org.geeklub.smartlib.module.user.search;
 
 import android.app.Fragment;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import butterknife.InjectView;
+import com.google.gson.Gson;
 import java.util.List;
 import org.geeklub.smartlib.R;
-import org.geeklub.smartlib.module.adapters.BorrowAdapter;
-import org.geeklub.smartlib.beans.Book;
-import org.geeklub.smartlib.module.base.BasePageListFragment;
-import org.geeklub.smartlib.module.user.detail.BookDetailActivity;
 import org.geeklub.smartlib.api.NormalUserService;
+import org.geeklub.smartlib.beans.Book;
+import org.geeklub.smartlib.module.adapters.LibraryAdapter;
+import org.geeklub.smartlib.module.base.BasePageListFragment;
 import org.geeklub.smartlib.utils.LogUtil;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -24,70 +21,70 @@ import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
- * Created by Vass on 2014/11/8.
+ * Created by Vass on 2014/11/17.
  */
-public class BorrowFragment extends BasePageListFragment<NormalUserService> {
+public class UserSearchFragment extends BasePageListFragment<NormalUserService> {
 
-  public static Fragment newInstance() {
+  private static final String ARGS_KEYWORD = "args_query_word";
 
-    Fragment borrowFragment = new BorrowFragment();
+  private String mQueryWord;
 
-    return borrowFragment;
-  }
+  public static Fragment newInstance(String keyWord) {
 
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    Fragment userSearchFragment = new UserSearchFragment();
+    Bundle args = new Bundle();
+    args.putString(ARGS_KEYWORD, keyWord);
+    userSearchFragment.setArguments(args);
+    return userSearchFragment;
   }
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-
+    parseArgument();
     View view = super.onCreateView(inflater, container, savedInstanceState);
-
-    ((BorrowAdapter) mAdapter).setOnItemClickListener(new BorrowAdapter.OnItemClickListener() {
-      @Override public void onItemClick(Book book) {
-        Intent intent = new Intent(mActivity, BookDetailActivity.class);
-        intent.putExtra(BookDetailActivity.EXTRAS_BOOK, book);
-        startActivity(intent);
-      }
-    });
 
     return view;
   }
 
+  private void parseArgument() {
+    Bundle args = getArguments();
+    mQueryWord = args.getString(ARGS_KEYWORD);
+  }
+
   @Override protected int getLayoutResources() {
-    return R.layout.fragment_borrow;
+    return R.layout.fragment_search;
   }
 
   @Override protected RecyclerView.Adapter newAdapter() {
-    return new BorrowAdapter(mActivity);
+    return new LibraryAdapter(mActivity);
   }
 
   @Override protected RestAdapter newRestAdapter() {
     return new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
   }
 
-  @Override protected Class getServiceClass() {
+  @Override protected Class<NormalUserService> getServiceClass() {
     return NormalUserService.class;
   }
 
   @Override protected void executeRequest(int page) {
 
-    mService.haveBorrowed(mPreferencesUtil.getUser().getUserName(),
-        mPreferencesUtil.getUser().getPassword(), new Callback<List<Book>>() {
+    mService.search(mPreferencesUtil.getUser().getUserName(), 5, page, mQueryWord,
+        new Callback<List<Book>>() {
           @Override public void success(List<Book> bookList, Response response) {
+            LogUtil.i(bookList.toString());
 
             mSwipeRefreshLayout.setRefreshing(false);
 
             if (mIsRefreshFromTop) {
-              ((BorrowAdapter) mAdapter).refresh(bookList);
+              ((LibraryAdapter) mAdapter).refresh(bookList);
             } else {
-              ((BorrowAdapter) mAdapter).addItems(bookList);
+              ((LibraryAdapter) mAdapter).addItems(bookList);
             }
+            mPage++;
           }
 
           @Override public void failure(RetrofitError error) {
-
             LogUtil.i(error.getMessage());
             mSwipeRefreshLayout.setRefreshing(false);
           }

@@ -26,18 +26,6 @@ import retrofit.client.Response;
  */
 public class LibraryFragment extends BasePageListFragment<NormalUserService> {
 
-  //@InjectView(R.id.swipe_layout) SwipeRefreshLayout mSwipeRefreshLayout;
-  //
-  //@InjectView(R.id.recycle_view) RecyclerView mRecycleView;
-
-  //private RestAdapter mRestAdapter;
-
-  //private NormalUserService mService;
-
-  //private LibraryAdapter mAdapter;
-
-  //private int mPage = 1;
-
   public static Fragment newInstance() {
 
     Fragment libraryFragmen = new LibraryFragment();
@@ -47,31 +35,12 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-
-    //mAdapter = new LibraryAdapter(mActivity);
-
-    //mRestAdapter =
-    //    new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
-
-    //mService = mRestAdapter.create(NormalUserService.class);
   }
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
     View view = super.onCreateView(inflater, container, savedInstanceState);
-
-    //View view = inflater.inflate(R.layout.fragment_library, null);
-
-    //ButterKnife.inject(this, view);
-
-    //mSwipeRefreshLayout.setOnRefreshListener(this);
-
-    //mRecycleView.setLayoutManager(new LinearLayoutManager(mActivity));
-
-    //mRecycleView.setItemAnimator(new DefaultItemAnimator());
-
-    //mRecycleView.setHasFixedSize(true);
 
     ((LibraryAdapter) mAdapter).setOnItemClickListener(new LibraryAdapter.OnItemClickListener() {
       @Override public void onItemClick(Book book) {
@@ -81,69 +50,8 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
       }
     });
 
-    //mRecycleView.setAdapter(mAdapter);
-
-    //mRecycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-    //  @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
-    //    super.onScrollStateChanged(recyclerView, newState);
-    //
-    //    switch (newState) {
-    //      case RecyclerView.SCROLL_STATE_IDLE:
-    //        loadNextPage();
-    //
-    //        break;
-    //    }
-    //  }
-    //});
-
-    //loadFirstPage();
-
     return view;
   }
-
-  //private void loadNextPage() {
-  //  loadData(mPage);
-  //}
-  //
-  //private void loadFirstPage() {
-  //  mPage = 1;
-  //  loadData(mPage);
-  //}
-
-  //private void loadData(int page) {
-  //
-  //  final boolean isRefreshFromTop = (page == 1);
-  //  if (!mSwipeRefreshLayout.isRefreshing() && isRefreshFromTop) {
-  //    mSwipeRefreshLayout.setRefreshing(true);
-  //  }
-  //
-  //  SharedPreferencesUtil preferencesUtil = new SharedPreferencesUtil(mActivity);
-  //
-  //  mService.search(preferencesUtil.getUser().getUserName(), 5, page, "all",
-  //      new Callback<List<Book>>() {
-  //        @Override public void success(List<Book> bookList, Response response) {
-  //          //LogUtil.i(bookList.toString());
-  //
-  //          mSwipeRefreshLayout.setRefreshing(false);
-  //
-  //          if (isRefreshFromTop) {
-  //            mAdapter.refresh(bookList);
-  //          } else {
-  //            mAdapter.addItems(bookList);
-  //          }
-  //          mPage++;
-  //        }
-  //
-  //        @Override public void failure(RetrofitError error) {
-  //          //LogUtil.i(error.getMessage());
-  //          mSwipeRefreshLayout.setRefreshing(false);
-  //        }
-  //      });
-  //}
-
-  //@Override public void onRefresh() {
-  //  loadFirstPage();
-  //}
 
   @Override protected int getLayoutResources() {
     return R.layout.fragment_library;
@@ -162,26 +70,26 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
   }
 
   @Override protected void executeRequest(int page) {
-     mService.search(mPreferencesUtil.getUser().getUserName(), 5, page, "all",
-         new Callback<List<Book>>() {
-           @Override public void success(List<Book> bookList, Response response) {
+    mService.search(mPreferencesUtil.getUser().getUserName(), 5, page, "all",
+        new Callback<List<Book>>() {
+          @Override public void success(List<Book> bookList, Response response) {
 
-             LogUtil.i(bookList.toString());
+            LogUtil.i(bookList.toString());
 
-             mSwipeRefreshLayout.setRefreshing(false);
+            mSwipeRefreshLayout.setRefreshing(false);
 
-             if (mIsRefreshFromTop) {
-               ((LibraryAdapter) mAdapter).refresh(bookList);
-             } else {
-               ((LibraryAdapter) mAdapter).addItems(bookList);
-             }
-             mPage++;
-           }
+            if (mIsRefreshFromTop) {
+              ((LibraryAdapter) mAdapter).refresh(bookList);
+            } else {
+              ((LibraryAdapter) mAdapter).addItems(bookList);
+            }
+            mPage++;
+          }
 
-           @Override public void failure(RetrofitError error) {
-             LogUtil.i(error.getMessage());
-             mSwipeRefreshLayout.setRefreshing(false);
-           }
-         });
+          @Override public void failure(RetrofitError error) {
+            LogUtil.i(error.getMessage());
+            mSwipeRefreshLayout.setRefreshing(false);
+          }
+        });
   }
 }

@@ -1,4 +1,4 @@
-package org.geeklub.smartlib.module.common.search;
+package org.geeklub.smartlib.module.base;
 
 import android.app.SearchManager;
 import android.content.Context;
@@ -16,7 +16,7 @@ import org.geeklub.smartlib.R;
 /**
  * Created by Vass on 2014/11/3.
  */
-public class SearchResultsActivity extends ActionBarActivity {
+public abstract class BaseSearchResultsActivity extends ActionBarActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -37,17 +37,7 @@ public class SearchResultsActivity extends ActionBarActivity {
     handleIntent(intent);
   }
 
-  private void handleIntent(Intent intent) {
-
-    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-      String query = intent.getStringExtra(SearchManager.QUERY);
-      //LogUtil.i("query ===>>>" + query);
-
-      getFragmentManager().beginTransaction()
-          .replace(android.R.id.content, SearchResultsFragment.newInstance(query))
-          .commit();
-    }
-  }
+  protected void handleIntent(Intent intent) {}
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {
 

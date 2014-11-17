@@ -21,9 +21,9 @@ import retrofit.RestAdapter;
 public abstract class BasePageListFragment<T> extends BaseFragment
     implements SwipeRefreshLayout.OnRefreshListener {
 
-  protected @InjectView(R.id.swipe_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+  public  @InjectView(R.id.swipe_layout) SwipeRefreshLayout mSwipeRefreshLayout;
 
-  protected @InjectView(R.id.recycle_view) RecyclerView mRecycleView;
+  public  @InjectView(R.id.recycle_view) RecyclerView mRecycleView;
 
   protected int mPage = 1;
 

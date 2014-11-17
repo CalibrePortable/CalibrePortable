@@ -64,13 +64,13 @@
 
       <meta-data
           android:name="android.app.default_searchable"
-          android:value=".module.common.search.SearchResultsActivity"/>
+          android:value=".module.user.search.UserSearchActivity"/>
 
     </activity>
 
-
+    <!--用户搜索-->
     <activity
-        android:name=".module.common.search.SearchResultsActivity"
+        android:name=".module.user.search.UserSearchActivity"
         android:configChanges="orientation|screenSize"
         android:launchMode="singleTop">
 
@@ -78,13 +78,14 @@
           android:name="android.app.searchable"
           android:resource="@xml/searchable"/>
 
-
       <intent-filter>
         <action android:name="android.intent.action.SEARCH"/>
       </intent-filter>
 
 
     </activity>
+
+
 
 
     <activity

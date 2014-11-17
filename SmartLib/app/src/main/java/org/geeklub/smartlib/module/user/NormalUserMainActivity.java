@@ -33,6 +33,9 @@ import retrofit.client.Response;
  */
 public class NormalUserMainActivity extends BaseMainActivity {
 
+
+  private NormalUserFunctions mCategory;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
@@ -44,16 +47,16 @@ public class NormalUserMainActivity extends BaseMainActivity {
     getFragmentManager().beginTransaction().replace(R.id.left_drawer, mDrawerFragment).commit();
   }
 
-  public void setCategory(NormalUserFunctions normalUserFunctions) {
+  public void setCategory(NormalUserFunctions functions) {
     mDrawerLayout.closeDrawer(Gravity.START);
 
-    if (mNormalUserFunctions == normalUserFunctions) {
+    if (mCategory == functions) {
       return;
     }
 
-    mNormalUserFunctions = normalUserFunctions;
+    mCategory = functions;
 
-    switch (normalUserFunctions) {
+    switch (mCategory) {
 
       case library:
         mContentFragment = LibraryFragment.newInstance();
@@ -67,7 +70,7 @@ public class NormalUserMainActivity extends BaseMainActivity {
       default:
         break;
     }
-    setTitle(mNormalUserFunctions.getDisplayName());
+    setTitle(mCategory.getDisplayName());
     getFragmentManager().beginTransaction().replace(R.id.content_frame, mContentFragment).commit();
   }
 
