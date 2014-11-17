@@ -187,7 +187,7 @@
 
 >userId:String
 >>type:int(12345)对应(书名 出版社 作者 种类 全部)
->>>page:int
+>>>page:String（若page=not则不分页）
 >>>>keyword:String (获取)
 
 `Response`
@@ -295,7 +295,7 @@ Method:GET
 
 >userId:String
 >>type:int(12345)对应(书名 出版社 作者 种类 全部)
->>>page:int
+>>>page:String（若page=not则不分页）
 >>>>keyword:String (获取)
 
 `Response`
