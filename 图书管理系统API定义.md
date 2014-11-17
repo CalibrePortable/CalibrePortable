@@ -63,7 +63,7 @@
 
 
 3.书本总数
->API.php/bookSum/:flag
+>API.php/bookSum/:flag/:type
 
 **请求**
 
@@ -71,12 +71,14 @@
 
 **用例**
 
->API.php/bookSum/0
+>API.php/bookSum/0/1
 
 **参数**
 
->flag:String(获取)
+>flag:String
 >0为用户1为管理员
+>>type:String(获取)
+>>0为search 1为查看已借出
 
 `Response`
 >{
