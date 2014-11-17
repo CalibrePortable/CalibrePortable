@@ -5,6 +5,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBar;
 import android.text.TextUtils;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import butterknife.InjectView;
@@ -22,7 +23,7 @@ import retrofit.client.Response;
 /**
  * Created by Vass on 2014/11/13.
  */
-public class PasswordModifyActivity extends BaseActivity {
+public class PasswordModifyActivity extends BaseActivity implements View.OnClickListener {
 
   @InjectView(R.id.et_new_password) EditText mNewPassword;
   @InjectView(R.id.et_new_re_password) EditText mNewRePassword;
@@ -34,22 +35,17 @@ public class PasswordModifyActivity extends BaseActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    setTitle("Modify Your Password");
 
     mRestAdapter =
         new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
     mService = mRestAdapter.create(NormalUserService.class);
 
-    initViews();
+    initCallBacks();
   }
 
-  private void initViews() {
-    setTitle("Modify Your Password");
-    //mConfirm.setOnClickListener(new View.OnClickListener() {
-    //  @Override public void onClick(View v) {
-    //    sendNewPasswordToServer(mNewPassword.getText().toString(),
-    //        mNewRePassword.getText().toString());
-    //  }
-    //});
+  private void initCallBacks() {
+    mConfirm.setOnClickListener(this);
   }
 
   @Override protected void initActionBar() {
@@ -99,5 +95,9 @@ public class PasswordModifyActivity extends BaseActivity {
             }
           });
     }
+  }
+
+  @Override public void onClick(View v) {
+    sendNewPasswordToServer(mNewPassword.getText().toString(), mNewRePassword.getText().toString());
   }
 }
