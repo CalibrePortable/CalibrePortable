@@ -63,13 +63,13 @@
 
       <TextView
           android:layout_height="wrap_content"
-          android:text="@string/re_password"/>
+          android:text="@string/confirm_password"/>
 
       <EditText
           android:inputType="textPassword"
           android:id="@+id/et_re_password"
           android:layout_height="wrap_content"
-          android:hint="@string/et_re_password_hint"/>
+          android:hint="@string/et_input_password_again_hint"/>
 
     </TableRow>
 

@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.utils.SharedPreferencesUtil;
@@ -21,9 +20,9 @@ import retrofit.RestAdapter;
 public abstract class BasePageListFragment<T> extends BaseFragment
     implements SwipeRefreshLayout.OnRefreshListener {
 
-  public  @InjectView(R.id.swipe_layout) SwipeRefreshLayout mSwipeRefreshLayout;
+  public @InjectView(R.id.swipe_layout) SwipeRefreshLayout mSwipeRefreshLayout;
 
-  public  @InjectView(R.id.recycle_view) RecyclerView mRecycleView;
+  public @InjectView(R.id.recycle_view) RecyclerView mRecycleView;
 
   protected int mPage = 1;
 
@@ -49,21 +48,16 @@ public abstract class BasePageListFragment<T> extends BaseFragment
     mService = mRestAdapter.create(getServiceClass());
   }
 
-  @Nullable @Override public View onCreateView(final LayoutInflater inflater, ViewGroup container,
+  @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
-    View view = inflater.inflate(getLayoutResources(), null);
-
-    ButterKnife.inject(this, view);
+    View view = super.onCreateView(inflater, container, savedInstanceState);
 
     mSwipeRefreshLayout.setOnRefreshListener(this);
 
     mRecycleView.setLayoutManager(new LinearLayoutManager(mActivity));
-
     mRecycleView.setItemAnimator(new DefaultItemAnimator());
-
     mRecycleView.setHasFixedSize(true);
-
     mRecycleView.setAdapter(mAdapter);
 
     mRecycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -102,15 +96,11 @@ public abstract class BasePageListFragment<T> extends BaseFragment
     }
 
     executeRequest(page);
-
-
   }
 
   @Override public void onRefresh() {
     loadFirstPage();
   }
-
-  protected abstract int getLayoutResources();
 
   protected abstract RecyclerView.Adapter newAdapter();
 
