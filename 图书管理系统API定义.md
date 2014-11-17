@@ -335,6 +335,7 @@ Method:GET
 >bookName:String
 >>bookAuthor:String
 >>>bookType:String
+>>>>bookPic:String
 >>>>bookInfo:String
 >>>>>bookStatus:String(填写)
 >>>>>>userId:String
