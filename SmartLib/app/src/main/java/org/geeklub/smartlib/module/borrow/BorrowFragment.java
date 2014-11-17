@@ -16,6 +16,7 @@ import org.geeklub.smartlib.module.base.BasePageListFragment;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
 import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.utils.LogUtil;
+import org.geeklub.smartlib.utils.SmartLibraryUser;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -71,8 +72,10 @@ public class BorrowFragment extends BasePageListFragment<NormalUserService> {
 
   @Override protected void executeRequest(int page) {
 
-    mService.haveBorrowed(mPreferencesUtil.getUser().getUserName(),
-        mPreferencesUtil.getUser().getPassword(), new Callback<List<Book>>() {
+    SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+
+    mService.haveBorrowed(user.getUserId(),
+        user.getPassWord(), new Callback<List<Book>>() {
           @Override public void success(List<Book> bookList, Response response) {
 
             mSwipeRefreshLayout.setRefreshing(false);

@@ -16,6 +16,7 @@ import org.geeklub.smartlib.module.base.BasePageListFragment;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
 import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.utils.LogUtil;
+import org.geeklub.smartlib.utils.SmartLibraryUser;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -70,7 +71,10 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
   }
 
   @Override protected void executeRequest(int page) {
-    mService.search(mPreferencesUtil.getUser().getUserName(), 5, page, "all",
+
+    SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+
+    mService.search(user.getPassWord(), 5, page, "all",
         new Callback<List<Book>>() {
           @Override public void success(List<Book> bookList, Response response) {
 

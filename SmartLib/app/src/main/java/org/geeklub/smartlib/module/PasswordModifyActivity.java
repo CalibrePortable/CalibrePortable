@@ -14,7 +14,7 @@ import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.utils.LogUtil;
-import org.geeklub.smartlib.utils.SharedPreferencesUtil;
+import org.geeklub.smartlib.utils.SmartLibraryUser;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -79,11 +79,11 @@ public class PasswordModifyActivity extends BaseActivity implements View.OnClick
       mNewPassword.setError("empty new repassword...");
     }
 
-    SharedPreferencesUtil preferencesUtil = new SharedPreferencesUtil(this);
+    SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
     if (newPassword.equals(reNewPassword)) {
-      mService.modifyPassword(preferencesUtil.getUser().getUserName(),
-          preferencesUtil.getUser().getPassword(), newPassword, reNewPassword,
+      mService.modifyPassword(user.getUserId(),
+          user.getPassWord(), newPassword, reNewPassword,
           new Callback<ServerResponse>() {
             @Override public void success(ServerResponse serverResponse, Response response) {
 

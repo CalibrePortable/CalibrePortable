@@ -30,6 +30,12 @@ public class LoginPresenterImpl
     mLoginView.navigateToRegister();
   }
 
+  @Override public void haveLoginBefore() {
+    if (mLoginModel.ifLoginBefore()){
+      mLoginView.navigateToMain();
+    }
+  }
+
   @Override
   public void onSuccess(String msg) {
     mLoginView.setProgressBarHide(true);

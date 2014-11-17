@@ -1,6 +1,7 @@
 package org.geeklub.smartlib.module.register.model;
 
 import android.text.TextUtils;
+import org.geeklub.smartlib.api.Constant;
 import org.geeklub.smartlib.beans.NewUser;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.register.presenter.OnPassWordMatchListener;
@@ -8,6 +9,7 @@ import org.geeklub.smartlib.module.register.presenter.OnRegisterFinishedListener
 import org.geeklub.smartlib.module.register.presenter.OnUserInputListener;
 import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.utils.LogUtil;
+import org.geeklub.smartlib.utils.SmartLibraryUser;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -18,7 +20,7 @@ import retrofit.client.Response;
  */
 public class RegisterModelImpl implements RegisterModel {
 
-  @Override public void register(String userId, String userName, String password,
+  @Override public void register(final String userId, String userName, final String password,
       String passWordConfirm, OnUserInputListener userInputListener,
       OnPassWordMatchListener matchListener, final OnRegisterFinishedListener finishedListener) {
 
@@ -46,14 +48,13 @@ public class RegisterModelImpl implements RegisterModel {
 
     NormalUserService service = restAdapter.create(NormalUserService.class);
 
-
-
     service.register(new NewUser(userId, userName, password, passWordConfirm),
         new Callback<ServerResponse>() {
           @Override public void success(ServerResponse serverResponse, Response response) {
 
-            if (serverResponse.getStatus() == 0) {
+            if (serverResponse.getStatus() == Constant.RESULT_SUCCESS) {
               LogUtil.i("注册成功");
+              SmartLibraryUser.saveUser(userId, password);
               finishedListener.onSuccess(serverResponse.getInfo());
             } else {
               LogUtil.i("注册失败");

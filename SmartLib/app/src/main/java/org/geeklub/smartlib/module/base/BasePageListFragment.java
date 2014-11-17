@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import butterknife.InjectView;
 import org.geeklub.smartlib.R;
-import org.geeklub.smartlib.utils.SharedPreferencesUtil;
 import retrofit.RestAdapter;
 
 /**
@@ -34,12 +33,10 @@ public abstract class BasePageListFragment<T> extends BaseFragment
 
   protected RecyclerView.Adapter mAdapter;
 
-  protected SharedPreferencesUtil mPreferencesUtil;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    mPreferencesUtil = new SharedPreferencesUtil(mActivity);
 
     mAdapter = newAdapter();
 

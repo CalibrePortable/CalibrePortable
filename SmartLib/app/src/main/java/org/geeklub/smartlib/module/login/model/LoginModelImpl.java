@@ -4,14 +4,12 @@ import android.text.TextUtils;
 
 import org.geeklub.smartlib.api.Constant;
 import org.geeklub.smartlib.beans.LoginUser;
-import org.geeklub.smartlib.beans.SLUser;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.login.presenter.OnLoginFinishedListener;
 import org.geeklub.smartlib.module.login.presenter.OnUserInputListener;
 import org.geeklub.smartlib.api.NormalUserService;
-import org.geeklub.smartlib.GlobalContext;
 import org.geeklub.smartlib.utils.LogUtil;
-import org.geeklub.smartlib.utils.SharedPreferencesUtil;
+import org.geeklub.smartlib.utils.SmartLibraryUser;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -23,10 +21,10 @@ import retrofit.client.Response;
 public class LoginModelImpl implements LoginModel {
 
   @Override
-  public void login(final String username, final String password,
+  public void login(final String userId, final String password,
       OnUserInputListener userInputListener, final OnLoginFinishedListener loginFinishedListener) {
 
-    if (TextUtils.isEmpty(username)) {
+    if (TextUtils.isEmpty(userId)) {
       userInputListener.onAccountError();
       return;
     }
@@ -41,15 +39,13 @@ public class LoginModelImpl implements LoginModel {
 
     NormalUserService service = restAdapter.create(NormalUserService.class);
 
-    service.login(new LoginUser(username, password), new Callback<ServerResponse>() {
+    service.login(new LoginUser(userId, password), new Callback<ServerResponse>() {
       @Override public void success(ServerResponse serverResponse, Response response) {
         LogUtil.i(serverResponse.getInfo());
 
         if (serverResponse.getStatus() == Constant.RESULT_SUCCESS) {
 
-          SharedPreferencesUtil preferencesUtil =
-              new SharedPreferencesUtil(GlobalContext.getInstance());
-          preferencesUtil.saveUser(new SLUser(username, password));
+          SmartLibraryUser.saveUser(userId, password);
 
           loginFinishedListener.onSuccess(serverResponse.getInfo());
         } else {
@@ -63,5 +59,13 @@ public class LoginModelImpl implements LoginModel {
         loginFinishedListener.onFail(error.getMessage());
       }
     });
+  }
+
+  @Override public boolean ifLoginBefore() {
+    SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+    if (user == null) {
+      return false;
+    }
+    return true;
   }
 }

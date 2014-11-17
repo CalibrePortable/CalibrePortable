@@ -22,14 +22,13 @@ import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.api.NormalUserService;
-import org.geeklub.smartlib.beans.SLUser;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.settings.SettingsActivity;
 import org.geeklub.smartlib.module.type.Category;
 import org.geeklub.smartlib.module.borrow.BorrowFragment;
 import org.geeklub.smartlib.module.library.LibraryFragment;
 import org.geeklub.smartlib.utils.LogUtil;
-import org.geeklub.smartlib.utils.SharedPreferencesUtil;
+import org.geeklub.smartlib.utils.SmartLibraryUser;
 import org.geeklub.smartlib.utils.ToastUtil;
 import retrofit.Callback;
 import retrofit.RestAdapter;
@@ -192,10 +191,9 @@ public class MainActivity extends ActionBarActivity {
 
         NormalUserService service = restAdapter.create(NormalUserService.class);
 
-        SharedPreferencesUtil preferencesUtil = new SharedPreferencesUtil(this);
-        SLUser user = preferencesUtil.getUser();
+        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-        service.borrow(result.getContents(), user.getUserName(), user.getPassword(),
+        service.borrow(result.getContents(), user.getUserId(), user.getPassWord(),
             new Callback<ServerResponse>() {
               @Override public void success(ServerResponse serverResponse, Response response) {
                 LogUtil.i(serverResponse.getInfo());
