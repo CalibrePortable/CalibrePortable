@@ -82,9 +82,8 @@ public class LoginActivity extends ActionBarActivity implements LoginView, View.
 
   @Override
   public void navigateToMain() {
-    finish();
     startActivity(new Intent(this, MainActivity.class));
-
+    finish();
   }
 
   @Override
