@@ -36,17 +36,17 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     mContext = context;
   }
 
-
-  public void updateItem(){
-    notifyItemChanged();
-  }
-
   public void refresh(List<Book> bookList) {
     if (!mData.isEmpty()) {
       mData.clear();
     }
     mData.addAll(bookList);
     notifyDataSetChanged();
+  }
+
+  public void updateItem(int position) {
+    LogUtil.i("position ===>>>" + position);
+    notifyItemChanged(position);
   }
 
   public void addItems(List<Book> bookList) {
@@ -57,19 +57,23 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
   }
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
-    LogUtil.i("创建第" + position + "个ViewHolder");
+    //LogUtil.i("创建第" + position + "个ViewHolder");
     View view = LayoutInflater.from(viewGroup.getContext())
         .inflate(R.layout.cardview_library, viewGroup, false);
 
     return new ViewHolder(view);
   }
 
-  @Override public void onBindViewHolder(final ViewHolder viewHolder, int position) {
-    LogUtil.i("绑定第" + position + "个ViewHolder");
+  @Override public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+    //LogUtil.i("绑定第" + position + "个ViewHolder");
+
     final Book book = mData.get(position);
+    LogUtil.i("Book Info ===>>>" + book.toString());
+
     viewHolder.mBookName.setText(book.getBook_name());
     viewHolder.mBookDescription.setText(book.getBook_author());
     viewHolder.mBookFavour.setText(book.getFavour());
+    viewHolder.mAddOneTextView.setVisibility(View.GONE);
 
     Picasso.with(mContext)
         .load(book.getBook_pic())
@@ -85,10 +89,16 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
       }
     });
 
+    if (book.isLike()) {
+      viewHolder.mBookFavour.setEnabled(false);
+    } else {
+      viewHolder.mBookFavour.setEnabled(true);
+    }
+
     viewHolder.mBookFavour.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (onFavourClickListener != null) {
-          onFavourClickListener.onFavourClick(viewHolder.mAddOneTextView);
+          onFavourClickListener.onFavourClick(book, viewHolder.mAddOneTextView, position);
         }
       }
     });
@@ -126,7 +136,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
   }
 
   public static interface OnFavourClickListener {
-    void onFavourClick(View addOneTextView);
+    void onFavourClick(Book book, View addOneTextView, int position);
   }
 
   public void setOnFavourClickListener(OnFavourClickListener listener) {

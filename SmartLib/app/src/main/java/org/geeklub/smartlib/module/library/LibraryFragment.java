@@ -55,10 +55,26 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
 
     ((LibraryAdapter) mAdapter).setOnFavourClickListener(
         new LibraryAdapter.OnFavourClickListener() {
-          @Override public void onFavourClick(View view) {
+          @Override public void onFavourClick(Book book, final View view, final int position) {
             Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.dianzan_anim);
+            animation.setAnimationListener(new Animation.AnimationListener() {
+              @Override public void onAnimationStart(Animation animation) {
+
+              }
+
+              @Override public void onAnimationEnd(Animation animation) {
+
+                ((LibraryAdapter) mAdapter).updateItem(position);
+              }
+
+              @Override public void onAnimationRepeat(Animation animation) {
+
+              }
+            });
             if (view.getVisibility() == View.GONE) {
               view.setVisibility(View.VISIBLE);
+              book.setLike(true);
+              book.setFavour(Integer.valueOf(book.getFavour()) + 1 + "");
               view.startAnimation(animation);
             }
           }
