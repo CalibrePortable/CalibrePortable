@@ -36,6 +36,11 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     mContext = context;
   }
 
+
+  public void updateItem(){
+    notifyItemChanged();
+  }
+
   public void refresh(List<Book> bookList) {
     if (!mData.isEmpty()) {
       mData.clear();

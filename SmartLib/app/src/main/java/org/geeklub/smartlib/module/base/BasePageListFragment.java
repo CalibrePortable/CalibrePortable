@@ -49,7 +49,6 @@ public abstract class BasePageListFragment<T> extends BaseFragment
     mSwipeRefreshLayout.setOnRefreshListener(this);
 
     mRecycleView.setLayoutManager(new LinearLayoutManager(mActivity));
-    mRecycleView.setItemAnimator(new DefaultItemAnimator());
     mRecycleView.setHasFixedSize(true);
     mRecycleView.setAdapter(mAdapter);
 

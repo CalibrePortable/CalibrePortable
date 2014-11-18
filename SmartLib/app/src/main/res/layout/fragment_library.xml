@@ -10,7 +10,9 @@
       android:id="@+id/swipe_layout">
 
     <android.support.v7.widget.RecyclerView
-        android:scrollbarThumbVertical="@color/MIDNIGHT_BLUE"
+        android:scrollbarStyle="outsideOverlay"
+        android:scrollbars="vertical"
+        android:scrollbarThumbVertical="@color/EMERALD"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
         android:id="@+id/recycle_view">
