@@ -8,6 +8,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import java.util.List;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.module.adapters.LibraryAdapter;
@@ -29,9 +31,9 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
 
   public static Fragment newInstance() {
 
-    Fragment libraryFragmen = new LibraryFragment();
+    Fragment libraryFragment = new LibraryFragment();
 
-    return libraryFragmen;
+    return libraryFragment;
   }
 
   @Override public void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,17 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
         startActivity(intent);
       }
     });
+
+    ((LibraryAdapter) mAdapter).setOnFavourClickListener(
+        new LibraryAdapter.OnFavourClickListener() {
+          @Override public void onFavourClick(View view) {
+            Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.dianzan_anim);
+            if (view.getVisibility() == View.GONE) {
+              view.setVisibility(View.VISIBLE);
+              view.startAnimation(animation);
+            }
+          }
+        });
 
     return view;
   }
@@ -74,26 +87,25 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
 
     SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-    mService.search(user.getPassWord(), 5, page, "all",
-        new Callback<List<Book>>() {
-          @Override public void success(List<Book> bookList, Response response) {
+    mService.search(user.getPassWord(), 5, page, "all", new Callback<List<Book>>() {
+      @Override public void success(List<Book> bookList, Response response) {
 
-            LogUtil.i(bookList.toString());
+        LogUtil.i("下载了" + bookList.size() + "本书");
 
-            mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setRefreshing(false);
 
-            if (mIsRefreshFromTop) {
-              ((LibraryAdapter) mAdapter).refresh(bookList);
-            } else {
-              ((LibraryAdapter) mAdapter).addItems(bookList);
-            }
-            mPage++;
-          }
+        if (mIsRefreshFromTop) {
+          ((LibraryAdapter) mAdapter).refresh(bookList);
+        } else {
+          ((LibraryAdapter) mAdapter).addItems(bookList);
+        }
+        mPage++;
+      }
 
-          @Override public void failure(RetrofitError error) {
-            LogUtil.i(error.getMessage());
-            mSwipeRefreshLayout.setRefreshing(false);
-          }
-        });
+      @Override public void failure(RetrofitError error) {
+        LogUtil.i(error.getMessage());
+        mSwipeRefreshLayout.setRefreshing(false);
+      }
+    });
   }
 }

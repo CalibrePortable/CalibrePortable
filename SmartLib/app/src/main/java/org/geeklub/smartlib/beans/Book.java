@@ -8,10 +8,6 @@ import android.os.Parcelable;
  */
 public class Book implements Parcelable {
 
-  public Book() {
-  }
-
-
   /**
    * 书名
    */
@@ -44,6 +40,15 @@ public class Book implements Parcelable {
    * 图片地址
    */
   private String book_pic;
+
+  /**
+   * 是否已经点赞
+   */
+
+  private boolean isLike;
+
+  public Book() {
+  }
 
   public String getBook_name() {
     return book_name;
@@ -109,16 +114,12 @@ public class Book implements Parcelable {
     this.book_pic = book_pic;
   }
 
-  @Override public String toString() {
-    return "Book{" +
-        "book_name='" + book_name + '\'' +
-        ", book_author='" + book_author + '\'' +
-        ", book_type='" + book_type + '\'' +
-        ", book_info='" + book_info + '\'' +
-        ", book_price='" + book_price + '\'' +
-        ", book_status='" + book_status + '\'' +
-        ", favour='" + favour + '\'' +
-        '}';
+  public boolean isLike() {
+    return isLike;
+  }
+
+  public void setLike(boolean isLike) {
+    this.isLike = isLike;
   }
 
   @Override public int describeContents() {
@@ -134,6 +135,7 @@ public class Book implements Parcelable {
     dest.writeString(this.book_status);
     dest.writeString(this.favour);
     dest.writeString(this.book_pic);
+    dest.writeByte(isLike ? (byte) 1 : (byte) 0);
   }
 
   private Book(Parcel in) {
@@ -145,6 +147,7 @@ public class Book implements Parcelable {
     this.book_status = in.readString();
     this.favour = in.readString();
     this.book_pic = in.readString();
+    this.isLike = in.readByte() != 0;
   }
 
   public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
@@ -156,4 +159,18 @@ public class Book implements Parcelable {
       return new Book[size];
     }
   };
+
+  @Override public String toString() {
+    return "Book{" +
+        "book_name='" + book_name + '\'' +
+        ", book_author='" + book_author + '\'' +
+        ", book_type='" + book_type + '\'' +
+        ", book_info='" + book_info + '\'' +
+        ", book_price='" + book_price + '\'' +
+        ", book_status='" + book_status + '\'' +
+        ", favour='" + favour + '\'' +
+        ", book_pic='" + book_pic + '\'' +
+        ", isLike=" + isLike +
+        '}';
+  }
 }

@@ -74,8 +74,7 @@ public class BorrowFragment extends BasePageListFragment<NormalUserService> {
 
     SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-    mService.haveBorrowed(user.getUserId(),
-        user.getPassWord(), new Callback<List<Book>>() {
+    mService.haveBorrowed(user.getUserId(), user.getPassWord(), new Callback<List<Book>>() {
           @Override public void success(List<Book> bookList, Response response) {
 
             mSwipeRefreshLayout.setRefreshing(false);

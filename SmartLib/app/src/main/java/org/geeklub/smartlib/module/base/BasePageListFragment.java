@@ -25,7 +25,7 @@ public abstract class BasePageListFragment<T> extends BaseFragment
 
   protected int mPage = 1;
 
-  protected boolean mIsRefreshFromTop;
+  protected boolean mIsRefreshFromTop = false;
 
   private RestAdapter mRestAdapter;
 
@@ -33,15 +33,11 @@ public abstract class BasePageListFragment<T> extends BaseFragment
 
   protected RecyclerView.Adapter mAdapter;
 
-
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-
     mAdapter = newAdapter();
-
     mRestAdapter = newRestAdapter();
-
     mService = mRestAdapter.create(getServiceClass());
   }
 
@@ -64,7 +60,9 @@ public abstract class BasePageListFragment<T> extends BaseFragment
         switch (newState) {
           case RecyclerView.SCROLL_STATE_IDLE:
             loadNextPage();
+            break;
 
+          default:
             break;
         }
       }
