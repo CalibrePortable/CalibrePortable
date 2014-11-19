@@ -7,6 +7,10 @@ import android.os.Parcelable;
  * Created by Vass on 2014/11/4.
  */
 public class Book implements Parcelable {
+  /**
+   * 书本Id
+   */
+  private String book_id;
 
   /**
    * 书名
@@ -48,6 +52,14 @@ public class Book implements Parcelable {
   private boolean isLike;
 
   public Book() {
+  }
+
+  public String getBook_id() {
+    return book_id;
+  }
+
+  public void setBook_id(String book_id) {
+    this.book_id = book_id;
   }
 
   public String getBook_name() {
@@ -136,6 +148,7 @@ public class Book implements Parcelable {
     dest.writeString(this.favour);
     dest.writeString(this.book_pic);
     dest.writeByte(isLike ? (byte) 1 : (byte) 0);
+    dest.writeString(this.book_id);
   }
 
   private Book(Parcel in) {
@@ -148,6 +161,7 @@ public class Book implements Parcelable {
     this.favour = in.readString();
     this.book_pic = in.readString();
     this.isLike = in.readByte() != 0;
+    this.book_id = in.readString();
   }
 
   public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {

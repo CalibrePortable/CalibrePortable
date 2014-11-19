@@ -12,6 +12,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import java.util.List;
 import org.geeklub.smartlib.R;
+import org.geeklub.smartlib.api.Constant;
+import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.adapters.LibraryAdapter;
 import org.geeklub.smartlib.beans.Book;
 import org.geeklub.smartlib.module.base.BasePageListFragment;
@@ -55,32 +57,34 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
 
     ((LibraryAdapter) mAdapter).setOnFavourClickListener(
         new LibraryAdapter.OnFavourClickListener() {
-          @Override public void onFavourClick(Book book, final View view, final int position) {
-            Animation animation = AnimationUtils.loadAnimation(mActivity, R.anim.dianzan_anim);
-            animation.setAnimationListener(new Animation.AnimationListener() {
-              @Override public void onAnimationStart(Animation animation) {
-
-              }
-
-              @Override public void onAnimationEnd(Animation animation) {
-
-                ((LibraryAdapter) mAdapter).updateItem(position);
-              }
-
-              @Override public void onAnimationRepeat(Animation animation) {
-
-              }
-            });
-            if (view.getVisibility() == View.GONE) {
-              view.setVisibility(View.VISIBLE);
-              book.setLike(true);
-              book.setFavour(Integer.valueOf(book.getFavour()) + 1 + "");
-              view.startAnimation(animation);
-            }
+          @Override public void onFavourClick(Book book, final int position) {
+            book.setLike(true);
+            book.setFavour(Integer.valueOf(book.getFavour()) + 1 + "");
+            ((LibraryAdapter) mAdapter).updateItem(position);
+            sendDianZanMsg(book);
           }
         });
 
     return view;
+  }
+
+  private void sendDianZanMsg(Book book) {
+    SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+    mService.likePlusOne(book.getBook_id(), user.getUserId(), user.getPassWord(),
+        new Callback<ServerResponse>() {
+          @Override public void success(ServerResponse serverResponse, Response response) {
+            if (serverResponse.getStatus() == Constant.RESULT_SUCCESS) {
+              LogUtil.i("点赞成功");
+            } else {
+              LogUtil.i("点赞失败");
+            }
+          }
+
+          @Override public void failure(RetrofitError error) {
+
+            LogUtil.i(error.getMessage());
+          }
+        });
   }
 
   @Override protected int getLayoutResource() {

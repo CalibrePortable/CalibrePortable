@@ -31,9 +31,12 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
   private OnFavourClickListener onFavourClickListener;
 
+  private Animation mAnimation;
+
   public LibraryAdapter(Context context) {
     mData = new ArrayList<Book>();
     mContext = context;
+    mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.dianzan_anim);
   }
 
   public void refresh(List<Book> bookList) {
@@ -45,7 +48,6 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
   }
 
   public void updateItem(int position) {
-    LogUtil.i("position ===>>>" + position);
     notifyItemChanged(position);
   }
 
@@ -73,7 +75,6 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     viewHolder.mBookName.setText(book.getBook_name());
     viewHolder.mBookDescription.setText(book.getBook_author());
     viewHolder.mBookFavour.setText(book.getFavour());
-    viewHolder.mAddOneTextView.setVisibility(View.GONE);
 
     Picasso.with(mContext)
         .load(book.getBook_pic())
@@ -90,15 +91,19 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     });
 
     if (book.isLike()) {
+      LogUtil.i("已经点赞过了");
       viewHolder.mBookFavour.setEnabled(false);
     } else {
+      LogUtil.i("还没有点赞过");
       viewHolder.mBookFavour.setEnabled(true);
     }
 
     viewHolder.mBookFavour.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (onFavourClickListener != null) {
-          onFavourClickListener.onFavourClick(book, viewHolder.mAddOneTextView, position);
+          mAnimation.setAnimationListener(new DianZanAnimationListener(viewHolder.mAddOneTextView));
+          startDianZanAnimation(viewHolder.mAddOneTextView);
+          onFavourClickListener.onFavourClick(book, position);
         }
       }
     });
@@ -136,10 +141,40 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
   }
 
   public static interface OnFavourClickListener {
-    void onFavourClick(Book book, View addOneTextView, int position);
+    void onFavourClick(Book book, int position);
   }
 
   public void setOnFavourClickListener(OnFavourClickListener listener) {
     this.onFavourClickListener = listener;
+  }
+
+  private void startDianZanAnimation(View view) {
+    if (view.getVisibility() == View.GONE) {
+      view.setVisibility(View.VISIBLE);
+      view.startAnimation(mAnimation);
+    }
+  }
+
+  private static class DianZanAnimationListener implements Animation.AnimationListener {
+    private View view;
+
+    public DianZanAnimationListener(View addOneTextView) {
+      view = addOneTextView;
+    }
+
+    @Override public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override public void onAnimationEnd(Animation animation) {
+
+      if (view.getVisibility() == View.VISIBLE) {
+        view.setVisibility(View.GONE);
+      }
+    }
+
+    @Override public void onAnimationRepeat(Animation animation) {
+
+    }
   }
 }
