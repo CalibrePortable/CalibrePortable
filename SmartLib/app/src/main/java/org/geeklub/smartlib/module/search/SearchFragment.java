@@ -82,7 +82,7 @@ public class SearchFragment extends BasePageListFragment<NormalUserService> {
 
     SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-    mService.search(user.getUserId(), 5, page, mQueryWord, new Callback<List<Book>>() {
+    mService.search(user.getUserId(), 1, page, mQueryWord, new Callback<List<Book>>() {
           @Override public void success(List<Book> bookList, Response response) {
             LogUtil.i(bookList.toString());
 
