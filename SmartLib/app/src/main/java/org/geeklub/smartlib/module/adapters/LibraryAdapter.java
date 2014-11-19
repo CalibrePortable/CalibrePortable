@@ -73,7 +73,13 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     LogUtil.i("Book Info ===>>>" + book.toString());
 
     viewHolder.mBookName.setText(book.getBook_name());
-    viewHolder.mBookDescription.setText(book.getBook_author());
+    StringBuilder description = new StringBuilder();
+    description.append(book.getBook_author())
+        .append("/")
+        .append(book.getBook_type())
+        .append("/")
+        .append(book.getBook_info());
+    viewHolder.mBookDescription.setText(description);
     viewHolder.mBookFavour.setText(book.getFavour());
 
     Picasso.with(mContext)
