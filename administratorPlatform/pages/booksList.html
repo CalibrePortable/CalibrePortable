@@ -1,0 +1,150 @@
+<!--created by Harbon -->
+
+
+<div ng-init = "pageInit();">
+    <br/>
+    <a data-uk-modal="{target:'#add'}" ><i class = "uk-icon-plus-square-o uk-icon-large"></i></a>
+    <table class = "uk-table">
+        <caption>书本总数：{{book_number}}</caption>
+
+        <thead>
+        <tr>
+            <th>书名</th>
+            <th>书ID</th>
+            <th>作者</th>
+            <th>借阅情况</th>
+            <th>分类</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr ng-repeat = "book in books" >
+            <td>
+                <a  data-uk-modal="{target:'#{{book.book_id}}'}">{{book.book_name}}</a>
+            </td>
+            <td>{{book.book_id}}</td>
+            <td>{{book.book_author}}</td>
+            <td>{{book.book_status}}</td>
+            <td>{{book.book_type}}</td>
+            <td>
+                <a  class="uk-button uk-button-danger" ng-click  = "delete($index)">删除</a>
+            </td>
+
+        </tr>
+        </tbody>
+    </table>
+    <div class = "uk-modal" id = "add">
+        <div class="uk-modal-dialog uk-modal-dialog-slide">
+            <a href = "" class="uk-modal-close uk-close"></a>
+            <form ng-submit = "addSubmit()" class="uk-form">
+                <fieldset>
+                    <label>书名：</label>
+                    <input type="text" class="uk-form-row" ng-model="book_name"  required/>
+                </fieldset>
+                </br>
+                <fieldset>
+                    <label>书本作者：</label>
+                    <input type="text" class="uk-form-row" ng-model="book_author"  required/>
+                </fieldset>
+                </br>
+                <fieldset>
+                    <label>书本封面图标地址：</label>
+                    <input type="url" class="uk-form-row" ng-model="book_pic"  required/>
+                </fieldset>
+                </br>
+                <fieldset>
+                    <label>书本分类：</label>
+                    <input type="text" class="uk-form-row" ng-model="book_type"  required/>
+                </fieldset>
+                </br>
+                <fieldset>
+                    <label>书本信息：</label>
+                    <textarea ng-model="book_info" cols="30" rows="20" required></textarea>
+                </fieldset>
+                <fieldset>
+                    <label>书本价格：</label>
+                    <input type="text" class="uk-form-row" ng-model="book_price"  required/>
+                </fieldset>
+
+                </br>
+                <fieldset>
+                    <input type="submit" class="uk-button uk-button-primary" style = "width: 500px" value="添加"/>
+                </fieldset>
+            </form>
+        </div>
+    </div>
+    <div ng-repeat = "book in books">
+        <div id = "{{book.book_id}}" class="uk-modal" >
+            <div class="uk-modal-dialog uk-modal-dialog-slide">
+                <a href="" class="uk-modal-close uk-close"></a>
+
+                <div class="uk-grid">
+                    <div class="uk-width-1-3">&nbsp;</div>
+                    <div class="uk-width-1-3">
+                        <img height="100%" ng-src="{{book.book_pic}}" />
+                    </div>
+                </div>
+                <div class="uk-grid">
+                    <div class="uk-width-1-3">&nbsp;</div>
+                    <div class="uk-width-1-3">
+                        <img height="100%" ng-src="{{book.barCodeInfoUrl}}" />
+                    </div>
+                </div>
+                <br/>
+                <form ng-submit = "modalSubmit($index, book.book_id)" class="uk-form">
+                    <fieldset>
+                        <label>书本名：</label>
+                        <input type="text" class="uk-form-row" ng-model="books[$index].book_name" value="{{book.book_name}}" required/>
+                    </fieldset>
+                        </br>
+                    <fieldset>
+                        <label>书本作者：</label>
+                        <input type="text" class="uk-form-row" ng-model="books[$index].book_author" value="{{book.book_author}}" required/>
+                    </fieldset>
+                    </br>
+                    <fieldset>
+                        <label>书本封面图标地址：</label>
+                        <input type="url" class="uk-form-row" ng-model="books[$index].book_pic" value="{{book.book_pic}}" required/>
+                    </fieldset>
+                    </br>
+                    <fieldset>
+                        <label>书本分类：</label>
+                        <input type="text" class="uk-form-row" ng-model="books[$index].book_type" value="{{book.book_type}}" required/>
+                    </fieldset>
+                    </br>
+                    <fieldset>
+                        <label>状态：</label>
+                        <input type="text" class="uk-form-row" ng-model="books[$index].book_status" value="{{book.book_status}}" required/>
+                    </fieldset>
+                    </br>
+                    <fieldset>
+                        <label>书本描述：</label>
+                        <textarea ng-model="books[$index].book_info" cols="30" rows="20" required>{{book.book_info}}</textarea>
+                    </fieldset>
+                    </br>
+                    <fieldset>
+                        <input type="submit" class="uk-button uk-button-primary" style = "width: 500px" value="修改"/>
+                    </fieldset>
+                </form>
+
+            </div>
+        </div>
+    </div>
+
+
+    <ul class="uk-pagination" ng-model = "currentPage" ng-show="paginationShouldShow">
+        <li ng-show = "notFirstPage" ng-click = "thePreviousPage(currentPage)">
+            <a ><i class="uk-icon-angle-double-left"></i></a>
+        </li>
+<!---->
+        <li  ng-repeat = "page in pages" class = "uk-active" >
+            <a class = "uk-active" ng-click = "pageRequest(page)" ng-if = "!(currentPage == page)"><span>{{page}}</span></a>
+            <span  ng-if = "currentPage == page" >{{page}}</span>
+        </li>
+<!---->
+        <li ng-show = "notLastPage" ng-click = "theNextPage(currentPage)">
+            <a ><i class="uk-icon-angle-double-right"></i></a>
+        </li>
+<!---->
+    </ul>
+</div>
