@@ -108,6 +108,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
       @Override public void onClick(View v) {
         if (onFavourClickListener != null) {
           onFavourClickListener.onFavourClick(book, position);
+          //禁用点赞按钮，否则会出现疯狂点赞情况
           v.setEnabled(false);
           mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.dianzan_anim);
           mAnimation.setAnimationListener(new DianZanAnimationListener(position));
@@ -166,10 +167,8 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
   private class DianZanAnimationListener implements Animation.AnimationListener {
     private int mPosition;
-    //private View mAddOne;
 
     @Override public void onAnimationStart(Animation animation) {
-      //mAddOne.setEnabled(false);
 
     }
 
@@ -179,7 +178,6 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
     public DianZanAnimationListener(int position) {
       this.mPosition = position;
-      //this.mAddOne = addOne;
     }
 
     @Override public void onAnimationRepeat(Animation animation) {
