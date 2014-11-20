@@ -23,4 +23,7 @@
   <string name="settings_key_modify_password">settings_key_modify_password</string>
   <string name="settings_key_modify_password_title">修改密码</string>
 
+  <string name="settings_key_feed_back">settings_key_feed_back</string>
+  <string name="settings_key_feed_back_title">用户反馈</string>
+
 </resources>

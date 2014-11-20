@@ -8,7 +8,7 @@ android {
     applicationId "org.geeklub.smartlib"
     minSdkVersion 15
     targetSdkVersion 21
-    versionCode 7
+    versionCode 8
     versionName "0.5"
   }
 

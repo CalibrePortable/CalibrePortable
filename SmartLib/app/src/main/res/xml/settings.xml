@@ -49,6 +49,21 @@
           android:data="https://github.com/CalibrePortable/CalibrePortable"/>
     </Preference>
 
+
+    <Preference
+        android:key="@string/settings_key_feed_back"
+        android:title="@string/settings_key_feed_back_title">
+
+      <intent
+          android:targetClass="com.avos.avoscloud.feedback.ThreadActivity"
+          android:targetPackage="org.geeklub.smartlib">
+
+      </intent>
+
+
+    </Preference>
+
+
   </PreferenceCategory>
 
 </PreferenceScreen>
