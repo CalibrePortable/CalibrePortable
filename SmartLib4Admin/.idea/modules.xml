@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/extras/AndroidMaterialDesignLibrary/AndroidMaterialDesignLibrary.iml" filepath="$PROJECT_DIR$/extras/AndroidMaterialDesignLibrary/AndroidMaterialDesignLibrary.iml" />
       <module fileurl="file://$PROJECT_DIR$/SmartLib4Admin.iml" filepath="$PROJECT_DIR$/SmartLib4Admin.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>

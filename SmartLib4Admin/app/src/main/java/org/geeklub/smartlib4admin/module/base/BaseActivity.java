@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.gc.materialdesign.widgets.SnackBar;
 
 /**
  * Created by Vass on 2014/11/6.
@@ -16,6 +17,9 @@ public abstract class BaseActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
 
     setContentView(getLayoutResource());
+
+
+
 
     ButterKnife.inject(this);
   }
