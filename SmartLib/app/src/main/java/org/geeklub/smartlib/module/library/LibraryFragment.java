@@ -58,9 +58,8 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
     ((LibraryAdapter) mAdapter).setOnFavourClickListener(
         new LibraryAdapter.OnFavourClickListener() {
           @Override public void onFavourClick(Book book, final int position) {
-            book.setLike(true);
+            book.setLike(1);
             book.setFavour(Integer.valueOf(book.getFavour()) + 1 + "");
-            ((LibraryAdapter) mAdapter).updateItem(position);
             sendDianZanMsg(book);
           }
         });
@@ -107,7 +106,7 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
 
     SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-    mService.search(user.getPassWord(), 5, page, "all", new Callback<List<Book>>() {
+    mService.search(user.getUserId(), 5, page, "all", new Callback<List<Book>>() {
       @Override public void success(List<Book> bookList, Response response) {
 
         LogUtil.i("下载了" + bookList.size() + "本书");

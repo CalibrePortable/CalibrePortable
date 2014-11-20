@@ -49,7 +49,7 @@ public class Book implements Parcelable {
    * 是否已经点赞
    */
 
-  private boolean isLike;
+  private int isLike;
 
   public Book() {
   }
@@ -126,11 +126,11 @@ public class Book implements Parcelable {
     this.book_pic = book_pic;
   }
 
-  public boolean isLike() {
+  public int isLike() {
     return isLike;
   }
 
-  public void setLike(boolean isLike) {
+  public void setLike(int isLike) {
     this.isLike = isLike;
   }
 
@@ -147,7 +147,7 @@ public class Book implements Parcelable {
     dest.writeString(this.book_status);
     dest.writeString(this.favour);
     dest.writeString(this.book_pic);
-    dest.writeByte(isLike ? (byte) 1 : (byte) 0);
+    dest.writeInt(this.isLike);
     dest.writeString(this.book_id);
   }
 
@@ -160,7 +160,7 @@ public class Book implements Parcelable {
     this.book_status = in.readString();
     this.favour = in.readString();
     this.book_pic = in.readString();
-    this.isLike = in.readByte() != 0;
+    this.isLike = in.readInt();
     this.book_id = in.readString();
   }
 
@@ -176,7 +176,8 @@ public class Book implements Parcelable {
 
   @Override public String toString() {
     return "Book{" +
-        "book_name='" + book_name + '\'' +
+        "book_id='" + book_id + '\'' +
+        ", book_name='" + book_name + '\'' +
         ", book_author='" + book_author + '\'' +
         ", book_type='" + book_type + '\'' +
         ", book_info='" + book_info + '\'' +

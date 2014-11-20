@@ -25,6 +25,7 @@
           android:text="@string/user_id"/>
 
       <EditText
+          android:inputType="number"
           android:id="@+id/et_user_id"
           android:layout_height="wrap_content"
           android:hint="@string/et_user_id_hint"/>

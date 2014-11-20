@@ -36,7 +36,6 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
   public LibraryAdapter(Context context) {
     mData = new ArrayList<Book>();
     mContext = context;
-    mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.dianzan_anim);
   }
 
   public void refresh(List<Book> bookList) {
@@ -81,6 +80,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
         .append(book.getBook_info());
     viewHolder.mBookDescription.setText(description);
     viewHolder.mBookFavour.setText(book.getFavour());
+    viewHolder.mAddOneTextView.setVisibility(View.GONE);
 
     Picasso.with(mContext)
         .load(book.getBook_pic())
@@ -96,7 +96,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
       }
     });
 
-    if (book.isLike()) {
+    if (book.isLike() == 1) {
       LogUtil.i("已经点赞过了");
       viewHolder.mBookFavour.setEnabled(false);
     } else {
@@ -107,9 +107,10 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     viewHolder.mBookFavour.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (onFavourClickListener != null) {
-          mAnimation.setAnimationListener(new DianZanAnimationListener(viewHolder.mAddOneTextView));
-          startDianZanAnimation(viewHolder.mAddOneTextView);
           onFavourClickListener.onFavourClick(book, position);
+          mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.dianzan_anim);
+          mAnimation.setAnimationListener(new DianZanAnimationListener(position));
+          startDianZanAnimation(viewHolder.mAddOneTextView);
         }
       }
     });
@@ -154,29 +155,27 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     this.onFavourClickListener = listener;
   }
 
-  private void startDianZanAnimation(View view) {
+  public void startDianZanAnimation(final View view) {
+
     if (view.getVisibility() == View.GONE) {
       view.setVisibility(View.VISIBLE);
       view.startAnimation(mAnimation);
     }
   }
 
-  private static class DianZanAnimationListener implements Animation.AnimationListener {
-    private View view;
-
-    public DianZanAnimationListener(View addOneTextView) {
-      view = addOneTextView;
-    }
+  private class DianZanAnimationListener implements Animation.AnimationListener {
+    private int mPosition;
 
     @Override public void onAnimationStart(Animation animation) {
 
     }
 
     @Override public void onAnimationEnd(Animation animation) {
+      updateItem(mPosition);
+    }
 
-      if (view.getVisibility() == View.VISIBLE) {
-        view.setVisibility(View.GONE);
-      }
+    public DianZanAnimationListener(int position) {
+      this.mPosition = position;
     }
 
     @Override public void onAnimationRepeat(Animation animation) {
