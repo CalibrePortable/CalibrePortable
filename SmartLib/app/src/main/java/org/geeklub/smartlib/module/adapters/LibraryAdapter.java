@@ -108,6 +108,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
       @Override public void onClick(View v) {
         if (onFavourClickListener != null) {
           onFavourClickListener.onFavourClick(book, position);
+          v.setEnabled(false);
           mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.dianzan_anim);
           mAnimation.setAnimationListener(new DianZanAnimationListener(position));
           startDianZanAnimation(viewHolder.mAddOneTextView);
@@ -155,18 +156,20 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     this.onFavourClickListener = listener;
   }
 
-  public void startDianZanAnimation(final View view) {
+  public void startDianZanAnimation(final View addOne) {
 
-    if (view.getVisibility() == View.GONE) {
-      view.setVisibility(View.VISIBLE);
-      view.startAnimation(mAnimation);
+    if (addOne.getVisibility() == View.GONE) {
+      addOne.setVisibility(View.VISIBLE);
+      addOne.startAnimation(mAnimation);
     }
   }
 
   private class DianZanAnimationListener implements Animation.AnimationListener {
     private int mPosition;
+    //private View mAddOne;
 
     @Override public void onAnimationStart(Animation animation) {
+      //mAddOne.setEnabled(false);
 
     }
 
@@ -176,6 +179,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
     public DianZanAnimationListener(int position) {
       this.mPosition = position;
+      //this.mAddOne = addOne;
     }
 
     @Override public void onAnimationRepeat(Animation animation) {

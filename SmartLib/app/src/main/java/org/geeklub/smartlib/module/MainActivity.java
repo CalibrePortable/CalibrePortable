@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
+import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import org.geeklub.smartlib.R;
