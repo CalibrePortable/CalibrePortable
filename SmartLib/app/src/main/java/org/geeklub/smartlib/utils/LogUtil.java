@@ -16,6 +16,8 @@
 
 package org.geeklub.smartlib.utils;
 
+import android.widget.ListView;
+
 /**
  * Wrapper API for sending log output.
  */

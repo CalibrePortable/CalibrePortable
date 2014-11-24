@@ -91,7 +91,6 @@ public class MainActivity extends ActionBarActivity {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setHomeButtonEnabled(true);
-    actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
   }
 
   public void iniDrawer() {
