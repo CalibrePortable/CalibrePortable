@@ -41,4 +41,5 @@ dependencies {
   compile files('libs/avoscloud-v2.6.7.jar')
   compile files('libs/fastjson.jar')
   compile files('libs/httpmime-4.2.4.jar')
+  compile files('libs/avosfeedback-v2.6.8.jar')
 }
