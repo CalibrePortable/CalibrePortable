@@ -31,7 +31,6 @@ public abstract class BaseFragment extends Fragment {
 
   @Override public void onDetach() {
     super.onDetach();
-
     mActivity = null;
   }
 
