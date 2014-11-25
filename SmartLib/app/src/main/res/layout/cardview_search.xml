@@ -43,6 +43,18 @@
         android:layout_alignLeft="@+id/tv_book_name"
         android:layout_marginTop="5dp"/>
 
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+1"
+        android:visibility="gone"
+        android:textSize="20sp"
+        android:layout_above="@+id/tv_book_favour"
+        android:layout_alignRight="@+id/tv_book_favour"
+        android:textColor="@color/POMEGRANATE"
+        android:id="@+id/tv_add_one"/>
+
     <TextView
         android:gravity="center"
         android:drawableLeft="@drawable/ic_action_favorite"

@@ -6,11 +6,13 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.InjectView;
 import org.geeklub.smartlib.R;
+import org.geeklub.smartlib.utils.LogUtil;
 import retrofit.RestAdapter;
 
 /**
@@ -82,6 +84,7 @@ public abstract class BasePageListFragment<T> extends BaseFragment
   }
 
   private void loadNextPage() {
+    LogUtil.i("加载下一页");
     loadData(mPage);
   }
 

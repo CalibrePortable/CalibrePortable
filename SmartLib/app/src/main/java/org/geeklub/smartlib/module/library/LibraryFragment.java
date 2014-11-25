@@ -57,8 +57,8 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
 
     ((LibraryAdapter) mAdapter).setOnFavourClickListener(
         new LibraryAdapter.OnFavourClickListener() {
-          @Override public void onFavourClick(Book book, final int position) {
-            book.setLike(1);
+          @Override public void onFavourClick(Book book) {
+            book.setIsLike(1);
             book.setFavour(Integer.valueOf(book.getFavour()) + 1 + "");
             sendDianZanMsg(book);
           }

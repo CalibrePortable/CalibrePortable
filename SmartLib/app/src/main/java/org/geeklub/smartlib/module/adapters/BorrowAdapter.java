@@ -56,8 +56,10 @@ public class BorrowAdapter extends RecyclerView.Adapter<BorrowAdapter.ViewHolder
   @Override public void onBindViewHolder(ViewHolder viewHolder, int position) {
     final Book book = mData.get(position);
     viewHolder.mBookName.setText(book.getBook_name());
-    viewHolder.mBookDescripion.setText(book.getBook_author());
+    viewHolder.mBookDescription.setText(book.getBook_author());
     viewHolder.mBookFavour.setText(book.getFavour());
+    viewHolder.mBorrowAt.setText("FROM:" + book.getBorrow_at());
+    viewHolder.mReturnAt.setText("TO:" + book.getReturn_at());
 
     Picasso.with(mContext)
         .load(book.getBook_pic())
@@ -84,13 +86,16 @@ public class BorrowAdapter extends RecyclerView.Adapter<BorrowAdapter.ViewHolder
 
     @InjectView(R.id.tv_book_name) TextView mBookName;
 
-    @InjectView(R.id.tv_book_description) TextView mBookDescripion;
+    @InjectView(R.id.tv_book_description) TextView mBookDescription;
 
     @InjectView(R.id.tv_book_favour) TextView mBookFavour;
 
+    @InjectView(R.id.tv_borrow_at) TextView mBorrowAt;
+
+    @InjectView(R.id.tv_return_at) TextView mReturnAt;
+
     public ViewHolder(View itemView) {
       super(itemView);
-
       ButterKnife.inject(this, itemView);
     }
   }
