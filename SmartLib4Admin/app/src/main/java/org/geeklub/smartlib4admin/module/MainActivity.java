@@ -56,7 +56,6 @@ public class MainActivity extends BaseActivity {
 
     mTitle = mDrawerTitle = getTitle();
 
-
     mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
 
     mDrawerToggle = new ActionBarDrawerToggle(this, mDrawerLayout, R.string.drawer_open,
@@ -92,19 +91,19 @@ public class MainActivity extends BaseActivity {
 
     switch (mCategory) {
 
-      //case library:
-      //  mContentFragment = new LibraryFragment();
-      //  break;
-      //
-      //case lend:
-      //  mContentFragment = new LendFragment();
-      //  break;
+      case library:
+        mContentFragment = LibraryFragment.newInstance();
+        break;
+
+      case lend:
+        mContentFragment = LendFragment.newInstance();
+        break;
 
       default:
         break;
     }
     setTitle(mCategory.getDisplayName());
-    //getFragmentManager().beginTransaction().replace(R.id.content_frame, mContentFragment).commit();
+    getFragmentManager().beginTransaction().replace(R.id.content_frame, mContentFragment).commit();
   }
 
   private void iniDrawer() {

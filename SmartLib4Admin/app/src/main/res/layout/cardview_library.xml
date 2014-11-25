@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="5dp"
+    app:cardBackgroundColor="@color/cardview_light_background"
+    app:cardCornerRadius="5dp">
+
+
+  <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="150dp"
+      android:padding="5dp">
+
+
+    <ImageView
+        android:layout_alignParentLeft="true"
+        android:layout_width="70dp"
+        android:layout_height="120dp"
+        android:id="@+id/iv_book_icon"
+        android:layout_marginTop="5dp"
+        android:layout_marginLeft="5dp"/>
+
+    <TextView
+        android:layout_toRightOf="@+id/iv_book_icon"
+        android:layout_alignTop="@+id/iv_book_icon"
+        android:layout_width="wrap_content"
+        android:singleLine="true"
+        android:layout_height="wrap_content"
+        android:text="书名"
+        android:id="@+id/tv_book_name"
+        android:layout_marginLeft="5dp"/>
+
+    <TextView
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:singleLine="true"
+        android:text="描述"
+        android:id="@+id/tv_book_description"
+        android:layout_below="@+id/tv_book_name"
+        android:layout_alignLeft="@+id/tv_book_name"
+        android:layout_marginTop="5dp"/>
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="+1"
+        android:visibility="gone"
+        android:textSize="20sp"
+        android:layout_above="@+id/tv_book_favour"
+        android:layout_alignRight="@+id/tv_book_favour"
+        android:textColor="@color/POMEGRANATE"
+        android:id="@+id/tv_add_one"/>
+
+    <TextView
+        android:clickable="true"
+        android:gravity="center"
+        android:drawableLeft="@drawable/ic_action_favorite"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:id="@+id/tv_book_favour"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+
+  </RelativeLayout>
+
+</android.support.v7.widget.CardView>

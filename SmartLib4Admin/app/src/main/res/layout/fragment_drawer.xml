@@ -7,6 +7,7 @@
 
 
   <ImageView
+      android:background="@drawable/drawer_header"
       android:clickable="true"
       android:id="@+id/drawer_header"
       android:layout_height="200dp"

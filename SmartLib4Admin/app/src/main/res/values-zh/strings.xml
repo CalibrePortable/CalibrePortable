@@ -9,7 +9,7 @@
 
   <string name="action_search">搜索</string>
   <string name="action_settings">设置</string>
-  <string name="action_qr_code">扫一扫借书</string>
+  <string name="action_qr_code">扫一扫还书</string>
 
 
   <array name="admin_functions">
