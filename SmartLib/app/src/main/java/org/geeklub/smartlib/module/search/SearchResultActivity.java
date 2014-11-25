@@ -22,6 +22,8 @@ public class SearchResultActivity extends ActionBarActivity {
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    setContentView(R.layout.activity_search);
+
     initActionBar();
 
     handleIntent(getIntent());
@@ -46,7 +48,7 @@ public class SearchResultActivity extends ActionBarActivity {
       LogUtil.i("query_word ===>>>" + query);
 
       getFragmentManager().beginTransaction()
-          .replace(android.R.id.content, SearchFragment.newInstance(query))
+          .replace(R.id.content_frame, SearchFragment.newInstance(query))
           .commit();
     }
   }

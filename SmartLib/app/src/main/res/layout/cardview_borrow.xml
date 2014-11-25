@@ -11,7 +11,7 @@
 
   <RelativeLayout
       android:layout_width="match_parent"
-      android:layout_height="200dp"
+      android:layout_height="160dp"
       android:padding="5dp">
 
 
@@ -54,8 +54,6 @@
 
     <TextView
         android:id="@+id/tv_borrow_at"
-        android:layout_marginTop="40dp"
-        android:text="FROM"
         android:layout_alignLeft="@+id/iv_book_icon"
         android:layout_below="@+id/iv_book_icon"
         android:layout_width="wrap_content"
@@ -64,7 +62,6 @@
     <TextView
         android:id="@+id/tv_return_at"
         android:layout_marginLeft="100dp"
-        android:text="TO"
         android:layout_alignTop="@+id/tv_borrow_at"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

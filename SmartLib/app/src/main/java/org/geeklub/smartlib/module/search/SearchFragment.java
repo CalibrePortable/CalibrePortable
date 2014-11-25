@@ -34,7 +34,6 @@ public class SearchFragment extends BasePageListFragment<NormalUserService> {
   private String mQueryWord;
 
   public static Fragment newInstance(String keyWord) {
-
     Fragment searchFragment = new SearchFragment();
     Bundle args = new Bundle();
     args.putString(ARGS_KEYWORD, keyWord);
@@ -94,9 +93,7 @@ public class SearchFragment extends BasePageListFragment<NormalUserService> {
     mService.search(user.getUserId(), 1, page, mQueryWord, new Callback<List<Book>>() {
       @Override public void success(List<Book> bookList, Response response) {
         LogUtil.i(bookList.toString());
-
         mSwipeRefreshLayout.setRefreshing(false);
-
         if (mIsRefreshFromTop) {
           ((SearchAdapter) mAdapter).refresh(bookList);
         } else {

@@ -32,15 +32,11 @@ import retrofit.client.Response;
 public class LibraryFragment extends BasePageListFragment<NormalUserService> {
 
   public static Fragment newInstance() {
-
     Fragment libraryFragment = new LibraryFragment();
-
     return libraryFragment;
   }
 
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-  }
+
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
