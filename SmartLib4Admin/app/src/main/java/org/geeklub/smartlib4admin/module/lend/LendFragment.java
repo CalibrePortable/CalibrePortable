@@ -14,6 +14,7 @@ import org.geeklub.smartlib4admin.module.adapters.LendAdapter;
 import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
 import org.geeklub.smartlib4admin.utils.LogUtil;
+import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 import retrofit.Callback;
 import retrofit.RestAdapter;
 import retrofit.RetrofitError;
@@ -25,9 +26,7 @@ import retrofit.client.Response;
 public class LendFragment extends BasePageListFragment<AdministratorService> {
 
   public static Fragment newInstance() {
-
     Fragment lendFragment = new LendFragment();
-
     return lendFragment;
   }
 
@@ -43,15 +42,21 @@ public class LendFragment extends BasePageListFragment<AdministratorService> {
     return new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
   }
 
-  @Override protected Class<AdministratorService> getServiceClass() {
+  @Override protected Class getServiceClass() {
     return AdministratorService.class;
   }
 
   @Override protected void executeRequest(int page) {
+    LogUtil.i("下载数据");
+
+    SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+
     mService.haveLended("12108238", "123", page, new Callback<List<Book>>() {
       @Override public void success(List<Book> bookList, Response response) {
         LogUtil.i("下载了" + bookList.size() + "本书");
+
         mSwipeRefreshLayout.setRefreshing(false);
+
         if (mIsRefreshFromTop) {
           ((LendAdapter) mAdapter).refresh(bookList);
         } else {
@@ -75,13 +80,6 @@ public class LendFragment extends BasePageListFragment<AdministratorService> {
     ((LendAdapter) mAdapter).setOnItemClickListener(new LendAdapter.OnItemClickListener() {
       @Override public void onItemClick(Book book) {
 
-      }
-    });
-
-    ((LendAdapter) mAdapter).setOnFavourClickListener(new LendAdapter.OnFavourClickListener() {
-      @Override public void onFavourClick(Book book) {
-        book.setIsLike(1);
-        book.setFavour(Integer.valueOf(book.getFavour()) + 1 + "");
       }
     });
 
