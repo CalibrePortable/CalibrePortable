@@ -1,6 +1,6 @@
 ##  图书管理系统API定义 
 手机后端REST API
-b
+
 当前域名：http://www.flappyant.com/book/
 
 #### 公共
@@ -36,7 +36,7 @@ b
 
 
 2.点赞(bookbasic)
->API.php/public/getLike/:bookKind/:userId/:password
+>API.php/public/like/:bookKind/:userId/:password
 
 **请求**
 
@@ -44,9 +44,7 @@ b
 
 **用例**
 
->12
->12108413
->12108413
+>API.php/public/like/12/12108413/12108413
 
 **参数**
 
@@ -115,8 +113,8 @@ b
 
 
 
-*5.显示图书详细（未实现）(book_kind->booklist)*
->API.php/public/detail/:bookKind/:userId/:password
+5.显示图书详细(book_kind->booklist)
+>API.php/public/detail/:bookKind/:userId
 
 **请求**
 
@@ -129,8 +127,7 @@ b
 **参数**
 
 >bookK(大写)ind:String
->>userId:String
->>>password:String(获取)
+>>userId:String(获取)
 
 `Response`
 >[
@@ -161,8 +158,8 @@ b
 
 
 
-*6.最近添加的图书（未实现）(id)*(仿书本列表实现)
->API.php/public/recentAdd/:userId/:password
+6.最近添加的图书(仿书本列表实现)
+>API.php/public/recentAdd/:userId
 
 **请求**
 
@@ -174,8 +171,7 @@ b
 
 **参数**
 
->userId:String
->>password:String(获取)
+>userId:String(获取)
 
 
 `Response`
@@ -202,7 +198,7 @@ b
 **用例**
 
 >12108413
->12345
+>12108413
 
 **参数**
 
@@ -259,7 +255,7 @@ b
 
 **用例**
 
->API.php/normal/borrow/1/12108413/12345
+>API.php/normal/borrow/1/12108413/12108413
 
 **参数**
 
@@ -419,7 +415,7 @@ Method:GET
 
 
 3.归还图书
->API.php/admin/return/:bookId/:userId/:password 
+>API.php/admin/confirm/:bookId/:userId/:password 
 
 ***请求***
 
@@ -427,7 +423,7 @@ Method:GET
 
 ***用例***
 
->API.php/admin/return/47/12108238/123
+>API.php/admin/confirm/47/12108238/123
 
 ***参数***
 
@@ -483,7 +479,7 @@ Method:GET
 
 
 5.添加图书(仅用于捐赠的图书添加，购买的图书通过购买系统添加)
->API.php/admin/add/:bookIsbn/:userId/:password
+>API.php/admin/add/:bookId/:bookIsbn/:bookType/:userId/:password
 
 ***请求***
 
@@ -495,8 +491,8 @@ Method:GET
 
 ***参数***
 
->bookIsbn:String
->>bookId:String
+>bookId:String
+>>bookIsbn:String
 >>>bookType:String
 >>>>userId：String
 >>>>>password:String(获取)
@@ -576,7 +572,7 @@ API.php/admin/showRe/12108238/123/page=1
 
 
 
-*8.查看已超期的图书(未实现)(id)*
+8.查看已超期的图书
 >API.php/admin/showOut/:userId/:password
 
 ***请求***
@@ -590,8 +586,7 @@ API.php/admin/showOut/12108238/123
 ***参数***
 
 >userId:String
->>password:String
->>>page:int(获取)
+>>password:String(获取)
 
 `Response`
 >[
@@ -603,7 +598,7 @@ API.php/admin/showOut/12108238/123
 "book_pic":图书图片,
 "isLike":是否被赞,
 "created_at":借阅时间,
-"return_at"剩余天数:},
+"return_at":剩余天数},
 {
     ...
 },...
