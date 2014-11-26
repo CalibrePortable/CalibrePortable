@@ -1,16 +1,23 @@
 package org.geeklub.smartlib.module.search;
 
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
+import butterknife.ButterKnife;
+import butterknife.InjectView;
+import com.astuetz.PagerSlidingTabStrip;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.utils.LogUtil;
 
@@ -19,10 +26,22 @@ import org.geeklub.smartlib.utils.LogUtil;
  */
 public class SearchResultActivity extends ActionBarActivity {
 
+  @InjectView(R.id.pager) ViewPager mViewPager;
+
+  @InjectView(R.id.tabs) PagerSlidingTabStrip mTabs;
+
+  private SearchPagerAdapter mAdapter;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    setContentView(R.layout.activity_search);
+    ButterKnife.inject(this);
     initActionBar();
+
+    mAdapter = new SearchPagerAdapter(getFragmentManager());
+    mViewPager.setAdapter(mAdapter);
+    mTabs.setViewPager(mViewPager);
 
     handleIntent(getIntent());
   }
@@ -34,20 +53,15 @@ public class SearchResultActivity extends ActionBarActivity {
 
   @Override protected void onNewIntent(Intent intent) {
     super.onNewIntent(intent);
-
     handleIntent(intent);
   }
 
   private void handleIntent(Intent intent) {
-
     if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-      String query = intent.getStringExtra(SearchManager.QUERY);
-
-      LogUtil.i("query_word ===>>>" + query);
-
-      getFragmentManager().beginTransaction()
-          .replace(android.R.id.content, SearchFragment.newInstance(query))
-          .commit();
+      String queryWord = intent.getStringExtra(SearchManager.QUERY);
+      LogUtil.i("搜索的关键字是 ===>>>" + queryWord);
+      mAdapter.setKeyWord(queryWord);
+      mAdapter.refresh();
     }
   }
 
@@ -70,5 +84,40 @@ public class SearchResultActivity extends ActionBarActivity {
         NavUtils.navigateUpTo(this, getIntent());
     }
     return super.onOptionsItemSelected(item);
+  }
+
+  private class SearchPagerAdapter extends FragmentStatePagerAdapter {
+    private final String[] TITLES = { "书名", "出版社", "作者", "种类", "全部" };
+
+    private String mKeyWord;
+
+    public SearchPagerAdapter(FragmentManager fm) {
+      super(fm);
+      mKeyWord = "";
+    }
+
+    public void setKeyWord(String keyWord) {
+      mKeyWord = keyWord;
+    }
+
+    @Override public Fragment getItem(int position) {
+      return SearchFragment.newInstance(position + 1, mKeyWord);
+    }
+
+    @Override public int getCount() {
+      return TITLES.length;
+    }
+
+    @Override public CharSequence getPageTitle(int position) {
+      return TITLES[position];
+    }
+
+    public void refresh() {
+      notifyDataSetChanged();
+    }
+
+    @Override public int getItemPosition(Object object) {
+      return POSITION_NONE;
+    }
   }
 }

@@ -51,6 +51,18 @@ public class Book implements Parcelable {
 
   private int isLike;
 
+  /**
+   * 借书时间
+   */
+
+  private String created_at;
+
+  /**
+   * 还书时间
+   */
+
+  private String return_at;
+
   public Book() {
   }
 
@@ -126,12 +138,28 @@ public class Book implements Parcelable {
     this.book_pic = book_pic;
   }
 
-  public int isLike() {
+  public int getIsLike() {
     return isLike;
   }
 
-  public void setLike(int isLike) {
+  public void setIsLike(int isLike) {
     this.isLike = isLike;
+  }
+
+  public String getBorrow_at() {
+    return created_at;
+  }
+
+  public void setBorrow_at(String borrow_at) {
+    this.created_at = borrow_at;
+  }
+
+  public String getReturn_at() {
+    return return_at;
+  }
+
+  public void setReturn_at(String return_at) {
+    this.return_at = return_at;
   }
 
   @Override public int describeContents() {
@@ -149,6 +177,8 @@ public class Book implements Parcelable {
     dest.writeString(this.book_pic);
     dest.writeInt(this.isLike);
     dest.writeString(this.book_id);
+    dest.writeString(this.created_at);
+    dest.writeString(this.return_at);
   }
 
   private Book(Parcel in) {
@@ -162,6 +192,8 @@ public class Book implements Parcelable {
     this.book_pic = in.readString();
     this.isLike = in.readInt();
     this.book_id = in.readString();
+    this.created_at = in.readString();
+    this.return_at = in.readString();
   }
 
   public static final Parcelable.Creator<Book> CREATOR = new Parcelable.Creator<Book>() {
@@ -186,6 +218,8 @@ public class Book implements Parcelable {
         ", favour='" + favour + '\'' +
         ", book_pic='" + book_pic + '\'' +
         ", isLike=" + isLike +
+        ", borrow_at='" + created_at + '\'' +
+        ", return_at='" + return_at + '\'' +
         '}';
   }
 }

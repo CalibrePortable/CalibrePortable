@@ -32,15 +32,11 @@ import retrofit.client.Response;
 public class LibraryFragment extends BasePageListFragment<NormalUserService> {
 
   public static Fragment newInstance() {
-
     Fragment libraryFragment = new LibraryFragment();
-
     return libraryFragment;
   }
 
-  @Override public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
-  }
+
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
@@ -57,8 +53,8 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
 
     ((LibraryAdapter) mAdapter).setOnFavourClickListener(
         new LibraryAdapter.OnFavourClickListener() {
-          @Override public void onFavourClick(Book book, final int position) {
-            book.setLike(1);
+          @Override public void onFavourClick(Book book) {
+            book.setIsLike(1);
             book.setFavour(Integer.valueOf(book.getFavour()) + 1 + "");
             sendDianZanMsg(book);
           }

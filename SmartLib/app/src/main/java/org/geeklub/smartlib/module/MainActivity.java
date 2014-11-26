@@ -24,6 +24,7 @@ import com.google.zxing.integration.android.IntentResult;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.beans.ServerResponse;
+import org.geeklub.smartlib.module.login.LoginActivity;
 import org.geeklub.smartlib.module.settings.SettingsActivity;
 import org.geeklub.smartlib.module.type.Category;
 import org.geeklub.smartlib.module.borrow.BorrowFragment;
@@ -91,7 +92,6 @@ public class MainActivity extends ActionBarActivity {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setHomeButtonEnabled(true);
-    actionBar.setHomeAsUpIndicator(R.drawable.ic_drawer);
   }
 
   public void iniDrawer() {
@@ -150,6 +150,12 @@ public class MainActivity extends ActionBarActivity {
 
       case R.id.action_qr_code:
         new IntentIntegrator(this).initiateScan();
+        return true;
+
+      case R.id.action_logout:
+        SmartLibraryUser.clear();
+        finish();
+        startActivity(new Intent(this, LoginActivity.class));
         return true;
 
       default:

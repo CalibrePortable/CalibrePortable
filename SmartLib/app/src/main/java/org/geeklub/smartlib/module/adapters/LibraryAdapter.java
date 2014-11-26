@@ -96,7 +96,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
       }
     });
 
-    if (book.isLike() == 1) {
+    if (book.getIsLike() == 1) {
       LogUtil.i("已经点赞过了");
       viewHolder.mBookFavour.setEnabled(false);
     } else {
@@ -107,7 +107,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     viewHolder.mBookFavour.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (onFavourClickListener != null) {
-          onFavourClickListener.onFavourClick(book, position);
+          onFavourClickListener.onFavourClick(book);
           //禁用点赞按钮，否则会出现疯狂点赞情况
           v.setEnabled(false);
           mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.dianzan_anim);
@@ -150,7 +150,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
   }
 
   public static interface OnFavourClickListener {
-    void onFavourClick(Book book, int position);
+    void onFavourClick(Book book);
   }
 
   public void setOnFavourClickListener(OnFavourClickListener listener) {

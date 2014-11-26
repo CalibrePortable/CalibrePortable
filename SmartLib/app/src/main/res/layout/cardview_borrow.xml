@@ -11,7 +11,7 @@
 
   <RelativeLayout
       android:layout_width="match_parent"
-      android:layout_height="200dp"
+      android:layout_height="160dp"
       android:padding="5dp">
 
 
@@ -51,6 +51,25 @@
         android:id="@+id/tv_book_favour"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
+
+    <TextView
+        android:layout_marginTop="6dp"
+        android:text="fsdfsdaf"
+        android:layout_alignTop="@+id/tv_book_favour"
+        android:id="@+id/tv_borrow_at"
+        android:layout_alignLeft="@+id/iv_book_icon"
+        android:layout_below="@+id/iv_book_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:text="fsdfsdf"
+        android:id="@+id/tv_return_at"
+        android:layout_marginLeft="50dp"
+        android:layout_alignTop="@+id/tv_borrow_at"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/tv_borrow_at"/>
 
 
   </RelativeLayout>

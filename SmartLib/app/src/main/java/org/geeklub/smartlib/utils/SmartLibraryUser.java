@@ -48,6 +48,7 @@ public class SmartLibraryUser {
     String password = preferences.getString(USER_PASSWORD, "");
 
     if (userId == null || "".equals(userId)) {
+      LogUtil.i("userId 不存在");
       return null;
     }
     return new SmartLibraryUser(userId, password);
@@ -67,5 +68,6 @@ public class SmartLibraryUser {
         GlobalContext.getInstance().getSharedPreferences(SMART_LIB_USER, Context.MODE_PRIVATE);
     SharedPreferences.Editor editor = preferences.edit();
     editor.clear();
+    editor.apply();
   }
 }

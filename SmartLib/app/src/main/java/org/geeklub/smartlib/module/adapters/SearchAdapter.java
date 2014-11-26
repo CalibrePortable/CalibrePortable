@@ -5,6 +5,8 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
@@ -14,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.beans.Book;
+import org.geeklub.smartlib.utils.LogUtil;
 
 /**
  * Created by Vass on 2014/11/7.
@@ -26,6 +29,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
   private OnItemClickListener onItemClickListener;
 
+  private OnFavourClickListener onFavourClickListener;
+
+  private Animation mAnimation;
+
   public SearchAdapter(Context context) {
     this.mContext = context;
     this.mData = new ArrayList<Book>();
@@ -37,11 +44,30 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     return new ViewHolder(view);
   }
 
-  @Override public void onBindViewHolder(ViewHolder viewHolder, int position) {
+  @Override public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
     final Book book = mData.get(position);
+
     viewHolder.mBookName.setText(book.getBook_name());
-    viewHolder.mBookDescription.setText(book.getBook_author());
+
+    StringBuilder description = new StringBuilder();
+    description.append(book.getBook_author())
+        .append("/")
+        .append(book.getBook_type())
+        .append("/")
+        .append(book.getBook_info());
+
+    viewHolder.mBookDescription.setText(description);
     viewHolder.mBookFavour.setText(book.getFavour());
+    viewHolder.mAddOneTextView.setVisibility(View.GONE);
+
+
+    if (book.getIsLike() == 1) {
+      LogUtil.i("已经点赞过了");
+      viewHolder.mBookFavour.setEnabled(false);
+    } else {
+      LogUtil.i("还没有点赞过");
+      viewHolder.mBookFavour.setEnabled(true);
+    }
 
     Picasso.with(mContext)
         .load(book.getBook_pic())
@@ -56,10 +82,27 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
         }
       }
     });
+
+    viewHolder.mBookFavour.setOnClickListener(new View.OnClickListener() {
+      @Override public void onClick(View v) {
+        if (onFavourClickListener != null) {
+          onFavourClickListener.onFavourClick(book);
+          //禁用点赞按钮，否则会出现疯狂点赞情况
+          v.setEnabled(false);
+          mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.dianzan_anim);
+          mAnimation.setAnimationListener(new DianZanAnimationListener(position));
+          startDianZanAnimation(viewHolder.mAddOneTextView);
+        }
+      }
+    });
   }
 
   @Override public int getItemCount() {
     return mData.size();
+  }
+
+  public void updateItem(int position) {
+    notifyItemChanged(position);
   }
 
   public void refresh(List<Book> bookList) {
@@ -87,6 +130,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
     @InjectView(R.id.tv_book_favour) TextView mBookFavour;
 
+    @InjectView(R.id.tv_add_one) TextView mAddOneTextView;
+
     public ViewHolder(View itemView) {
       super(itemView);
 
@@ -100,5 +145,41 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
   public void setOnItemClickListener(OnItemClickListener listener) {
     this.onItemClickListener = listener;
+  }
+
+  public static interface OnFavourClickListener {
+    void onFavourClick(Book book);
+  }
+
+  public void setOnFavourClickListener(OnFavourClickListener listener) {
+    this.onFavourClickListener = listener;
+  }
+
+  public void startDianZanAnimation(final View addOne) {
+
+    if (addOne.getVisibility() == View.GONE) {
+      addOne.setVisibility(View.VISIBLE);
+      addOne.startAnimation(mAnimation);
+    }
+  }
+
+  private class DianZanAnimationListener implements Animation.AnimationListener {
+    private int mPosition;
+
+    @Override public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override public void onAnimationEnd(Animation animation) {
+      updateItem(mPosition);
+    }
+
+    public DianZanAnimationListener(int position) {
+      this.mPosition = position;
+    }
+
+    @Override public void onAnimationRepeat(Animation animation) {
+
+    }
   }
 }
