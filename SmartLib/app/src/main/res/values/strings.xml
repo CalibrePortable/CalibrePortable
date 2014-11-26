@@ -33,6 +33,7 @@
   <string name="action_search">搜索</string>
   <string name="action_settings">设置</string>
   <string name="action_qr_code">扫一扫借书</string>
+  <string name="action_logout">退出</string>
 
 
   <array name="normal_user_functions">
