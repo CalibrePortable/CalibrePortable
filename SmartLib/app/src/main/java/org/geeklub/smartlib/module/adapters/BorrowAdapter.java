@@ -59,7 +59,12 @@ public class BorrowAdapter extends RecyclerView.Adapter<BorrowAdapter.ViewHolder
     viewHolder.mBookDescription.setText(book.getBook_author());
     viewHolder.mBookFavour.setText(book.getFavour());
     viewHolder.mBorrowAt.setText("FROM:" + book.getBorrow_at());
-    viewHolder.mReturnAt.setText("TO:" + book.getReturn_at());
+
+    if (Integer.valueOf(book.getReturn_at()) > 0) {
+      viewHolder.mReturnAt.setText("剩余:" + book.getReturn_at());
+    } else {
+      viewHolder.mReturnAt.setText("超期:" + Math.abs(Integer.valueOf(book.getReturn_at())));
+    }
 
     Picasso.with(mContext)
         .load(book.getBook_pic())

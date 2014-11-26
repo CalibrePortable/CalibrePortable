@@ -31,12 +31,17 @@ public class SearchFragment extends BasePageListFragment<NormalUserService> {
 
   private static final String ARGS_KEYWORD = "args_query_word";
 
+  private static final String ARGS_TYPE = "args_type";
+
   private String mQueryWord;
 
-  public static Fragment newInstance(String keyWord) {
+  private int mType;
+
+  public static Fragment newInstance(int type, String keyWord) {
     Fragment searchFragment = new SearchFragment();
     Bundle args = new Bundle();
     args.putString(ARGS_KEYWORD, keyWord);
+    args.putInt(ARGS_TYPE, type);
     searchFragment.setArguments(args);
     return searchFragment;
   }
@@ -68,6 +73,7 @@ public class SearchFragment extends BasePageListFragment<NormalUserService> {
   private void parseArgument() {
     Bundle args = getArguments();
     mQueryWord = args.getString(ARGS_KEYWORD);
+    mType = args.getInt(ARGS_TYPE);
   }
 
   @Override protected int getLayoutResource() {
@@ -90,7 +96,7 @@ public class SearchFragment extends BasePageListFragment<NormalUserService> {
 
     SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-    mService.search(user.getUserId(), 1, page, mQueryWord, new Callback<List<Book>>() {
+    mService.search(user.getUserId(), mType, page, mQueryWord, new Callback<List<Book>>() {
       @Override public void success(List<Book> bookList, Response response) {
         LogUtil.i(bookList.toString());
         mSwipeRefreshLayout.setRefreshing(false);
