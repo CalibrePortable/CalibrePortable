@@ -115,7 +115,7 @@
 
 
 5.显示图书详细(book_kind->booklist)
->API.php/public/detail/:bookKind/:userId
+>API.php/public/detail/:bookKind
 
 **请求**
 
@@ -127,8 +127,7 @@
 
 **参数**
 
->bookK(大写)ind:String
->>userId:String(获取)
+>bookK(大写)ind:String(获取)
 
 `Response`
 >[
@@ -291,7 +290,7 @@
 
 >userId:String
 >>type:int(12345)对应(书名 id 作者 种类 全部)
->>>page:String（若page=not则不分页）
+>>>page:int（若page=0则不分页）
 >>>>keyword:String (获取)
 
 `Response`
@@ -326,7 +325,7 @@
 
 >userId:String
 >>password:String
->>>page:String(获取)
+>>>page:int(获取)
 
 
 `Response`
@@ -395,7 +394,7 @@ Method:GET
 
 >userId:String
 >>type:int(12345)对应(书名 id 作者 种类 全部)
->>>page:String（若page=not则不分页）
+>>>page:int（若page=0则不分页）
 >>>>keyword:String (获取)
 
 `Response`
