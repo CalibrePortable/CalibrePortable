@@ -23,6 +23,8 @@ public class BookDetailActivity extends BaseActivity {
 
   private Book mBook;
 
+
+
   public static final String EXTRAS_BOOK = "extras_book";
 
   @Override protected int getLayoutResource() {
