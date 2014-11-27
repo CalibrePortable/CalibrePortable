@@ -175,8 +175,9 @@
 
 `Response`
 >[
-{"book_detailurl":书本详细url,
+{"book_detail_url":书本详细url,
 "book_name":书本名称,
+"book_author":书本作者,
 "book_status":书本状态,
 "favour":点赞数,
 "book_pic":图书图片,
@@ -295,8 +296,9 @@
 
 `Response`
 >[
-{"book_detailurl":书本详细url,
+{"book_detail_url":书本详细url,
 "book_name":书本名称,
+"book_author":书本作者,
 "book_status":书本状态,
 "favour":点赞数,
 "book_pic":图书图片,
@@ -331,8 +333,9 @@
 `Response`
 >[
 {
-"book_detailurl":书本详细url,
+"book_detail_url":书本详细url,
 "book_name":书本名称,
+"book_author":书本作者,
 "book_status":书本状态,
 "favour":点赞数,
 "book_pic":图书图片,
@@ -399,8 +402,9 @@ Method:GET
 
 `Response`
 >[
-{"book_detailurl":书本详细url,
+{"book_detail_url":书本详细url,
 "book_name":书本名称,
+"book_author":书本作者,
 "book_status":书本状态,
 "favour":点赞数,
 "book_pic":图书图片,
@@ -556,6 +560,7 @@ API.php/admin/showRe/12108238/123/page=1
 >[
 {"book_id":书本id,
 "book_name":书本名称,
+"boou_author":作者,
 "book_status":书本状态,
 "user_name":借阅人,
 "favour":点赞数,
@@ -591,6 +596,7 @@ API.php/admin/showOut/12108238/123
 >[
 {"book_id":书本id,
 "book_name":书本名称,
+"boou_author":作者,
 "book_status":书本状态,
 "user_name":借阅人,
 "favour":点赞数,
