@@ -63,7 +63,7 @@
 
 
 3.书本总数(booklist)
->API.php/public/bookSum/:flag/:type
+>API.php/public/bookSum/:flag/:type/:userId
 
 **请求**
 
@@ -77,8 +77,9 @@
 
 >flag:String
 >0为用户1为管理员
->>type:String(获取)
+>>type:String
 >>0为search 1为查看已借出
+>>>userId:String(获取)
 
 `Response`
 >{
@@ -141,13 +142,12 @@
 "book_pic":图书图片,
 "book_link":图书url,
 "book_info":图书简介
-"favour":点赞数,
-"isLike":是否被赞},
+"favour":点赞数},
 {
-"id":书本id(booklist),
+"book_id":书本id(booklist),
 "book_status":书本状态,
-"user_name":借阅人,
-"created_at":借阅日期
+"user_name":借阅人,(未实现)
+"created_at":借阅日期(未实现)
 },
 {
 ...
@@ -158,7 +158,7 @@
 
 
 
-6.最近添加的图书(仿书本列表实现)
+6.最近添加的图书(仿书本列表实现)(无翻页)
 >API.php/public/recentAdd/:userId
 
 **请求**
@@ -273,7 +273,7 @@
 
 
 
-4.图书搜索/获取图书列表
+4.图书搜索/获取图书列表(可以detail)
 (有两种表 bookbasic【id】 booklist【id,book_kind】)
 >API.php/normal/search/:userId/:type/page=:page/:keyword
 
@@ -290,7 +290,7 @@
 **参数**
 
 >userId:String
->>type:int(12345)对应(书名 出版社 作者 种类 全部)
+>>type:int(12345)对应(书名 id 作者 种类 全部)
 >>>page:String（若page=not则不分页）
 >>>>keyword:String (获取)
 
@@ -311,8 +311,8 @@
 
 
 
-5.已借阅
->API.php/normal/showRe/:userId/:password
+5.已借阅(可以detail)(有翻页)
+>API.php/normal/showRe/:userId/:password/page=:page
 
 **请求**
 
@@ -320,12 +320,13 @@
 
 **用例**
 
->API.php/normal/showRe/12108413/12345
+>API.php/normal/showRe/12108413/12345/page=1
 
 **参数**
 
 >userId:String
->>password:String(获取)
+>>password:String
+>>>page:String(获取)
 
 
 `Response`
@@ -377,7 +378,7 @@ Method:POST
 
 
 
-2.图书搜索/获取图书列表
+2.图书搜索/获取图书列表(可以detail)
 >API.php/admin/search/:userId/:type/page=:page/:keyword
 
 **请求**
@@ -393,7 +394,7 @@ Method:GET
 **参数**
 
 >userId:String
->>type:int(12345)对应(书名 出版社 作者 种类 全部)
+>>type:int(12345)对应(书名 id 作者 种类 全部)
 >>>page:String（若page=not则不分页）
 >>>>keyword:String (获取)
 
@@ -535,7 +536,7 @@ Method:GET
 
 
 
-7.查看已经借出的图书
+7.查看已经借出的图书(无法detail)(无法点赞)(有翻页)
 >API.php/admin/showRe/:userId/:password/page=:page
 
 ***请求***
@@ -554,7 +555,7 @@ API.php/admin/showRe/12108238/123/page=1
 
 `Response`
 >[
-{"book_kind":书本kind,
+{"book_id":书本id,
 "book_name":书本名称,
 "book_status":书本状态,
 "user_name":借阅人,
@@ -572,7 +573,7 @@ API.php/admin/showRe/12108238/123/page=1
 
 
 
-8.查看已超期的图书
+8.查看已超期的图书(无法detail)(无法点赞)(无翻页)
 >API.php/admin/showOut/:userId/:password
 
 ***请求***
@@ -590,13 +591,12 @@ API.php/admin/showOut/12108238/123
 
 `Response`
 >[
-{"book_kind":书本kind,
+{"book_id":书本id,
 "book_name":书本名称,
 "book_status":书本状态,
 "user_name":借阅人,
 "favour":点赞数,
 "book_pic":图书图片,
-"isLike":是否被赞,
 "created_at":借阅时间,
 "return_at":剩余天数},
 {
