@@ -5,7 +5,7 @@
 
 #### 公共
 1.修改密码
->API.php/public/passChange/:userId
+>API.php/public/passChange
 
 **请求**
 
@@ -13,7 +13,7 @@
 
 **用例**
 
->API.php/public/passChange/12108413
+>12108413
 >12108413
 >12345
 >12345
@@ -23,7 +23,7 @@
 >userId:String(获取)
 >>oldPass:String
 >>>newPass:String
->>>>renewPass:String（填写）
+>>>>renewPass:String(填写)
 
 `Response`
 >{
@@ -35,7 +35,7 @@
 
 
 
-2.点赞(bookbasic)
+2.点赞
 >API.php/public/like/:bookKind/:userId/:password
 
 **请求**
@@ -62,8 +62,8 @@
 
 
 
-3.书本总数(booklist)
->API.php/public/bookSum/:flag/:type/:userId
+3.书本总数(网页端分页需要)
+>API.php/public/bookSum/:IsAdmin/:type/:userId
 
 **请求**
 
@@ -71,14 +71,13 @@
 
 **用例**
 
->API.php/public/bookSum/0/1
+>API.php/public/bookSum/0/1/12108413
+(0/0 0/1 1/0 1/1都已支持)
 
 **参数**
 
->flag:String
->0为用户1为管理员
->>type:String
->>0为search 1为查看已借出
+>IsAdmin:String(0为用户1为管理员)
+>>type:String(0为search 1为查看已借出)
 >>>userId:String(获取)
 
 `Response`
@@ -90,7 +89,7 @@
 
 
 
-4.返回密码
+4.返回密码(图书购买系统需要)
 >API.php/public/password/:userId
 
 **请求**
@@ -114,7 +113,7 @@
 
 
 
-5.显示图书详细(book_kind->booklist)
+5.显示图书详细(不需外部访问)
 >API.php/public/detail/:bookKind
 
 **请求**
@@ -130,34 +129,38 @@
 >bookK(大写)ind:String(获取)
 
 `Response`
->[
-{
-"book_name":书本名称,
-"book_author":书本作者,
-"book_pub":书本版次,
-"book_type":书本类型,
-"book_edit":书本出版社,
-"book_price":书本价格,
-"book_pic":图书图片,
-"book_link":图书url,
-"book_info":图书简介
-"favour":点赞数},
-{
-"book_id":书本id(booklist),
-"book_status":书本状态,
-"user_name":借阅人,(未实现)
-"created_at":借阅日期(未实现)
-},
-{
-...
-},...
-}]
+>{
+    "book_detail": {
+        "book_name":书本名称 ,
+        "book_author": 书本作者,
+        "book_pub": 书本版次,
+        "book_type": 书本类型,
+        "book_edit": 书本出版社,
+        "book_price": 书本价格,
+        "book_pic": 图书图片,
+        "book_link": 图书url,
+        "book_info": 图书简介,
+        "favour": 点赞数
+    },
+    "book_list": [
+        {
+            "book_id": 书本id,
+            "book_status": 书本状态,
+			"user_name":借阅人,(未实现),
+			"created_at":借阅日期(未实现)
+        },
+        {
+             ...
+        },
+        ...
+    ]
+}
 
 ---
 
 
 
-6.最近添加的图书(仿书本列表实现)(无翻页)(可以detail)
+6.最近添加的图书(可以detail)(无翻页)
 >API.php/public/recentAdd/:userId
 
 **请求**
@@ -166,7 +169,7 @@
 
 **用例**
 
->API.php/public/recentAdd/12108413/12108413
+>API.php/public/recentAdd/12108413
 
 **参数**
 
@@ -175,7 +178,8 @@
 
 `Response`
 >[
-{"book_detail_url":书本详细url,
+{"book_kind":书本kind,
+"book_detail_url":书本详细url,
 "book_name":书本名称,
 "book_author":书本作者,
 "book_status":书本状态,
@@ -291,12 +295,13 @@
 
 >userId:String
 >>type:int(12345)对应(书名 id 作者 种类 全部)
->>>page:int（若page=0则不分页）
+>>>page:int(若page=0则不分页)
 >>>>keyword:String (获取)
 
 `Response`
 >[
-{"book_detail_url":书本详细url,
+{"book_kind":书本kind,
+"book_detail_url":书本详细url,
 "book_name":书本名称,
 "book_author":书本作者,
 "book_status":书本状态,
@@ -321,7 +326,7 @@
 
 **用例**
 
->API.php/normal/showRe/12108413/12345/page=1
+>API.php/normal/showRe/12108413/12108413/page=1
 
 **参数**
 
@@ -332,7 +337,7 @@
 
 `Response`
 >[
-{
+{"book_kind":书本kind,
 "book_detail_url":书本详细url,
 "book_name":书本名称,
 "book_author":书本作者,
@@ -397,12 +402,13 @@ Method:GET
 
 >userId:String
 >>type:int(12345)对应(书名 id 作者 种类 全部)
->>>page:int（若page=0则不分页）
+>>>page:int(若page=0则不分页)
 >>>>keyword:String (获取)
 
 `Response`
 >[
-{"book_detail_url":书本详细url,
+{"book_kind":书本kind,
+"book_detail_url":书本详细url,
 "book_name":书本名称,
 "book_author":书本作者,
 "book_status":书本状态,
@@ -427,7 +433,7 @@ Method:GET
 
 ***用例***
 
->API.php/admin/confirm/47/12108238/123
+>API.php/admin/confirm/47/12108238/12108238
 
 ***参数***
 
@@ -445,32 +451,22 @@ Method:GET
 
 
 
-4.修改图书信息
->API.php/admin/update/:bookKind/:userId/:password
+4.修改图书为已超期(显示在已借出的图书列表中)
+>API.php/admin/alter/:bookId/:userId/:password
 
 ***请求***
 
->Method:POST
+>Method:GET
 
 ***用例***
 
->API.php/admin/update/12108238/100/123
+>API.php/admin/alter/100/12108238/12108238
 
 ***参数***
 
->bookName:String
->>bookAuthor:String
->>>bookPub:String
->>>>bookType:String
->>>>bookEdit:String
->>>>>bookPrice:String
->>>>>>bookStatus:String
->>>>>>>bookPic:String
->>>>>>>>bookLink:String
->>>>>>>>>bookInfo:String(填写)
->>>>>>>>>>bookKind:String
->>>>>>>>>>>userId:String
->>>>>>>>>>>>password:String(获取)
+>bookId:String
+>>userId:String
+>>>password:String(获取)
 
 `Response `
 >{
@@ -482,7 +478,35 @@ Method:GET
 
 
 
-5.添加图书(仅用于捐赠的图书添加，购买的图书通过购买系统添加)
+5.更新图书资料(显示在搜索出的列表中 移动端直接调取摄像头 网页端弹出输入框)
+>API.php/admin/renew/:bookId/:bookIsbn/:userId/:password
+
+***请求***
+
+>Method:GET
+
+***用例***
+
+>API.php/admin/renew/47/9787111358732/12108238/12108238
+
+***参数***
+
+>bookId:String
+>>bookIsbn:String
+>>>userId:String
+>>>>password:String(获取)
+
+`Response `
+>{
+    "status":RESULT_CONSTANT,
+	"info":"成功/错误原因"
+}
+
+---
+
+
+
+6.添加图书(仅用于捐赠的图书添加，购买的图书通过购买系统添加)
 >API.php/admin/add/:bookId/:bookIsbn/:bookType/:userId/:password
 
 ***请求***
@@ -491,7 +515,7 @@ Method:GET
 
 ***用例***
 
->API.php/admin/add/100/9787111358732/移动端/12108238/123
+>API.php/admin/add/100/9787111358732/移动端/12108238/12108238
 
 ***参数***
 
@@ -511,7 +535,7 @@ Method:GET
 
 
 
-6.删除图书
+7.删除图书(在已借出或已超期中可以删除)
 
 >API.php/admin/delete/:bookId/:userId/:password
 
@@ -521,7 +545,7 @@ Method:GET
 
 ***用例***
 
->API.php/admin/delete/100/12108238/123
+>API.php/admin/delete/100/12108238/12108238
 
 ***参数***
 
@@ -539,7 +563,7 @@ Method:GET
 
 
 
-7.查看已经借出的图书(无法detail)(无法点赞)(有翻页)
+8.查看已经借出的图书(无法detail)(无法点赞)(有翻页)
 >API.php/admin/showRe/:userId/:password/page=:page
 
 ***请求***
@@ -548,7 +572,7 @@ Method:GET
 
 ***用例***
 
-API.php/admin/showRe/12108238/123/page=1
+API.php/admin/showRe/12108238/12108238/page=1
 
 ***参数***
 
@@ -576,7 +600,7 @@ API.php/admin/showRe/12108238/123/page=1
 
 
 
-8.查看已超期的图书(无法detail)(无法点赞)(无翻页)
+9.查看已超期的图书(无法detail)(无法点赞)(无翻页)
 >API.php/admin/showOut/:userId/:password
 
 ***请求***
@@ -585,7 +609,7 @@ API.php/admin/showRe/12108238/123/page=1
 
 ***用例***
 
-API.php/admin/showOut/12108238/123
+API.php/admin/showOut/12108238/12108238
 
 ***参数***
 
