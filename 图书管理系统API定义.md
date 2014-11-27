@@ -158,7 +158,7 @@
 
 
 
-6.最近添加的图书(仿书本列表实现)(无翻页)
+6.最近添加的图书(仿书本列表实现)(无翻页)(可以detail)
 >API.php/public/recentAdd/:userId
 
 **请求**
@@ -176,7 +176,7 @@
 
 `Response`
 >[
-{"book_kind":书本kind,
+{"book_detailurl":书本详细url,
 "book_name":书本名称,
 "book_status":书本状态,
 "favour":点赞数,
@@ -296,7 +296,7 @@
 
 `Response`
 >[
-{"book_kind":书本kind,
+{"book_detailurl":书本详细url,
 "book_name":书本名称,
 "book_status":书本状态,
 "favour":点赞数,
@@ -332,7 +332,7 @@
 `Response`
 >[
 {
-"book_kind":书本kind,
+"book_detailurl":书本详细url,
 "book_name":书本名称,
 "book_status":书本状态,
 "favour":点赞数,
@@ -400,7 +400,7 @@ Method:GET
 
 `Response`
 >[
-{"book_kind":书本kind,
+{"book_detailurl":书本详细url,
 "book_name":书本名称,
 "book_status":书本状态,
 "favour":点赞数,
@@ -561,7 +561,6 @@ API.php/admin/showRe/12108238/123/page=1
 "user_name":借阅人,
 "favour":点赞数,
 "book_pic":图书图片,
-"isLike":是否被赞,
 "created_at":借阅时间,
 "return_at":剩余天数},
 {
