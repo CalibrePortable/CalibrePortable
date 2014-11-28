@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import butterknife.InjectView;
 import org.geeklub.smartlib.R;
+import org.geeklub.smartlib.beans.NewPasswordInfo;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.api.NormalUserService;
@@ -82,8 +83,8 @@ public class PasswordModifyActivity extends BaseActivity implements View.OnClick
     SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
     if (newPassword.equals(reNewPassword)) {
-      mService.modifyPassword(user.getUserId(),
-          user.getPassWord(), newPassword, reNewPassword,
+      mService.modifyPassword(
+          new NewPasswordInfo(user.getUserId(), user.getPassWord(), newPassword, reNewPassword),
           new Callback<ServerResponse>() {
             @Override public void success(ServerResponse serverResponse, Response response) {
 

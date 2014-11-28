@@ -15,15 +15,14 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import org.geeklub.smartlib.R;
-import org.geeklub.smartlib.beans.Book;
-import org.geeklub.smartlib.utils.LogUtil;
+import org.geeklub.smartlib.beans.SummaryBook;
 
 /**
  * Created by Vass on 2014/11/3.
  */
 public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHolder> {
 
-  private List<Book> mData;
+  private List<SummaryBook> mData;
 
   private Context mContext;
 
@@ -34,11 +33,11 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
   private Animation mAnimation;
 
   public LibraryAdapter(Context context) {
-    mData = new ArrayList<Book>();
+    mData = new ArrayList<SummaryBook>();
     mContext = context;
   }
 
-  public void refresh(List<Book> bookList) {
+  public void refresh(List<SummaryBook> bookList) {
     if (!mData.isEmpty()) {
       mData.clear();
     }
@@ -50,7 +49,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     notifyItemChanged(position);
   }
 
-  public void addItems(List<Book> bookList) {
+  public void addItems(List<SummaryBook> bookList) {
     if (!mData.containsAll(bookList)) {
       mData.addAll(bookList);
       notifyItemRangeInserted(getItemCount(), bookList.size());
@@ -68,46 +67,41 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
   @Override public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
     //LogUtil.i("绑定第" + position + "个ViewHolder");
 
-    final Book book = mData.get(position);
-    LogUtil.i("Book Info ===>>>" + book.toString());
+    final SummaryBook summaryBook = mData.get(position);
+    //LogUtil.i("Book Info ===>>>" + summaryBook.toString());
 
-    viewHolder.mBookName.setText(book.getBook_name());
+    viewHolder.mBookName.setText(summaryBook.book_name);
+
     StringBuilder description = new StringBuilder();
-    description.append(book.getBook_author())
-        .append("/")
-        .append(book.getBook_type())
-        .append("/")
-        .append(book.getBook_info());
+    description.append("作者/")
+        .append(summaryBook.book_author)
+        .append("/当前状态/")
+        .append(summaryBook.book_status);
     viewHolder.mBookDescription.setText(description);
-    viewHolder.mBookFavour.setText(book.getFavour());
-    viewHolder.mAddOneTextView.setVisibility(View.GONE);
 
-    Picasso.with(mContext)
-        .load(book.getBook_pic())
-        .placeholder(R.drawable.ic_launcher)
-        .error(R.drawable.ic_launcher)
-        .into(viewHolder.mBookIcon);
+    viewHolder.mBookFavour.setText(summaryBook.favour);
+    viewHolder.mAddOneTextView.setVisibility(View.GONE);
 
     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (onItemClickListener != null) {
-          onItemClickListener.onItemClick(book);
+          onItemClickListener.onItemClick(summaryBook);
         }
       }
     });
 
-    if (book.getIsLike() == 1) {
-      LogUtil.i("已经点赞过了");
+    if ("1".equals(summaryBook.isLike)) {
+      //LogUtil.i("已经点赞过了");
       viewHolder.mBookFavour.setEnabled(false);
     } else {
-      LogUtil.i("还没有点赞过");
+      //LogUtil.i("还没有点赞过");
       viewHolder.mBookFavour.setEnabled(true);
     }
 
     viewHolder.mBookFavour.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (onFavourClickListener != null) {
-          onFavourClickListener.onFavourClick(book);
+          onFavourClickListener.onFavourClick(summaryBook);
           //禁用点赞按钮，否则会出现疯狂点赞情况
           v.setEnabled(false);
           mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.dianzan_anim);
@@ -142,7 +136,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
   }
 
   public static interface OnItemClickListener {
-    void onItemClick(Book book);
+    void onItemClick(SummaryBook book);
   }
 
   public void setOnItemClickListener(OnItemClickListener listener) {
@@ -150,7 +144,7 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
   }
 
   public static interface OnFavourClickListener {
-    void onFavourClick(Book book);
+    void onFavourClick(SummaryBook book);
   }
 
   public void setOnFavourClickListener(OnFavourClickListener listener) {

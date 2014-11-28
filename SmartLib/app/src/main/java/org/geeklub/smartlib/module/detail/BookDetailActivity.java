@@ -6,9 +6,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 import butterknife.InjectView;
+import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.R;
-import org.geeklub.smartlib.beans.Book;
 
 /**
  * Created by Vass on 2014/11/6.
@@ -21,7 +21,7 @@ public class BookDetailActivity extends BaseActivity {
 
   @InjectView(R.id.tv_book_status) TextView mBookStatus;
 
-  private Book mBook;
+  private SummaryBook mBook;
 
 
 
@@ -40,10 +40,10 @@ public class BookDetailActivity extends BaseActivity {
   }
 
   private void initViews() {
-    setTitle(mBook.getBook_name());
-    mBookAuthor.setText("作者:" + mBook.getBook_author());
-    mBookPrice.setText("价格:" + mBook.getBook_price());
-    mBookStatus.setText("当前状态:" + mBook.getBook_status());
+    setTitle(mBook.book_name);
+    mBookAuthor.setText("作者:" + mBook.book_author);
+    //mBookPrice.setText("价格:" + mBook.());
+    mBookStatus.setText("当前状态:" + mBook.book_status);
   }
 
   @Override protected void initActionBar() {

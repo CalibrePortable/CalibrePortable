@@ -8,14 +8,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import java.util.List;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.api.Constant;
 import org.geeklub.smartlib.beans.ServerResponse;
+import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.module.adapters.LibraryAdapter;
-import org.geeklub.smartlib.beans.Book;
 import org.geeklub.smartlib.module.base.BasePageListFragment;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
 import org.geeklub.smartlib.api.NormalUserService;
@@ -36,36 +34,34 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
     return libraryFragment;
   }
 
-
-
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
 
     View view = super.onCreateView(inflater, container, savedInstanceState);
 
     ((LibraryAdapter) mAdapter).setOnItemClickListener(new LibraryAdapter.OnItemClickListener() {
-      @Override public void onItemClick(Book book) {
+      @Override public void onItemClick(SummaryBook summaryBook) {
         Intent intent = new Intent(mActivity, BookDetailActivity.class);
-        intent.putExtra(BookDetailActivity.EXTRAS_BOOK, book);
+        intent.putExtra(BookDetailActivity.EXTRAS_BOOK, summaryBook);
         startActivity(intent);
       }
     });
 
     ((LibraryAdapter) mAdapter).setOnFavourClickListener(
         new LibraryAdapter.OnFavourClickListener() {
-          @Override public void onFavourClick(Book book) {
-            book.setIsLike(1);
-            book.setFavour(Integer.valueOf(book.getFavour()) + 1 + "");
-            sendDianZanMsg(book);
+          @Override public void onFavourClick(SummaryBook summaryBook) {
+            summaryBook.isLike = "1";
+            summaryBook.favour = Integer.valueOf(summaryBook.favour) + 1 + "";
+            sendDianZanMsg(summaryBook);
           }
         });
 
     return view;
   }
 
-  private void sendDianZanMsg(Book book) {
+  private void sendDianZanMsg(SummaryBook summaryBook) {
     SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
-    mService.likePlusOne(book.getBook_id(), user.getUserId(), user.getPassWord(),
+    mService.likePlusOne(summaryBook.book_kind, user.getUserId(), user.getPassWord(),
         new Callback<ServerResponse>() {
           @Override public void success(ServerResponse serverResponse, Response response) {
             if (serverResponse.getStatus() == Constant.RESULT_SUCCESS) {
@@ -102,8 +98,8 @@ public class LibraryFragment extends BasePageListFragment<NormalUserService> {
 
     SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-    mService.search(user.getUserId(), 5, page, "all", new Callback<List<Book>>() {
-      @Override public void success(List<Book> bookList, Response response) {
+    mService.search(user.getUserId(), 5, page, "all", new Callback<List<SummaryBook>>() {
+      @Override public void success(List<SummaryBook> bookList, Response response) {
 
         LogUtil.i("下载了" + bookList.size() + "本书");
 

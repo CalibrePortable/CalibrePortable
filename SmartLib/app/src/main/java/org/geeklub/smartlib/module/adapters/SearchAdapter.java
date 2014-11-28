@@ -15,15 +15,14 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import org.geeklub.smartlib.R;
-import org.geeklub.smartlib.beans.Book;
-import org.geeklub.smartlib.utils.LogUtil;
+import org.geeklub.smartlib.beans.SummaryBook;
 
 /**
  * Created by Vass on 2014/11/7.
  */
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
 
-  private List<Book> mData;
+  private List<SummaryBook> mData;
 
   private Context mContext;
 
@@ -35,7 +34,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
 
   public SearchAdapter(Context context) {
     this.mContext = context;
-    this.mData = new ArrayList<Book>();
+    this.mData = new ArrayList<SummaryBook>();
   }
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
@@ -45,35 +44,27 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
   }
 
   @Override public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-    final Book book = mData.get(position);
+    final SummaryBook book = mData.get(position);
 
-    viewHolder.mBookName.setText(book.getBook_name());
-
-    StringBuilder description = new StringBuilder();
-    description.append(book.getBook_author())
-        .append("/")
-        .append(book.getBook_type())
-        .append("/")
-        .append(book.getBook_info());
-
-    viewHolder.mBookDescription.setText(description);
-    viewHolder.mBookFavour.setText(book.getFavour());
+    viewHolder.mBookName.setText(book.book_name);
+    viewHolder.mBookDescription.setText(book.book_author);
+    viewHolder.mBookFavour.setText(book.favour);
     viewHolder.mAddOneTextView.setVisibility(View.GONE);
 
-
-    if (book.getIsLike() == 1) {
-      LogUtil.i("已经点赞过了");
+    if ("1".equals(book.isLike)) {
+      //LogUtil.i("已经点赞过了");
       viewHolder.mBookFavour.setEnabled(false);
     } else {
-      LogUtil.i("还没有点赞过");
+      //LogUtil.i("还没有点赞过");
       viewHolder.mBookFavour.setEnabled(true);
     }
 
-    Picasso.with(mContext)
-        .load(book.getBook_pic())
-        .placeholder(R.drawable.ic_launcher)
-        .error(R.drawable.ic_launcher)
-        .into(viewHolder.mBookIcon);
+    StringBuilder description = new StringBuilder();
+    description.append("作者/")
+               .append(book.book_author)
+               .append("/当前状态/")
+               .append(book.book_status);
+    viewHolder.mBookDescription.setText(description);
 
     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -105,7 +96,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     notifyItemChanged(position);
   }
 
-  public void refresh(List<Book> bookList) {
+  public void refresh(List<SummaryBook> bookList) {
     if (!mData.isEmpty()) {
       mData.clear();
     }
@@ -113,7 +104,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
     notifyDataSetChanged();
   }
 
-  public void addItems(List<Book> bookList) {
+  public void addItems(List<SummaryBook> bookList) {
     if (!mData.containsAll(bookList)) {
       mData.addAll(bookList);
       notifyItemRangeInserted(getItemCount(), bookList.size());
@@ -140,7 +131,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
   }
 
   public static interface OnItemClickListener {
-    void onItemClick(Book book);
+    void onItemClick(SummaryBook book);
   }
 
   public void setOnItemClickListener(OnItemClickListener listener) {
@@ -148,7 +139,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder
   }
 
   public static interface OnFavourClickListener {
-    void onFavourClick(Book book);
+    void onFavourClick(SummaryBook book);
   }
 
   public void setOnFavourClickListener(OnFavourClickListener listener) {

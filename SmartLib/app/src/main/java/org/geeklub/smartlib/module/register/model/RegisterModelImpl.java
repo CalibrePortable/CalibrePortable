@@ -2,7 +2,8 @@ package org.geeklub.smartlib.module.register.model;
 
 import android.text.TextUtils;
 import org.geeklub.smartlib.api.Constant;
-import org.geeklub.smartlib.beans.NewUser;
+import org.geeklub.smartlib.beans.NewPasswordInfo;
+import org.geeklub.smartlib.beans.RegisterInfo;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.register.presenter.OnPassWordMatchListener;
 import org.geeklub.smartlib.module.register.presenter.OnRegisterFinishedListener;
@@ -48,7 +49,7 @@ public class RegisterModelImpl implements RegisterModel {
 
     NormalUserService service = restAdapter.create(NormalUserService.class);
 
-    service.register(new NewUser(userId, userName, password, passWordConfirm),
+    service.register(new RegisterInfo(userId, userName, password, passWordConfirm),
         new Callback<ServerResponse>() {
           @Override public void success(ServerResponse serverResponse, Response response) {
 

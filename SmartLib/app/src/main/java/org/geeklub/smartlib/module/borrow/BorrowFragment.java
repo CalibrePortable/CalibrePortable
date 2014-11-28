@@ -11,7 +11,7 @@ import android.view.ViewGroup;
 import java.util.List;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.module.adapters.BorrowAdapter;
-import org.geeklub.smartlib.beans.Book;
+import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.module.base.BasePageListFragment;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
 import org.geeklub.smartlib.api.NormalUserService;
@@ -44,7 +44,7 @@ public class BorrowFragment extends BasePageListFragment<NormalUserService> {
     View view = super.onCreateView(inflater, container, savedInstanceState);
 
     ((BorrowAdapter) mAdapter).setOnItemClickListener(new BorrowAdapter.OnItemClickListener() {
-      @Override public void onItemClick(Book book) {
+      @Override public void onItemClick(SummaryBook book) {
         Intent intent = new Intent(mActivity, BookDetailActivity.class);
         intent.putExtra(BookDetailActivity.EXTRAS_BOOK, book);
         startActivity(intent);
@@ -74,23 +74,23 @@ public class BorrowFragment extends BasePageListFragment<NormalUserService> {
 
     SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-    mService.haveBorrowed(user.getUserId(), user.getPassWord(), new Callback<List<Book>>() {
-          @Override public void success(List<Book> bookList, Response response) {
+    mService.haveBorrowed(user.getUserId(), user.getPassWord(), new Callback<List<SummaryBook>>() {
+      @Override public void success(List<SummaryBook> bookList, Response response) {
 
-            mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setRefreshing(false);
 
-            if (mIsRefreshFromTop) {
-              ((BorrowAdapter) mAdapter).refresh(bookList);
-            } else {
-              ((BorrowAdapter) mAdapter).addItems(bookList);
-            }
-          }
+        if (mIsRefreshFromTop) {
+          ((BorrowAdapter) mAdapter).refresh(bookList);
+        } else {
+          ((BorrowAdapter) mAdapter).addItems(bookList);
+        }
+      }
 
-          @Override public void failure(RetrofitError error) {
+      @Override public void failure(RetrofitError error) {
 
-            LogUtil.i(error.getMessage());
-            mSwipeRefreshLayout.setRefreshing(false);
-          }
-        });
+        LogUtil.i(error.getMessage());
+        mSwipeRefreshLayout.setRefreshing(false);
+      }
+    });
   }
 }

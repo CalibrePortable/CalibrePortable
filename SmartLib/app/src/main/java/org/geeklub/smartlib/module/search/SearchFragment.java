@@ -12,7 +12,7 @@ import java.util.List;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.api.Constant;
 import org.geeklub.smartlib.api.NormalUserService;
-import org.geeklub.smartlib.beans.Book;
+import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.adapters.SearchAdapter;
 import org.geeklub.smartlib.module.base.BasePageListFragment;
@@ -52,7 +52,7 @@ public class SearchFragment extends BasePageListFragment<NormalUserService> {
     View view = super.onCreateView(inflater, container, savedInstanceState);
 
     ((SearchAdapter) mAdapter).setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
-      @Override public void onItemClick(Book book) {
+      @Override public void onItemClick(SummaryBook book) {
         Intent intent = new Intent(mActivity, BookDetailActivity.class);
         intent.putExtra(BookDetailActivity.EXTRAS_BOOK, book);
         startActivity(intent);
@@ -60,9 +60,9 @@ public class SearchFragment extends BasePageListFragment<NormalUserService> {
     });
 
     ((SearchAdapter) mAdapter).setOnFavourClickListener(new SearchAdapter.OnFavourClickListener() {
-      @Override public void onFavourClick(Book book) {
-        book.setIsLike(1);
-        book.setFavour(Integer.valueOf(book.getFavour()) + 1 + "");
+      @Override public void onFavourClick(SummaryBook book) {
+        book.isLike = "1";
+        book.favour = Integer.valueOf(book.favour) + 1 + "";
         sendDianZanMsg(book);
       }
     });
@@ -96,8 +96,8 @@ public class SearchFragment extends BasePageListFragment<NormalUserService> {
 
     SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-    mService.search(user.getUserId(), mType, page, mQueryWord, new Callback<List<Book>>() {
-      @Override public void success(List<Book> bookList, Response response) {
+    mService.search(user.getUserId(), mType, page, mQueryWord, new Callback<List<SummaryBook>>() {
+      @Override public void success(List<SummaryBook> bookList, Response response) {
         LogUtil.i(bookList.toString());
         mSwipeRefreshLayout.setRefreshing(false);
         if (mIsRefreshFromTop) {
@@ -115,9 +115,9 @@ public class SearchFragment extends BasePageListFragment<NormalUserService> {
     });
   }
 
-  private void sendDianZanMsg(Book book) {
+  private void sendDianZanMsg(SummaryBook book) {
     SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
-    mService.likePlusOne(book.getBook_id(), user.getUserId(), user.getPassWord(),
+    mService.likePlusOne(book.book_kind, user.getUserId(), user.getPassWord(),
         new Callback<ServerResponse>() {
           @Override public void success(ServerResponse serverResponse, Response response) {
             if (serverResponse.getStatus() == Constant.RESULT_SUCCESS) {

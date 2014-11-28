@@ -16,6 +16,7 @@
 
 
     <ImageView
+        android:background="@color/BELIZE_HOLE"
         android:layout_alignParentLeft="true"
         android:layout_width="70dp"
         android:layout_height="120dp"
@@ -36,7 +37,6 @@
     <TextView
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
-        android:singleLine="true"
         android:text="描述"
         android:id="@+id/tv_book_description"
         android:layout_below="@+id/tv_book_name"

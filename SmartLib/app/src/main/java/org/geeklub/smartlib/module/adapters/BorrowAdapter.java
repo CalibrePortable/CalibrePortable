@@ -13,25 +13,25 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 import java.util.List;
 import org.geeklub.smartlib.R;
-import org.geeklub.smartlib.beans.Book;
+import org.geeklub.smartlib.beans.SummaryBook;
 
 /**
  * Created by Vass on 2014/11/8.
  */
 public class BorrowAdapter extends RecyclerView.Adapter<BorrowAdapter.ViewHolder> {
 
-  private List<Book> mData;
+  private List<SummaryBook> mData;
 
   private Context mContext;
 
   private OnItemClickListener onItemClickListener;
 
   public BorrowAdapter(Context context) {
-    mData = new ArrayList<Book>();
+    mData = new ArrayList<SummaryBook>();
     mContext = context;
   }
 
-  public void refresh(List<Book> bookList) {
+  public void refresh(List<SummaryBook> bookList) {
     if (!mData.isEmpty()) {
       mData.clear();
     }
@@ -39,7 +39,7 @@ public class BorrowAdapter extends RecyclerView.Adapter<BorrowAdapter.ViewHolder
     notifyDataSetChanged();
   }
 
-  public void addItems(List<Book> bookList) {
+  public void addItems(List<SummaryBook> bookList) {
     if (!mData.containsAll(bookList)) {
       mData.addAll(bookList);
       notifyItemRangeInserted(getItemCount(), bookList.size());
@@ -54,23 +54,18 @@ public class BorrowAdapter extends RecyclerView.Adapter<BorrowAdapter.ViewHolder
   }
 
   @Override public void onBindViewHolder(ViewHolder viewHolder, int position) {
-    final Book book = mData.get(position);
-    viewHolder.mBookName.setText(book.getBook_name());
-    viewHolder.mBookDescription.setText(book.getBook_author());
-    viewHolder.mBookFavour.setText(book.getFavour());
-    viewHolder.mBorrowAt.setText("FROM:" + book.getBorrow_at());
+    final SummaryBook book = mData.get(position);
 
-    if (Integer.valueOf(book.getReturn_at()) > 0) {
-      viewHolder.mReturnAt.setText("剩余:" + book.getReturn_at());
+    viewHolder.mBookName.setText(book.book_name);
+    viewHolder.mBookDescription.setText(book.book_author);
+    viewHolder.mBookFavour.setText(book.favour);
+    viewHolder.mBorrowAt.setText("FROM:" + book.created_at);
+
+    if (Integer.valueOf(book.created_at) > 0) {
+      viewHolder.mReturnAt.setText("剩余:" + book.return_at);
     } else {
-      viewHolder.mReturnAt.setText("超期:" + Math.abs(Integer.valueOf(book.getReturn_at())));
+      viewHolder.mReturnAt.setText("超期:" + Math.abs(Integer.valueOf(book.return_at)));
     }
-
-    Picasso.with(mContext)
-        .load(book.getBook_pic())
-        .placeholder(R.drawable.ic_launcher)
-        .error(R.drawable.ic_launcher)
-        .into(viewHolder.mBookIcon);
 
     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
@@ -106,7 +101,7 @@ public class BorrowAdapter extends RecyclerView.Adapter<BorrowAdapter.ViewHolder
   }
 
   public static interface OnItemClickListener {
-    void onItemClick(Book book);
+    void onItemClick(SummaryBook book);
   }
 
   public void setOnItemClickListener(OnItemClickListener listener) {

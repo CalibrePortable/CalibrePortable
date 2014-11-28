@@ -3,7 +3,7 @@ package org.geeklub.smartlib.module.login.model;
 import android.text.TextUtils;
 
 import org.geeklub.smartlib.api.Constant;
-import org.geeklub.smartlib.beans.LoginUser;
+import org.geeklub.smartlib.beans.LoginInfo;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.login.presenter.OnLoginFinishedListener;
 import org.geeklub.smartlib.module.login.presenter.OnUserInputListener;
@@ -39,7 +39,7 @@ public class LoginModelImpl implements LoginModel {
 
     NormalUserService service = restAdapter.create(NormalUserService.class);
 
-    service.login(new LoginUser(userId, password), new Callback<ServerResponse>() {
+    service.login(new LoginInfo(userId, password), new Callback<ServerResponse>() {
       @Override public void success(ServerResponse serverResponse, Response response) {
         LogUtil.i(serverResponse.getInfo());
 

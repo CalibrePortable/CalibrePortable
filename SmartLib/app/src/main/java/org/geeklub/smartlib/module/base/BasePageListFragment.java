@@ -55,6 +55,7 @@ public abstract class BasePageListFragment<T> extends BaseFragment
         android.R.color.holo_red_light);
 
     mRecycleView.setLayoutManager(new LinearLayoutManager(mActivity));
+    mRecycleView.setItemAnimator(new DefaultItemAnimator());
     mRecycleView.setHasFixedSize(true);
     mRecycleView.setAdapter(mAdapter);
 
