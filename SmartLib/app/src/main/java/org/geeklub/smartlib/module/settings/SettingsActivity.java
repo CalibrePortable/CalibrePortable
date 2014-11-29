@@ -16,6 +16,8 @@ public class SettingsActivity extends BaseActivity {
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
+    initActionBar();
+
     setTitle(getString(R.string.action_settings));
 
     getFragmentManager().beginTransaction()
@@ -23,7 +25,7 @@ public class SettingsActivity extends BaseActivity {
         .commit();
   }
 
-  @Override protected void initActionBar() {
+  private void initActionBar() {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayShowTitleEnabled(false);
     actionBar.setDisplayHomeAsUpEnabled(true);

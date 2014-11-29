@@ -6,18 +6,14 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.InjectView;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.utils.LogUtil;
-import retrofit.RestAdapter;
 
-/**
- * Created by Vass on 2014/11/15.
- */
+@Deprecated
 public abstract class BasePageListFragment<T> extends BaseFragment
     implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -29,18 +25,12 @@ public abstract class BasePageListFragment<T> extends BaseFragment
 
   protected boolean mIsRefreshFromTop = false;
 
-  private RestAdapter mRestAdapter;
-
-  protected T mService;
-
   protected RecyclerView.Adapter mAdapter;
 
   @Override public void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
     mAdapter = newAdapter();
-    mRestAdapter = newRestAdapter();
-    mService = mRestAdapter.create(getServiceClass());
   }
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,17 +77,15 @@ public abstract class BasePageListFragment<T> extends BaseFragment
   private void loadNextPage() {
     LogUtil.i("加载下一页");
     loadData(mPage);
+
+   
   }
 
   private void loadData(int page) {
-
     mIsRefreshFromTop = (page == 1);
-
     if (!mSwipeRefreshLayout.isRefreshing() && mIsRefreshFromTop) {
       mSwipeRefreshLayout.setRefreshing(true);
     }
-
-    executeRequest(page);
   }
 
   @Override public void onRefresh() {
@@ -105,10 +93,4 @@ public abstract class BasePageListFragment<T> extends BaseFragment
   }
 
   protected abstract RecyclerView.Adapter newAdapter();
-
-  protected abstract RestAdapter newRestAdapter();
-
-  protected abstract Class<T> getServiceClass();
-
-  protected abstract void executeRequest(int page);
 }

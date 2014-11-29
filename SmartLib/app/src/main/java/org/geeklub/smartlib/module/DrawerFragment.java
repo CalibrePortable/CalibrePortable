@@ -52,6 +52,10 @@ public class DrawerFragment extends BaseFragment {
     return view;
   }
 
+  @Override public void onActivityCreated(Bundle savedInstanceState) {
+    super.onActivityCreated(savedInstanceState);
+  }
+
   @Override protected int getLayoutResource() {
     return R.layout.fragment_drawer;
   }

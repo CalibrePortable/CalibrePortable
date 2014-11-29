@@ -11,20 +11,19 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuItem;
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import com.astuetz.PagerSlidingTabStrip;
 import org.geeklub.smartlib.R;
+import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.utils.LogUtil;
 
 /**
  * Created by Vass on 2014/11/17.
  */
-public class SearchResultActivity extends ActionBarActivity {
+public class SearchResultActivity extends BaseActivity {
 
   @InjectView(R.id.pager) ViewPager mViewPager;
 
@@ -35,20 +34,24 @@ public class SearchResultActivity extends ActionBarActivity {
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.activity_search);
-    ButterKnife.inject(this);
     initActionBar();
 
     mAdapter = new SearchPagerAdapter(getFragmentManager());
     mViewPager.setAdapter(mAdapter);
+    mViewPager.setOffscreenPageLimit(4);
     mTabs.setViewPager(mViewPager);
 
     handleIntent(getIntent());
   }
 
+  @Override protected int getLayoutResource() {
+    return R.layout.activity_search;
+  }
+
   private void initActionBar() {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
+    actionBar.setHomeButtonEnabled(true);
   }
 
   @Override protected void onNewIntent(Intent intent) {
@@ -87,7 +90,7 @@ public class SearchResultActivity extends ActionBarActivity {
   }
 
   private class SearchPagerAdapter extends FragmentStatePagerAdapter {
-    private final String[] TITLES = { "书名", "出版社", "作者", "种类", "全部" };
+    private final String[] TITLES = { "书名", "出版社", "作者", "种类"};
 
     private String mKeyWord;
 

@@ -11,18 +11,26 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.squareup.picasso.Picasso;
-import java.util.ArrayList;
-import java.util.List;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.beans.SummaryBook;
 
 /**
  * Created by Vass on 2014/11/3.
  */
-public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHolder> {
+public class LibraryAdapter extends BaseRecyclerAdapter<SummaryBook, LibraryAdapter.ViewHolder> {
 
-  private List<SummaryBook> mData;
+  public static class ViewHolder extends RecyclerView.ViewHolder {
+    @InjectView(R.id.iv_book_icon) ImageView mBookIcon;
+    @InjectView(R.id.tv_book_name) TextView mBookName;
+    @InjectView(R.id.tv_book_description) TextView mBookDescription;
+    @InjectView(R.id.tv_book_favour) TextView mBookFavour;
+    @InjectView(R.id.tv_add_one) TextView mAddOneTextView;
+
+    public ViewHolder(View itemView) {
+      super(itemView);
+      ButterKnife.inject(this, itemView);
+    }
+  }
 
   private Context mContext;
 
@@ -32,43 +40,39 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
 
   private Animation mAnimation;
 
+  public static interface OnItemClickListener {
+    void onItemClick(SummaryBook book);
+  }
+
+  public void setOnItemClickListener(OnItemClickListener listener) {
+    this.onItemClickListener = listener;
+  }
+
+  public static interface OnFavourClickListener {
+    void onFavourClick(SummaryBook book);
+  }
+
+  public void setOnFavourClickListener(OnFavourClickListener listener) {
+    this.onFavourClickListener = listener;
+  }
+
   public LibraryAdapter(Context context) {
-    mData = new ArrayList<SummaryBook>();
     mContext = context;
   }
-
-  public void refresh(List<SummaryBook> bookList) {
-    if (!mData.isEmpty()) {
-      mData.clear();
-    }
-    mData.addAll(bookList);
-    notifyDataSetChanged();
-  }
-
-  public void updateItem(int position) {
-    notifyItemChanged(position);
-  }
-
-  public void addItems(List<SummaryBook> bookList) {
-    if (!mData.containsAll(bookList)) {
-      mData.addAll(bookList);
-      notifyItemRangeInserted(getItemCount(), bookList.size());
-    }
-  }
+  //
+  //public void updateItem(int position) {
+  //  notifyItemChanged(position);
+  //}
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
-    //LogUtil.i("创建第" + position + "个ViewHolder");
     View view = LayoutInflater.from(viewGroup.getContext())
         .inflate(R.layout.cardview_library, viewGroup, false);
-
     return new ViewHolder(view);
   }
 
   @Override public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
-    //LogUtil.i("绑定第" + position + "个ViewHolder");
 
-    final SummaryBook summaryBook = mData.get(position);
-    //LogUtil.i("Book Info ===>>>" + summaryBook.toString());
+    final SummaryBook summaryBook = get(position);
 
     viewHolder.mBookName.setText(summaryBook.book_name);
 
@@ -91,10 +95,8 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     });
 
     if ("1".equals(summaryBook.isLike)) {
-      //LogUtil.i("已经点赞过了");
       viewHolder.mBookFavour.setEnabled(false);
     } else {
-      //LogUtil.i("还没有点赞过");
       viewHolder.mBookFavour.setEnabled(true);
     }
 
@@ -105,50 +107,11 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
           //禁用点赞按钮，否则会出现疯狂点赞情况
           v.setEnabled(false);
           mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.dianzan_anim);
-          mAnimation.setAnimationListener(new DianZanAnimationListener(position));
+          //mAnimation.setAnimationListener(new DianZanAnimationListener(position));
           startDianZanAnimation(viewHolder.mAddOneTextView);
         }
       }
     });
-  }
-
-  @Override public int getItemCount() {
-    return mData.size();
-  }
-
-  public static class ViewHolder extends RecyclerView.ViewHolder {
-
-    @InjectView(R.id.iv_book_icon) ImageView mBookIcon;
-
-    @InjectView(R.id.tv_book_name) TextView mBookName;
-
-    @InjectView(R.id.tv_book_description) TextView mBookDescription;
-
-    @InjectView(R.id.tv_book_favour) TextView mBookFavour;
-
-    @InjectView(R.id.tv_add_one) TextView mAddOneTextView;
-
-    public ViewHolder(View itemView) {
-      super(itemView);
-
-      ButterKnife.inject(this, itemView);
-    }
-  }
-
-  public static interface OnItemClickListener {
-    void onItemClick(SummaryBook book);
-  }
-
-  public void setOnItemClickListener(OnItemClickListener listener) {
-    this.onItemClickListener = listener;
-  }
-
-  public static interface OnFavourClickListener {
-    void onFavourClick(SummaryBook book);
-  }
-
-  public void setOnFavourClickListener(OnFavourClickListener listener) {
-    this.onFavourClickListener = listener;
   }
 
   public void startDianZanAnimation(final View addOne) {
@@ -159,23 +122,23 @@ public class LibraryAdapter extends RecyclerView.Adapter<LibraryAdapter.ViewHold
     }
   }
 
-  private class DianZanAnimationListener implements Animation.AnimationListener {
-    private int mPosition;
-
-    @Override public void onAnimationStart(Animation animation) {
-
-    }
-
-    @Override public void onAnimationEnd(Animation animation) {
-      updateItem(mPosition);
-    }
-
-    public DianZanAnimationListener(int position) {
-      this.mPosition = position;
-    }
-
-    @Override public void onAnimationRepeat(Animation animation) {
-
-    }
-  }
+  //private class DianZanAnimationListener implements Animation.AnimationListener {
+  //  private int mPosition;
+  //
+  //  @Override public void onAnimationStart(Animation animation) {
+  //
+  //  }
+  //
+  //  @Override public void onAnimationEnd(Animation animation) {
+  //    updateItem(mPosition);
+  //  }
+  //
+  //  public DianZanAnimationListener(int position) {
+  //    this.mPosition = position;
+  //  }
+  //
+  //  @Override public void onAnimationRepeat(Animation animation) {
+  //
+  //  }
+  //}
 }

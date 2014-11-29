@@ -46,7 +46,7 @@ public interface NormalUserService {
 
   //已借阅
   @GET("/normal/showRe/{userId}/{password}/page={page}") void haveBorrowed(
-      @Path("userId") String userId, @Path("password") String password,
+      @Path("userId") String userId, @Path("password") String password, @Path("page") int page,
       Callback<List<SummaryBook>> callback);
 
   //  图书详细内容

@@ -18,23 +18,20 @@ public abstract class BaseFragment extends Fragment {
 
   @Override public void onAttach(Activity activity) {
     super.onAttach(activity);
-
     mActivity = activity;
-  }
-
-  @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    View view = inflater.inflate(getLayoutResource(), null);
-
-    ButterKnife.inject(this, view);
-
-    return view;
   }
 
   @Override public void onDetach() {
     super.onDetach();
-
     mActivity = null;
+  }
+
+
+  @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    View view = inflater.inflate(getLayoutResource(), null);
+    ButterKnife.inject(this, view);
+    return view;
   }
 
   protected abstract int getLayoutResource();

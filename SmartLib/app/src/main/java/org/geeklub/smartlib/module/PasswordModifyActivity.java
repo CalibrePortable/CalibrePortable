@@ -21,9 +21,7 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * Created by Vass on 2014/11/13.
- */
+@Deprecated
 public class PasswordModifyActivity extends BaseActivity implements View.OnClickListener {
 
   @InjectView(R.id.et_new_password) EditText mNewPassword;
@@ -36,7 +34,8 @@ public class PasswordModifyActivity extends BaseActivity implements View.OnClick
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setTitle("Modify Your Password");
+    initActionBar();
+    setTitle("修改密码");
 
     mRestAdapter =
         new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
@@ -49,10 +48,9 @@ public class PasswordModifyActivity extends BaseActivity implements View.OnClick
     mConfirm.setOnClickListener(this);
   }
 
-  @Override protected void initActionBar() {
+  private void initActionBar() {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setDisplayShowTitleEnabled(false);
     actionBar.setHomeButtonEnabled(true);
   }
 

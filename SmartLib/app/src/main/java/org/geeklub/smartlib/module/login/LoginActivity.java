@@ -2,7 +2,6 @@ package org.geeklub.smartlib.module.login;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -10,19 +9,19 @@ import android.widget.ProgressBar;
 
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.module.MainActivity;
+import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.module.login.presenter.LoginPresenter;
 import org.geeklub.smartlib.module.login.presenter.LoginPresenterImpl;
 import org.geeklub.smartlib.module.login.view.LoginView;
 import org.geeklub.smartlib.module.register.RegisterActivity;
 import org.geeklub.smartlib.utils.ToastUtil;
 
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 
 /**
  * Created by Vass on 2014/10/26.
  */
-public class LoginActivity extends ActionBarActivity implements LoginView, View.OnClickListener {
+public class LoginActivity extends BaseActivity implements LoginView, View.OnClickListener {
 
   private LoginPresenter mLoginPresenter;
 
@@ -40,15 +39,13 @@ public class LoginActivity extends ActionBarActivity implements LoginView, View.
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.activity_login);
-
-    ButterKnife.inject(this);
-
     mLoginPresenter = new LoginPresenterImpl(this);
-
     mLoginPresenter.haveLoginBefore();
-
     initCallBacks();
+  }
+
+  @Override protected int getLayoutResource() {
+    return R.layout.activity_login;
   }
 
   private void initCallBacks() {

@@ -2,6 +2,7 @@ package org.geeklub.smartlib.module.detail;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -20,6 +21,8 @@ public class BookDetailActivity extends BaseActivity {
   @InjectView(R.id.tv_book_price) TextView mBookPrice;
 
   @InjectView(R.id.tv_book_status) TextView mBookStatus;
+
+  @InjectView(R.id.toolbar) Toolbar mToolBar;
 
   private SummaryBook mBook;
 
@@ -46,10 +49,8 @@ public class BookDetailActivity extends BaseActivity {
     mBookStatus.setText("当前状态:" + mBook.book_status);
   }
 
-  @Override protected void initActionBar() {
-    getSupportActionBar().setHomeButtonEnabled(true);
-    getSupportActionBar().setDisplayShowTitleEnabled(false);
-    getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+   private void initActionBar() {
+    setSupportActionBar(mToolBar);
   }
 
   @Override public boolean onCreateOptionsMenu(Menu menu) {

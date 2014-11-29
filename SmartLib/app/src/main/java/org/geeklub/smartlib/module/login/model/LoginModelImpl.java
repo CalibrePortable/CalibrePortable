@@ -2,6 +2,7 @@ package org.geeklub.smartlib.module.login.model;
 
 import android.text.TextUtils;
 
+import org.geeklub.smartlib.GlobalContext;
 import org.geeklub.smartlib.api.Constant;
 import org.geeklub.smartlib.beans.LoginInfo;
 import org.geeklub.smartlib.beans.ServerResponse;
@@ -34,10 +35,10 @@ public class LoginModelImpl implements LoginModel {
       return;
     }
 
-    RestAdapter restAdapter =
-        new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
+    //RestAdapter restAdapter =
+    //    new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
 
-    NormalUserService service = restAdapter.create(NormalUserService.class);
+    NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
 
     service.login(new LoginInfo(userId, password), new Callback<ServerResponse>() {
       @Override public void success(ServerResponse serverResponse, Response response) {

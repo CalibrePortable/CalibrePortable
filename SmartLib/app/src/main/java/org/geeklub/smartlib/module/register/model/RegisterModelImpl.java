@@ -1,8 +1,8 @@
 package org.geeklub.smartlib.module.register.model;
 
 import android.text.TextUtils;
+import org.geeklub.smartlib.GlobalContext;
 import org.geeklub.smartlib.api.Constant;
-import org.geeklub.smartlib.beans.NewPasswordInfo;
 import org.geeklub.smartlib.beans.RegisterInfo;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.register.presenter.OnPassWordMatchListener;
@@ -12,7 +12,6 @@ import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -44,10 +43,10 @@ public class RegisterModelImpl implements RegisterModel {
       return;
     }
 
-    RestAdapter restAdapter =
-        new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
+    //RestAdapter restAdapter =
+    //    new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
 
-    NormalUserService service = restAdapter.create(NormalUserService.class);
+    NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
 
     service.register(new RegisterInfo(userId, userName, password, passWordConfirm),
         new Callback<ServerResponse>() {

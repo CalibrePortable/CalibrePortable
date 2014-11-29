@@ -9,21 +9,19 @@ import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.avos.avoscloud.feedback.FeedbackAgent;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.beans.ServerResponse;
+import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.module.login.LoginActivity;
 import org.geeklub.smartlib.module.settings.SettingsActivity;
 import org.geeklub.smartlib.module.type.Category;
@@ -40,7 +38,7 @@ import retrofit.client.Response;
 /**
  * Created by Vass on 2014/11/15.
  */
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends BaseActivity {
 
   public @InjectView(R.id.drawer_layout) DrawerLayout mDrawerLayout;
 
@@ -60,8 +58,8 @@ public class MainActivity extends ActionBarActivity {
     super.onCreate(savedInstanceState);
     mTitle = mDrawerTitle = getTitle();
 
-    setContentView(R.layout.activity_main);
-    ButterKnife.inject(this);
+    //setContentView(R.layout.activity_main);
+    //ButterKnife.inject(this);
     initActionBar();
 
     mDrawerLayout.setDrawerShadow(R.drawable.drawer_shadow, Gravity.START);
@@ -86,6 +84,10 @@ public class MainActivity extends ActionBarActivity {
 
     iniDrawer();
     setCategory(Category.library);
+  }
+
+  @Override protected int getLayoutResource() {
+    return R.layout.activity_main;
   }
 
   private void initActionBar() {

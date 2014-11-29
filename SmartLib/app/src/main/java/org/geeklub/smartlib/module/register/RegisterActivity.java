@@ -1,16 +1,15 @@
 package org.geeklub.smartlib.module.register;
 
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
-import butterknife.ButterKnife;
 import butterknife.InjectView;
 import org.geeklub.smartlib.R;
+import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.module.register.presenter.RegisterPresenter;
 import org.geeklub.smartlib.module.register.presenter.RegisterPresenterImpl;
 import org.geeklub.smartlib.module.register.view.RegisterView;
@@ -19,7 +18,7 @@ import org.geeklub.smartlib.utils.ToastUtil;
 /**
  * Created by Vass on 2014/10/26.
  */
-public class RegisterActivity extends ActionBarActivity
+public class RegisterActivity extends BaseActivity
     implements RegisterView, View.OnClickListener, TextWatcher {
 
   @InjectView(R.id.et_user_id) EditText mUserId;
@@ -39,13 +38,13 @@ public class RegisterActivity extends ActionBarActivity
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    setContentView(R.layout.activity_register);
-
-    ButterKnife.inject(this);
-
     mRegisterPresenter = new RegisterPresenterImpl(this);
 
     initCallBacks();
+  }
+
+  @Override protected int getLayoutResource() {
+    return R.layout.activity_register;
   }
 
   private void initCallBacks() {
