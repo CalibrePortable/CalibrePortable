@@ -24,16 +24,16 @@ public class SearchActivity extends BaseActivity {
 
   private SearchPagerAdapter mAdapter;
 
-  @Override protected void initActionBar() {
-
+  private void initActionBar() {
 
   }
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    mAdapter = new SearchPagerAdapter(getFragmentManager());
+    initActionBar();
 
+    mAdapter = new SearchPagerAdapter(getFragmentManager());
   }
 
   @Override protected int getLayoutResource() {
@@ -42,18 +42,12 @@ public class SearchActivity extends BaseActivity {
 
   @Override public View onCreateView(View parent, String name, Context context,
       AttributeSet attrs) {
-    View view =  super.onCreateView(parent, name, context, attrs);
+    View view = super.onCreateView(parent, name, context, attrs);
 
     mViewPager.setAdapter(mAdapter);
 
-
-
-
-
     return view;
   }
-
-
 
   private class SearchPagerAdapter extends FragmentStatePagerAdapter {
 

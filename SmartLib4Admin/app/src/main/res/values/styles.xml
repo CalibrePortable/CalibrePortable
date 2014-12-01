@@ -1,16 +1,16 @@
 <resources>
 
-  <style name="AppTheme" parent="AppTheme.Base">
+    <style name="AppTheme" parent="AppTheme.Base">
 
-  </style>
+    </style>
 
-  <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
-    <item name="colorPrimary">@color/SUN_FLOWER</item>
-    <item name="colorPrimaryDark">@color/ORANGE</item>
-    <item name="colorAccent">@color/CLOUDS</item>
-    <item name="android:windowActionBar">true</item>
-    <item name="android:windowNoTitle">true</item>
-  </style>
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/PETER_RIVER</item>
+        <item name="colorPrimaryDark">@color/BELIZE_HOLE</item>
+        <item name="android:textColorPrimary">@color/MIDNIGHT_BLUE</item>
+        <item name="android:windowActionBar">true</item>
+        <item name="android:windowNoTitle">true</item>
+    </style>
 
 
 </resources>

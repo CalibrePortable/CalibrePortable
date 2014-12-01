@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity {
 
   private Category mCategory;
 
-  @Override protected void initActionBar() {
+  private void initActionBar() {
     ActionBar actionBar = getSupportActionBar();
     actionBar.setDisplayHomeAsUpEnabled(true);
     actionBar.setHomeButtonEnabled(true);
@@ -53,6 +53,8 @@ public class MainActivity extends BaseActivity {
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+
+    initActionBar();
 
     mTitle = mDrawerTitle = getTitle();
 

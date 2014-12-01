@@ -7,92 +7,106 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.melnykov.fab.FloatingActionButton;
+
 import java.util.List;
+
 import org.geeklub.smartlib4admin.R;
-import org.geeklub.smartlib4admin.beans.Book;
+import org.geeklub.smartlib4admin.beans.SummaryBook;
 import org.geeklub.smartlib4admin.module.adapters.LibraryAdapter;
-import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
 import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
+
+import butterknife.InjectView;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
 /**
  * Created by Vass on 2014/11/25.
  */
-public class LibraryFragment extends BasePageListFragment<AdministratorService> {
+public class LibraryFragment extends BasePageListFragment {
 
-  public static Fragment newInstance() {
+    @InjectView(R.id.fab)
+    FloatingActionButton mFab;
 
-    Fragment libraryFragment = new LibraryFragment();
+    public static Fragment newInstance() {
+        Fragment libraryFragment = new LibraryFragment();
+        return libraryFragment;
+    }
 
-    return libraryFragment;
-  }
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.fragment_library;
+    }
 
-  @Override protected int getLayoutResource() {
-    return R.layout.fragment_library;
-  }
+    @Override
+    protected RecyclerView.Adapter newAdapter() {
+        return new LibraryAdapter(mActivity);
+    }
 
-  @Override protected RecyclerView.Adapter newAdapter() {
-    return new LibraryAdapter(mActivity);
-  }
 
-  @Override protected RestAdapter newRestAdapter() {
-    return new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
-  }
+    @Override
+    protected void executeRequest(int page) {
 
-  @Override protected Class getServiceClass() {
-    return AdministratorService.class;
-  }
+        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-  @Override protected void executeRequest(int page) {
-    LogUtil.i("下载数据");
+        mService.search("12108238", "5", page, "all", new Callback<List<SummaryBook>>() {
+            @Override
+            public void success(List<SummaryBook> bookList, Response response) {
 
-    SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+                mSwipeRefreshLayout.setRefreshing(false);
 
-    mService.search("12108238", "5", page, "all", new Callback<List<Book>>() {
-      @Override public void success(List<Book> bookList, Response response) {
-        LogUtil.i("下载了" + bookList.size() + "本书");
+                if (mIsRefreshFromTop) {
+                    if (((LibraryAdapter) mAdapter).equals(bookList)) {
 
-        mSwipeRefreshLayout.setRefreshing(false);
+                    } else {
+                        ((LibraryAdapter) mAdapter).replaceWith(bookList);
+                    }
+                } else {
+                    ((LibraryAdapter) mAdapter).addAll(bookList);
+                }
+                mPage++;
+            }
 
-        if (mIsRefreshFromTop) {
-          ((LibraryAdapter) mAdapter).refresh(bookList);
-        } else {
-          ((LibraryAdapter) mAdapter).addItems(bookList);
-        }
-        mPage++;
-      }
+            @Override
+            public void failure(RetrofitError error) {
+                LogUtil.i(error.getMessage());
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
 
-      @Override public void failure(RetrofitError error) {
-        LogUtil.i(error.getMessage());
-        mSwipeRefreshLayout.setRefreshing(false);
-      }
-    });
-  }
 
-  @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    View view = super.onCreateView(inflater, container, savedInstanceState);
+        ((LibraryAdapter) mAdapter).setOnItemClickListener(new LibraryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(SummaryBook book) {
 
-    ((LibraryAdapter) mAdapter).setOnItemClickListener(new LibraryAdapter.OnItemClickListener() {
-      @Override public void onItemClick(Book book) {
+            }
+        });
+    }
 
-      }
-    });
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
 
-    ((LibraryAdapter) mAdapter).setOnFavourClickListener(
-        new LibraryAdapter.OnFavourClickListener() {
-          @Override public void onFavourClick(Book book) {
-            book.setIsLike(1);
-            book.setFavour(Integer.valueOf(book.getFavour()) + 1 + "");
-          }
+        mFab.attachToRecyclerView(mRecycleView);
+
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
         });
 
-    return view;
-  }
+        return view;
+    }
 }

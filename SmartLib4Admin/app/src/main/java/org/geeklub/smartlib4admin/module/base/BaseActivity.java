@@ -14,13 +14,8 @@ public abstract class BaseActivity extends ActionBarActivity {
 
     setContentView(getLayoutResource());
 
-
-
-
     ButterKnife.inject(this);
   }
-
-  protected abstract void initActionBar();
 
   protected abstract int getLayoutResource();
 }

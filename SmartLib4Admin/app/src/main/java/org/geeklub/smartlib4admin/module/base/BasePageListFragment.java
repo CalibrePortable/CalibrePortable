@@ -9,13 +9,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import butterknife.InjectView;
+import org.geeklub.smartlib4admin.GlobalContext;
 import org.geeklub.smartlib4admin.R;
-import retrofit.RestAdapter;
+import org.geeklub.smartlib4admin.module.api.AdministratorService;
 
 /**
  * Created by Vass on 2014/11/15.
  */
-public abstract class BasePageListFragment<T> extends BaseFragment
+public abstract class BasePageListFragment extends BaseFragment
     implements SwipeRefreshLayout.OnRefreshListener {
 
   public @InjectView(R.id.swipe_layout) SwipeRefreshLayout mSwipeRefreshLayout;
@@ -26,9 +27,7 @@ public abstract class BasePageListFragment<T> extends BaseFragment
 
   protected boolean mIsRefreshFromTop = false;
 
-  private RestAdapter mRestAdapter;
-
-  protected T mService;
+  protected AdministratorService mService;
 
   protected RecyclerView.Adapter mAdapter;
 
@@ -36,8 +35,7 @@ public abstract class BasePageListFragment<T> extends BaseFragment
     super.onCreate(savedInstanceState);
 
     mAdapter = newAdapter();
-    mRestAdapter = newRestAdapter();
-    mService = mRestAdapter.create(getServiceClass());
+    mService = GlobalContext.getApiDispencer().getRestApi(AdministratorService.class);
   }
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -100,10 +98,6 @@ public abstract class BasePageListFragment<T> extends BaseFragment
   }
 
   protected abstract RecyclerView.Adapter newAdapter();
-
-  protected abstract RestAdapter newRestAdapter();
-
-  protected abstract Class<T> getServiceClass();
 
   protected abstract void executeRequest(int page);
 }

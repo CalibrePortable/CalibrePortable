@@ -9,78 +9,78 @@
     app:cardCornerRadius="5dp">
 
 
-  <RelativeLayout
-      android:layout_width="match_parent"
-      android:layout_height="160dp"
-      android:padding="5dp">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:padding="5dp">
 
 
-    <ImageView
-        android:layout_alignParentLeft="true"
-        android:layout_width="70dp"
-        android:layout_height="120dp"
-        android:id="@+id/iv_book_icon"
-        android:layout_marginTop="5dp"
-        android:layout_marginLeft="5dp"/>
+        <ImageView
+            android:background="@color/GREEN_SEA"
+            android:id="@+id/iv_book_icon"
+            android:layout_width="70dp"
+            android:layout_height="120dp"
+            android:layout_alignParentLeft="true"
+            android:layout_marginLeft="5dp"
+            android:layout_marginTop="5dp" />
 
-    <TextView
-        android:layout_toRightOf="@+id/iv_book_icon"
-        android:layout_alignTop="@+id/iv_book_icon"
-        android:layout_width="wrap_content"
-        android:singleLine="true"
-        android:layout_height="wrap_content"
-        android:text="书名"
-        android:id="@+id/tv_book_name"
-        android:layout_marginLeft="5dp"/>
+        <TextView
+            android:id="@+id/tv_book_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/iv_book_icon"
+            android:layout_marginLeft="5dp"
+            android:layout_toRightOf="@+id/iv_book_icon"
+            android:singleLine="true"
+            android:text="书名" />
 
-    <TextView
-        android:layout_height="wrap_content"
-        android:layout_width="wrap_content"
-        android:singleLine="true"
-        android:text="描述"
-        android:id="@+id/tv_book_description"
-        android:layout_below="@+id/tv_book_name"
-        android:layout_alignLeft="@+id/tv_book_name"
-        android:layout_marginTop="5dp"/>
+        <TextView
+            android:id="@+id/tv_book_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/tv_book_name"
+            android:layout_below="@+id/tv_book_name"
+            android:layout_marginTop="5dp"
+            android:singleLine="true"
+            android:text="描述" />
 
-    <TextView
-        android:gravity="center"
-        android:drawableLeft="@drawable/ic_action_favorite"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentRight="true"
-        android:id="@+id/tv_book_favour"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-
-    <TextView
-        android:id="@+id/tv_borrow_at"
-        android:text="FROM"
-        android:layout_alignLeft="@+id/iv_book_icon"
-        android:layout_below="@+id/iv_book_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
-
-    <TextView
-        android:id="@+id/tv_return_at"
-        android:layout_marginLeft="100dp"
-        android:text="TO"
-        android:layout_alignTop="@+id/tv_borrow_at"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@+id/tv_borrow_at"/>
+        <TextView
+            android:id="@+id/tv_book_favour"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:drawableLeft="@drawable/ic_action_favorite"
+            android:gravity="center" />
 
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="+1"
-        android:visibility="gone"
-        android:textSize="20sp"
-        android:layout_above="@+id/tv_book_favour"
-        android:layout_alignRight="@+id/tv_book_favour"
-        android:textColor="@color/POMEGRANATE"
-        android:id="@+id/tv_add_one"/>
-  </RelativeLayout>
+        <TextView
+            android:id="@+id/tv_borrow_at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignLeft="@+id/iv_book_icon"
+            android:layout_below="@+id/iv_book_icon"
+            android:text="FROM" />
+
+        <TextView
+            android:id="@+id/tv_return_at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_borrow_at"
+            android:layout_marginLeft="100dp"
+            android:layout_toRightOf="@+id/tv_borrow_at"
+            android:text="TO" />
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/tv_book_description"
+            android:layout_marginRight="30dp"
+            android:text="借阅人" />
+
+
+    </RelativeLayout>
 
 </android.support.v7.widget.CardView>

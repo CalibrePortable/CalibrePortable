@@ -7,98 +7,80 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
-import com.squareup.picasso.Picasso;
-import java.util.ArrayList;
-import java.util.List;
+
+
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.Book;
 
 /**
  * Created by Vass on 2014/11/7.
  */
-public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.ViewHolder> {
+public class SearchAdapter extends BaseRecyclerAdapter<Book, SearchAdapter.ViewHolder> {
 
-  private List<Book> mData;
 
-  private Context mContext;
+    private Context mContext;
 
-  private OnItemClickListener onItemClickListener;
+    private OnItemClickListener onItemClickListener;
 
-  public SearchAdapter(Context context) {
-    this.mContext = context;
-    this.mData = new ArrayList<Book>();
-  }
+    public SearchAdapter(Context context) {
+        this.mContext = context;
+    }
 
-  @Override public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
-    View view = LayoutInflater.from(viewGroup.getContext())
-        .inflate(R.layout.cardview_search, viewGroup, false);
-    return new ViewHolder(view);
-  }
+    @Override
+    public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
+        View view = LayoutInflater.from(viewGroup.getContext())
+                .inflate(R.layout.cardview_search, viewGroup, false);
+        return new ViewHolder(view);
+    }
 
-  @Override public void onBindViewHolder(ViewHolder viewHolder, int position) {
-    final Book book = mData.get(position);
-    viewHolder.mBookName.setText(book.getBook_name());
-    viewHolder.mBookDescription.setText(book.getBook_author());
-    viewHolder.mBookFavour.setText(book.getFavour());
+    @Override
+    public void onBindViewHolder(ViewHolder viewHolder, int position) {
+        final Book book = get(position);
+        viewHolder.mBookName.setText(book.book_name);
+        viewHolder.mBookDescription.setText(book.book_status);
+        viewHolder.mBookFavour.setText(book.favour);
 
-    Picasso.with(mContext)
-        .load(book.getBook_pic())
-        .placeholder(R.drawable.ic_launcher)
-        .error(R.drawable.ic_launcher)
-        .into(viewHolder.mBookIcon);
 
-    viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-      @Override public void onClick(View v) {
-        if (onItemClickListener != null) {
-          onItemClickListener.onItemClick(book);
+        viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(book);
+                }
+            }
+        });
+    }
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+
+        @InjectView(R.id.iv_book_icon)
+        ImageView mBookIcon;
+
+        @InjectView(R.id.tv_book_name)
+        TextView mBookName;
+
+        @InjectView(R.id.tv_book_description)
+        TextView mBookDescription;
+
+        @InjectView(R.id.tv_book_favour)
+        TextView mBookFavour;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            ButterKnife.inject(this, itemView);
         }
-      }
-    });
-  }
-
-  @Override public int getItemCount() {
-    return mData.size();
-  }
-
-  public void refresh(List<Book> bookList) {
-    if (!mData.isEmpty()) {
-      mData.clear();
     }
-    mData.addAll(bookList);
-    notifyDataSetChanged();
-  }
 
-  public void addItems(List<Book> bookList) {
-    if (!mData.containsAll(bookList)) {
-      mData.addAll(bookList);
-      notifyItemRangeInserted(getItemCount(), bookList.size());
+    public static interface OnItemClickListener {
+        void onItemClick(Book book);
     }
-  }
 
-  public static class ViewHolder extends RecyclerView.ViewHolder {
-
-    @InjectView(R.id.iv_book_icon) ImageView mBookIcon;
-
-    @InjectView(R.id.tv_book_name) TextView mBookName;
-
-    @InjectView(R.id.tv_book_description) TextView mBookDescription;
-
-    @InjectView(R.id.tv_book_favour) TextView mBookFavour;
-
-    public ViewHolder(View itemView) {
-      super(itemView);
-
-      ButterKnife.inject(this, itemView);
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.onItemClickListener = listener;
     }
-  }
-
-  public static interface OnItemClickListener {
-    void onItemClick(Book book);
-  }
-
-  public void setOnItemClickListener(OnItemClickListener listener) {
-    this.onItemClickListener = listener;
-  }
 }
