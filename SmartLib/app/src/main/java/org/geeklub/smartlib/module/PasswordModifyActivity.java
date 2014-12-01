@@ -1,5 +1,6 @@
 package org.geeklub.smartlib.module;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
 import android.support.v7.widget.Toolbar;
@@ -15,6 +16,7 @@ import org.geeklub.smartlib.beans.NewPasswordInfo;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.api.NormalUserService;
+import org.geeklub.smartlib.module.login.LoginActivity;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 import org.geeklub.smartlib.utils.ToastUtil;
 import retrofit.Callback;
@@ -77,7 +79,7 @@ public class PasswordModifyActivity extends BaseActivity implements View.OnClick
           new Callback<ServerResponse>() {
             @Override public void success(ServerResponse serverResponse, Response response) {
 
-              ToastUtil.showShort("密码修改成功...");
+              ToastUtil.showShort("密码修改成功,请重新登陆...");
             }
 
             @Override public void failure(RetrofitError error) {
