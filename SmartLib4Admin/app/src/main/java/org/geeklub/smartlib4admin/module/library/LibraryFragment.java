@@ -103,6 +103,8 @@ public class LibraryFragment extends BasePageListFragment {
         mFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Fragment fragment = SelectBookTypeDialogFragment.newInstance("选择Book的类型");
+                ((SelectBookTypeDialogFragment) fragment).show(mActivity.getFragmentManager(), "dialog");
 
             }
         });

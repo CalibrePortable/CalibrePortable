@@ -1,16 +1,19 @@
 <resources>
-  <string name="app_name">SmartLib4Admin</string>
+    <string name="app_name">SmartLib4Admin</string>
 
-  <string name="drawer_open">drawer open</string>
-  <string name="drawer_close">drawer close</string>
+    <string name="drawer_open">drawer open</string>
+    <string name="drawer_close">drawer close</string>
 
-  <string name="action_search">搜索</string>
-  <string name="action_settings">设置</string>
-  <string name="action_qr_code">扫一扫借书</string>
+    <string name="action_search">搜索</string>
+    <string name="action_settings">设置</string>
+    <string name="action_qr_code">扫一扫借书</string>
 
 
-  <array name="admin_functions">
-    <item>全部</item>
-    <item>已借</item>
-  </array>
+    <array name="admin_functions">
+        <item>全部</item>
+        <item>已借</item>
+    </array>
+
+    <string name="alert_dialog_ok">OK</string>
+    <string name="alert_dialog_cancel">Cancel</string>
 </resources>

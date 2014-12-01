@@ -163,4 +163,6 @@ public class MainActivity extends BaseActivity {
     mTitle = title;
     getSupportActionBar().setTitle(mTitle);
   }
+
+
 }
