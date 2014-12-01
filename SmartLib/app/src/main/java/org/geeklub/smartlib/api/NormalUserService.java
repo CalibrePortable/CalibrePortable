@@ -2,6 +2,7 @@ package org.geeklub.smartlib.api;
 
 import java.util.List;
 import org.geeklub.smartlib.beans.Book;
+import org.geeklub.smartlib.beans.BookDetailInfo;
 import org.geeklub.smartlib.beans.LoginInfo;
 import org.geeklub.smartlib.beans.NewPasswordInfo;
 import org.geeklub.smartlib.beans.RegisterInfo;
@@ -50,5 +51,6 @@ public interface NormalUserService {
       Callback<List<SummaryBook>> callback);
 
   //  图书详细内容
-  @GET("/public/detail/{bookKind}") void bookDetail(@Path("bookKind") String bookKind);
+  @GET("/public/detail/{bookKind}") void bookDetail(@Path("bookKind") String bookKind,
+      Callback<BookDetailInfo> callback);
 }

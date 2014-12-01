@@ -2,34 +2,35 @@ package org.geeklub.smartlib.module.settings;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import butterknife.InjectView;
 import org.geeklub.smartlib.R;
-import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.module.base.BaseActivity;
+import org.geeklub.smartlib.module.search.SearchFragment;
 
 /**
  * Created by Vass on 2014/11/12.
  */
 public class SettingsActivity extends BaseActivity {
 
+  @InjectView(R.id.toolbar) Toolbar mToolBar;
+
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
 
-    initActionBar();
-
-    setTitle(getString(R.string.action_settings));
+    initToolBar();
 
     getFragmentManager().beginTransaction()
         .replace(R.id.content_frame, new SettingsFragment())
         .commit();
+
   }
 
-  private void initActionBar() {
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayShowTitleEnabled(false);
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setDisplayShowHomeEnabled(true);
+  private void initToolBar() {
+    mToolBar.setTitle("设置");
+    mToolBar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+    setSupportActionBar(mToolBar);
   }
 
   @Override protected int getLayoutResource() {
@@ -39,7 +40,6 @@ public class SettingsActivity extends BaseActivity {
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home:
-        LogUtil.i("back to setting main activity");
         NavUtils.navigateUpTo(this, getIntent());
         return true;
       default:

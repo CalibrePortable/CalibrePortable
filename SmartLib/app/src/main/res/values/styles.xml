@@ -23,6 +23,7 @@
   <style name="AppTheme.ToolBarStyle" parent="AppTheme.Base">
     <item name="windowActionBar">false</item>
     <item name="android:windowNoTitle">true</item>
+    <item name="android:windowActionBarOverlay">true</item>
   </style>
 
 

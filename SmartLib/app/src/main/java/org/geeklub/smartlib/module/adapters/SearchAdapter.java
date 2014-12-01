@@ -34,6 +34,10 @@ public class SearchAdapter extends BaseRecyclerAdapter<SummaryBook, SearchAdapte
     this.mContext = context;
   }
 
+  public void updateItem(int position) {
+    notifyItemChanged(position);
+  }
+
   public static interface OnItemClickListener {
     void onItemClick(SummaryBook book);
   }
@@ -76,7 +80,7 @@ public class SearchAdapter extends BaseRecyclerAdapter<SummaryBook, SearchAdapte
     }
 
     StringBuilder description = new StringBuilder();
-    description.append("作者/").append(book.book_author).append("/当前状态/").append(book.book_status);
+    description.append("作者:").append(book.book_author).append("\n\n当前状态:").append(book.book_status);
     viewHolder.mBookDescription.setText(description);
 
     viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -90,9 +94,15 @@ public class SearchAdapter extends BaseRecyclerAdapter<SummaryBook, SearchAdapte
     viewHolder.mBookFavour.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (onFavourClickListener != null) {
-          onFavourClickListener.onFavourClick(book);
+          //禁用点赞按钮，否则会出现疯狂点赞情况
           v.setEnabled(false);
+          //更新adapter中的数据
+          onFavourClickListener.onFavourClick(book);
+          //载入动画
           mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.dianzan_anim);
+          //设置动画监听器
+          mAnimation.setAnimationListener(new DianZanAnimation(position));
+          //开启动画
           startDianZanAnimation(viewHolder.mAddOneTextView);
         }
       }
@@ -112,6 +122,27 @@ public class SearchAdapter extends BaseRecyclerAdapter<SummaryBook, SearchAdapte
     if (plusOne.getVisibility() == View.GONE) {
       plusOne.setVisibility(View.VISIBLE);
       plusOne.startAnimation(mAnimation);
+    }
+  }
+
+  private class DianZanAnimation implements Animation.AnimationListener {
+    private int mPosition;
+
+    public DianZanAnimation(int position) {
+      this.mPosition = position;
+    }
+
+    @Override public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override public void onAnimationEnd(Animation animation) {
+      //动画结束后更新视图
+      updateItem(mPosition);
+    }
+
+    @Override public void onAnimationRepeat(Animation animation) {
+
     }
   }
 }

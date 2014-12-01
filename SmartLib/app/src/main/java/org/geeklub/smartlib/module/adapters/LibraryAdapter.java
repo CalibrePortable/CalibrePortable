@@ -59,10 +59,10 @@ public class LibraryAdapter extends BaseRecyclerAdapter<SummaryBook, LibraryAdap
   public LibraryAdapter(Context context) {
     mContext = context;
   }
-  //
-  //public void updateItem(int position) {
-  //  notifyItemChanged(position);
-  //}
+
+  public void updateItem(int position) {
+    notifyItemChanged(position);
+  }
 
   @Override public ViewHolder onCreateViewHolder(ViewGroup viewGroup, int position) {
     View view = LayoutInflater.from(viewGroup.getContext())
@@ -77,9 +77,9 @@ public class LibraryAdapter extends BaseRecyclerAdapter<SummaryBook, LibraryAdap
     viewHolder.mBookName.setText(summaryBook.book_name);
 
     StringBuilder description = new StringBuilder();
-    description.append("作者/")
+    description.append("作者:")
         .append(summaryBook.book_author)
-        .append("/当前状态/")
+        .append("\n\n当前状态:")
         .append(summaryBook.book_status);
     viewHolder.mBookDescription.setText(description);
 
@@ -103,11 +103,15 @@ public class LibraryAdapter extends BaseRecyclerAdapter<SummaryBook, LibraryAdap
     viewHolder.mBookFavour.setOnClickListener(new View.OnClickListener() {
       @Override public void onClick(View v) {
         if (onFavourClickListener != null) {
-          onFavourClickListener.onFavourClick(summaryBook);
           //禁用点赞按钮，否则会出现疯狂点赞情况
           v.setEnabled(false);
+          //更新adapter中的数据
+          onFavourClickListener.onFavourClick(summaryBook);
+          //载入动画
           mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.dianzan_anim);
-          //mAnimation.setAnimationListener(new DianZanAnimationListener(position));
+          //设置动画监听器
+          mAnimation.setAnimationListener(new DianZanAnimation(position));
+          //开启动画
           startDianZanAnimation(viewHolder.mAddOneTextView);
         }
       }
@@ -122,23 +126,24 @@ public class LibraryAdapter extends BaseRecyclerAdapter<SummaryBook, LibraryAdap
     }
   }
 
-  //private class DianZanAnimationListener implements Animation.AnimationListener {
-  //  private int mPosition;
-  //
-  //  @Override public void onAnimationStart(Animation animation) {
-  //
-  //  }
-  //
-  //  @Override public void onAnimationEnd(Animation animation) {
-  //    updateItem(mPosition);
-  //  }
-  //
-  //  public DianZanAnimationListener(int position) {
-  //    this.mPosition = position;
-  //  }
-  //
-  //  @Override public void onAnimationRepeat(Animation animation) {
-  //
-  //  }
-  //}
+  private class DianZanAnimation implements Animation.AnimationListener {
+    private int mPosition;
+
+    public DianZanAnimation(int position) {
+      this.mPosition = position;
+    }
+
+    @Override public void onAnimationStart(Animation animation) {
+
+    }
+
+    @Override public void onAnimationEnd(Animation animation) {
+      //动画结束后更新视图
+      updateItem(mPosition);
+    }
+
+    @Override public void onAnimationRepeat(Animation animation) {
+
+    }
+  }
 }

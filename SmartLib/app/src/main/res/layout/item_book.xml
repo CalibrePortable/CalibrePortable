@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="80dp"
+    android:layout_margin="10dp"
+    android:background="@color/SILVER">
+
+  <TextView
+      android:id="@+id/tv_book_id"
+      android:layout_alignParentLeft="true"
+      android:layout_marginLeft="40dp"
+      android:layout_marginTop="10dp"
+      android:textSize="14sp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="书本ID"/>
+
+  <TextView
+      android:layout_marginTop="10dp"
+      android:layout_marginLeft="20dp"
+      android:id="@+id/tv_created_at"
+      android:layout_below="@+id/tv_book_id"
+      android:textSize="10sp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="借阅时间"/>
+
+
+  <TextView
+      android:layout_marginLeft="10dp"
+      android:id="@+id/tv_return_at"
+      android:layout_alignTop="@+id/tv_created_at"
+      android:layout_toRightOf="@+id/tv_created_at"
+      android:textSize="10sp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="还书时间"/>
+
+
+  <TextView
+      android:id="@+id/tv_book_status"
+      android:layout_marginTop="10dp"
+      android:layout_alignLeft="@+id/tv_user_name"
+      android:layout_below="@+id/tv_user_name"
+      android:textSize="14sp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="书本状态"/>
+
+
+  <TextView
+      android:layout_alignTop="@+id/tv_book_id"
+      android:layout_alignParentRight="true"
+      android:layout_marginRight="50dp"
+      android:id="@+id/tv_user_name"
+      android:textSize="14sp"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:text="借书人"/>
+
+
+</RelativeLayout>

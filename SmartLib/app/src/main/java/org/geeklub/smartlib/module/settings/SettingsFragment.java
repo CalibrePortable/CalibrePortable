@@ -7,7 +7,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import org.geeklub.smartlib.R;
 
-@Deprecated
 public class SettingsFragment extends PreferenceFragment
     implements Preference.OnPreferenceChangeListener {
 

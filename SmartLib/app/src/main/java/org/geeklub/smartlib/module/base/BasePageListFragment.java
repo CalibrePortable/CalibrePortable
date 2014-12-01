@@ -78,7 +78,7 @@ public abstract class BasePageListFragment<T> extends BaseFragment
     LogUtil.i("加载下一页");
     loadData(mPage);
 
-   
+
   }
 
   private void loadData(int page) {

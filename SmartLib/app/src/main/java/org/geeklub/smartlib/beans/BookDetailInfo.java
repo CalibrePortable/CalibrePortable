@@ -23,4 +23,11 @@ public class BookDetailInfo {
     public String book_info;
     public String favour;
   }
+
+  @Override public String toString() {
+    return "BookDetailInfo{" +
+        "book_detail=" + book_detail +
+        ", book_list=" + book_list +
+        '}';
+  }
 }

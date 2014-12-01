@@ -11,7 +11,7 @@ import java.util.ListIterator;
 /**
  * Created by Vass on 2014/11/29.
  */
-public abstract class BaseRecyclerAdapter<E, VH extends RecyclerView.ViewHolder>
+public abstract class   BaseRecyclerAdapter<E, VH extends RecyclerView.ViewHolder>
     extends RecyclerView.Adapter<VH> implements List<E> {
 
   private final Object lock = new Object();
@@ -209,6 +209,8 @@ public abstract class BaseRecyclerAdapter<E, VH extends RecyclerView.ViewHolder>
       return origin;
     }
   }
+
+
 
   @Override
   public int size() {

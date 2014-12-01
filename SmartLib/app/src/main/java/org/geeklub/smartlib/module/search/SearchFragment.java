@@ -1,6 +1,7 @@
 package org.geeklub.smartlib.module.search;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -15,9 +16,11 @@ import java.util.List;
 import org.geeklub.smartlib.GlobalContext;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.api.NormalUserService;
+import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.module.adapters.SearchAdapter;
 import org.geeklub.smartlib.module.base.BaseFragment;
+import org.geeklub.smartlib.module.detail.BookDetailActivity;
 import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 import org.geeklub.smartlib.utils.ToastUtil;
@@ -59,18 +62,44 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
     super.onCreate(savedInstanceState);
 
     mAdapter = new SearchAdapter(mActivity);
+
+    mAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+      @Override public void onItemClick(SummaryBook book) {
+        Intent intent = new Intent(mActivity, BookDetailActivity.class);
+        intent.putExtra(BookDetailActivity.EXTRAS_BOOK, book);
+        startActivity(intent);
+      }
+    });
+
+    mAdapter.setOnFavourClickListener(new SearchAdapter.OnFavourClickListener() {
+      @Override public void onFavourClick(SummaryBook book) {
+        book.favour = "1";
+        book.isLike = Integer.valueOf(book.isLike) + 1 + "";
+        sendDianZanMsg(book);
+      }
+    });
+  }
+
+  private void sendDianZanMsg(SummaryBook book) {
+    SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+    NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
+
+    service.likePlusOne(book.book_kind, user.getUserId(), user.getPassWord(),
+        new Callback<ServerResponse>() {
+          @Override public void success(ServerResponse serverResponse, Response response) {
+            LogUtil.i("点赞成功 ...");
+          }
+
+          @Override public void failure(RetrofitError error) {
+            LogUtil.i("点赞失败 ===>>>" + error.getMessage());
+          }
+        });
   }
 
   @Nullable @Override public View onCreateView(LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
     parseArgument();
     View view = super.onCreateView(inflater, container, savedInstanceState);
-
-    return view;
-  }
-
-  @Override public void onActivityCreated(Bundle savedInstanceState) {
-    super.onActivityCreated(savedInstanceState);
 
     mRefreshLayout.setOnRefreshListener(this);
     mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -98,6 +127,8 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
     });
 
     loadFirstPage();
+
+    return view;
   }
 
   private void loadFirstPage() {
@@ -118,10 +149,9 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     service.search(user.getUserId(), mType, page, mQueryWord, new Callback<List<SummaryBook>>() {
       @Override public void success(List<SummaryBook> bookList, Response response) {
-        //LogUtil.i(bookList.toString());
         mRefreshLayout.setRefreshing(false);
         if (isRefreshFromTop) {
-          LogUtil.i("isRefreshFromTop ===>>>"+isRefreshFromTop);
+          LogUtil.i("isRefreshFromTop ===>>>" + isRefreshFromTop);
           if (mAdapter.equals(bookList)) {
             ToastUtil.showShort("没有新的书本...");
           } else {

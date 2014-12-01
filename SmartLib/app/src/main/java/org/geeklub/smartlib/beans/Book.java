@@ -5,13 +5,22 @@ package org.geeklub.smartlib.beans;
  */
 public class Book {
 
-  private String book_id;
+  public String book_id;
 
-  private String created_at;
+  public String created_at;
 
   public String user_name;
 
-  private String return_at;
+  public String return_at;
 
+  public String book_status;
 
+  @Override public String toString() {
+    return "Book{" +
+        "book_id='" + book_id + '\'' +
+        ", created_at='" + created_at + '\'' +
+        ", user_name='" + user_name + '\'' +
+        ", return_at='" + return_at + '\'' +
+        '}';
+  }
 }

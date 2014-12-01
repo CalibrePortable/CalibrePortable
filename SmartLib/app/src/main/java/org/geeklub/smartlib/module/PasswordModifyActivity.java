@@ -2,62 +2,51 @@ package org.geeklub.smartlib.module;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
-import android.support.v7.app.ActionBar;
+import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import butterknife.InjectView;
+import org.geeklub.smartlib.GlobalContext;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.beans.NewPasswordInfo;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.api.NormalUserService;
-import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
+import org.geeklub.smartlib.utils.ToastUtil;
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-@Deprecated
 public class PasswordModifyActivity extends BaseActivity implements View.OnClickListener {
 
   @InjectView(R.id.et_new_password) EditText mNewPassword;
   @InjectView(R.id.et_new_re_password) EditText mNewRePassword;
   @InjectView(R.id.btn_commit) Button mConfirm;
-
-  private RestAdapter mRestAdapter;
-
-  private NormalUserService mService;
+  @InjectView(R.id.toolbar) Toolbar mToolBar;
 
   @Override protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    initActionBar();
-    setTitle("修改密码");
-
-    mRestAdapter =
-        new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
-    mService = mRestAdapter.create(NormalUserService.class);
-
+    initToolBar();
     initCallBacks();
+  }
+
+  private void initToolBar() {
+    mToolBar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+    mToolBar.setTitle("修改密码");
+    setSupportActionBar(mToolBar);
   }
 
   private void initCallBacks() {
     mConfirm.setOnClickListener(this);
   }
 
-  private void initActionBar() {
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setHomeButtonEnabled(true);
-  }
-
   @Override public boolean onOptionsItemSelected(MenuItem item) {
     switch (item.getItemId()) {
       case android.R.id.home:
-        LogUtil.i("back to setting activity");
         NavUtils.navigateUpFromSameTask(this);
         return true;
       default:
@@ -80,17 +69,19 @@ public class PasswordModifyActivity extends BaseActivity implements View.OnClick
 
     SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
+    NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
+
     if (newPassword.equals(reNewPassword)) {
-      mService.modifyPassword(
+      service.modifyPassword(
           new NewPasswordInfo(user.getUserId(), user.getPassWord(), newPassword, reNewPassword),
           new Callback<ServerResponse>() {
             @Override public void success(ServerResponse serverResponse, Response response) {
 
-              LogUtil.i(serverResponse.getInfo());
+              ToastUtil.showShort("密码修改成功...");
             }
 
             @Override public void failure(RetrofitError error) {
-              LogUtil.i(error.getMessage());
+              ToastUtil.showShort(error.getMessage());
             }
           });
     }
