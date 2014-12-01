@@ -14,27 +14,39 @@ import retrofit.http.Path;
  * Created by Vass on 2014/11/15.
  */
 public interface AdministratorService {
+  //登陆
+  @POST("/admin/login") void login(@Body LoginUser user, Callback<ServerResponse> callback);
 
-  @POST("/administrator/login") void login(@Body LoginUser user, Callback<ServerResponse> callback);
+  //图书搜索
+  @GET("/admin/search/{userId}/{type}/page={page}/{keyword}") void search(
+      @Path("userId") String usrId, @Path("type") String type, @Path("page") int page,
+      @Path("keyword") String keyword, Callback<List<Book>> callback);
 
-  @GET("/searchA/{userId}/{type}/page={page}/{keyword}") void search(@Path("userId") String usrId,
-      @Path("type") String type, @Path("page") int page, @Path("keyword") String keyword,
-      Callback<List<Book>> callback);
+  //归还图书
+  @GET("/admin/confirm/{bookId}/{userId}/{password}") void returnBook(@Path("bookId") String bookId,
+      @Path("userId") String userId, @Path("password") String password);
 
-  @POST("/booklist/book/update/{userId}/{bookId}/{password}") void edit(@Body Book book,
+  //修改图书为已超期
+  @GET("/admin/alter/{bookId}/{userId}/{password}") void edit(@Path("bookId") String bookId,
+      @Path("userId") String userId, @Path("password") String password,
       Callback<ServerResponse> callback);
 
-  @GET("/administrator/returnConfirm/{bookId}/{userId}/{password}") void returnBook(
+  //更新图书资料
+  @POST("/admin/renew/{bookId}/{bookIsbn}/{userId}/{password}") void updateBookInfo(
       @Path("bookId") String bookId, @Path("userId") String userId,
       @Path("password") String password);
 
-  @POST("/administrator/addBook/:userId/:password") void addBook();
+  //增加图书
+  @GET("/admin/add/{bookIsbn}/{bookType}/{userId}/{password}") void addBook(
+      @Path("bookIsbn") String bookIsbn, @Path("bookType") String bookType,
+      @Path("userId") String userId, @Path("password") String password);
 
-  @GET("/administrator/deleteBook/{bookId}/{userId}/{password}") void deleteBook(
-      @Path("bookId") String bookId, @Path("userId") String userId,
-      @Path("password") String password);
+  //删除图书
+  @GET("/admin/delete/{bookId}/{userId}/{password}") void deleteBook(@Path("bookId") String bookId,
+      @Path("userId") String userId, @Path("password") String password);
 
-  @GET("/administrator/return/{userId}/{password}/page={page}") void haveLended(
+  //查看已经借出的图书(无法detail)(无法点赞)(有翻页)
+  @GET("/admin/showRe/{userId}/{password}/page={page}") void haveLended(
       @Path("userId") String userId, @Path("password") String password, @Path("page") int page,
       Callback<List<Book>> callback);
 }
