@@ -507,7 +507,7 @@ Method:GET
 
 
 6.添加图书(仅用于捐赠的图书添加，购买的图书通过购买系统添加)
->API.php/admin/add/:bookId/:bookIsbn/:bookType/:userId/:password
+>API.php/admin/add/:bookIsbn/:bookType/:userId/:password
 
 ***请求***
 
@@ -515,15 +515,14 @@ Method:GET
 
 ***用例***
 
->API.php/admin/add/100/9787111358732/移动端/12108238/12108238
+>API.php/admin/add/9787111358732/移动端/12108238/12108238
 
 ***参数***
 
->bookId:String
->>bookIsbn:String
->>>bookType:String
->>>>userId：String
->>>>>password:String(获取)
+>bookIsbn:String
+>>bookType:String
+>>>userId：String
+>>>>password:String(获取)
 
 `Response `
 >{
