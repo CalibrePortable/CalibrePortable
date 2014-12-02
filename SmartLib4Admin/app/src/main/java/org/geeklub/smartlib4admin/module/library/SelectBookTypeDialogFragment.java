@@ -75,7 +75,9 @@ public class SelectBookTypeDialogFragment extends DialogFragment {
     final ArrayAdapter<CharSequence> bookTypeAdapter =
         ArrayAdapter.createFromResource(mActivity, R.array.book_type,
             android.R.layout.simple_spinner_item);
+    bookTypeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
     mBookTypeSpinner.setAdapter(bookTypeAdapter);
+
     mBookTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
       @Override
       public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {

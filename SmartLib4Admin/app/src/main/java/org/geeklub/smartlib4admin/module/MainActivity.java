@@ -254,13 +254,14 @@ public class MainActivity extends BaseActivity
       if (result.getContents() == null) {
         ToastUtil.showShort("取消扫描");
       } else {
-        LogUtil.i("扫描的结果 ===>>>" + result.getContents());
+        LogUtil.i("mBookType == null?" + (mBookType == null ? true : false));
         if (mBookType == null) {
-          LogUtil.i("调用还书API");
+          LogUtil.i("还书");
           notifyServerReturnBook(result.getContents());
+        } else {
+          LogUtil.i("增加新书");
+          notifyServerBookPlusOne(result.getContents());
         }
-        LogUtil.i("调用新增图书API");
-        notifyServerBookPlusOne(result.getContents());
       }
     } else {
       super.onActivityResult(requestCode, resultCode, data);
@@ -278,7 +279,7 @@ public class MainActivity extends BaseActivity
       }
 
       @Override public void failure(RetrofitError error) {
-        ToastUtil.showShort("新增图书失败...");
+        ToastUtil.showShort("还书失败...");
       }
     });
   }
@@ -290,10 +291,12 @@ public class MainActivity extends BaseActivity
     service.addBook(ISBN, mBookType.toString(), "12108238", "12108238",
         new Callback<ServerResponse>() {
           @Override public void success(ServerResponse serverResponse, Response response) {
+            mBookType = null;
             ToastUtil.showShort("新增图书成功...");
           }
 
           @Override public void failure(RetrofitError error) {
+            mBookType = null;
             ToastUtil.showShort("新增图书失败...");
           }
         });
