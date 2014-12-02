@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
@@ -18,13 +19,22 @@ import android.view.View;
 
 import butterknife.InjectView;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+import org.geeklub.smartlib4admin.GlobalContext;
 import org.geeklub.smartlib4admin.R;
+import org.geeklub.smartlib4admin.beans.ServerResponse;
+import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BaseActivity;
 import org.geeklub.smartlib4admin.module.lend.LendFragment;
 import org.geeklub.smartlib4admin.module.library.LibraryFragment;
 import org.geeklub.smartlib4admin.module.library.SelectBookTypeDialogFragment;
 import org.geeklub.smartlib4admin.module.type.Category;
 import org.geeklub.smartlib4admin.utils.LogUtil;
+import org.geeklub.smartlib4admin.utils.ToastUtil;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Vass on 2014/11/19.
@@ -40,6 +50,8 @@ public class MainActivity extends BaseActivity
   private CharSequence mDrawerTitle;
 
   private CharSequence mTitle;
+
+  private CharSequence mBookType;
 
   private Fragment mContentFragment;
 
@@ -184,6 +196,7 @@ public class MainActivity extends BaseActivity
         return true;
 
       case R.id.action_qr_code:
+        new IntentIntegrator(this).initiateScan();
         return true;
 
       default:
@@ -230,5 +243,59 @@ public class MainActivity extends BaseActivity
 
   @Override public void onPositiveButtonClick(CharSequence bookType) {
     LogUtil.i("书本的类型 ===>>>" + bookType);
+    mBookType = bookType;
+    new IntentIntegrator(this).initiateScan();
+  }
+
+  @Override protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    LogUtil.i("requestCode ===>>> " + requestCode + ",resultCode ===>>> " + resultCode);
+    IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+    if (result != null) {
+      if (result.getContents() == null) {
+        ToastUtil.showShort("取消扫描");
+      } else {
+        LogUtil.i("扫描的结果 ===>>>" + result.getContents());
+        if (mBookType == null) {
+          LogUtil.i("调用还书API");
+          notifyServerReturnBook(result.getContents());
+        }
+        LogUtil.i("调用新增图书API");
+        notifyServerBookPlusOne(result.getContents());
+      }
+    } else {
+      super.onActivityResult(requestCode, resultCode, data);
+    }
+  }
+
+  private void notifyServerReturnBook(String bookId) {
+    AdministratorService service =
+        GlobalContext.getApiDispencer().getRestApi(AdministratorService.class);
+
+    service.returnBook(bookId, "12108238", "12108238", new Callback<ServerResponse>() {
+      @Override public void success(ServerResponse serverResponse, Response response) {
+
+        ToastUtil.showShort("还书成功...");
+      }
+
+      @Override public void failure(RetrofitError error) {
+        ToastUtil.showShort("新增图书失败...");
+      }
+    });
+  }
+
+  private void notifyServerBookPlusOne(String ISBN) {
+    AdministratorService service =
+        GlobalContext.getApiDispencer().getRestApi(AdministratorService.class);
+
+    service.addBook(ISBN, mBookType.toString(), "12108238", "12108238",
+        new Callback<ServerResponse>() {
+          @Override public void success(ServerResponse serverResponse, Response response) {
+            ToastUtil.showShort("新增图书成功...");
+          }
+
+          @Override public void failure(RetrofitError error) {
+            ToastUtil.showShort("新增图书失败...");
+          }
+        });
   }
 }
