@@ -28,87 +28,86 @@ import retrofit.client.Response;
  * Created by Vass on 2014/11/25.
  */
 public class LibraryFragment extends BasePageListFragment {
+  public static final String TAG = LibraryFragment.class.getSimpleName();
 
-    @InjectView(R.id.fab)
-    FloatingActionButton mFab;
+  @InjectView(R.id.fab) FloatingActionButton mFab;
 
-    public static Fragment newInstance() {
-        Fragment libraryFragment = new LibraryFragment();
-        return libraryFragment;
-    }
+  public static interface OnAddBookButtonClickListener {
+    void onAddBookButtonClick();
+  }
 
-    @Override
-    protected int getLayoutResource() {
-        return R.layout.fragment_library;
-    }
+  public static Fragment newInstance() {
+    Fragment libraryFragment = new LibraryFragment();
+    return libraryFragment;
+  }
 
-    @Override
-    protected RecyclerView.Adapter newAdapter() {
-        return new LibraryAdapter(mActivity);
-    }
+  @Override
+  protected int getLayoutResource() {
+    return R.layout.fragment_library;
+  }
 
+  @Override
+  protected RecyclerView.Adapter newAdapter() {
+    return new LibraryAdapter(mActivity);
+  }
 
-    @Override
-    protected void executeRequest(int page) {
+  @Override
+  protected void executeRequest(int page) {
 
-        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+    SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-        mService.search("12108238", "5", page, "all", new Callback<List<SummaryBook>>() {
-            @Override
-            public void success(List<SummaryBook> bookList, Response response) {
+    mService.search("12108238", "5", page, "all", new Callback<List<SummaryBook>>() {
+      @Override
+      public void success(List<SummaryBook> bookList, Response response) {
 
-                mSwipeRefreshLayout.setRefreshing(false);
+        mSwipeRefreshLayout.setRefreshing(false);
 
-                if (mIsRefreshFromTop) {
-                    if (((LibraryAdapter) mAdapter).equals(bookList)) {
+        if (mIsRefreshFromTop) {
+          if (((LibraryAdapter) mAdapter).equals(bookList)) {
 
-                    } else {
-                        ((LibraryAdapter) mAdapter).replaceWith(bookList);
-                    }
-                } else {
-                    ((LibraryAdapter) mAdapter).addAll(bookList);
-                }
-                mPage++;
-            }
+          } else {
+            ((LibraryAdapter) mAdapter).replaceWith(bookList);
+          }
+        } else {
+          ((LibraryAdapter) mAdapter).addAll(bookList);
+        }
+        mPage++;
+      }
 
-            @Override
-            public void failure(RetrofitError error) {
-                LogUtil.i(error.getMessage());
-                mSwipeRefreshLayout.setRefreshing(false);
-            }
-        });
-    }
+      @Override
+      public void failure(RetrofitError error) {
+        LogUtil.i(error.getMessage());
+        mSwipeRefreshLayout.setRefreshing(false);
+      }
+    });
+  }
 
+  @Override
+  public void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    ((LibraryAdapter) mAdapter).setOnItemClickListener(new LibraryAdapter.OnItemClickListener() {
+      @Override
+      public void onItemClick(SummaryBook book) {
 
-        ((LibraryAdapter) mAdapter).setOnItemClickListener(new LibraryAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(SummaryBook book) {
+      }
+    });
+  }
 
-            }
-        });
-    }
+  @Nullable @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+      Bundle savedInstanceState) {
+    View view = super.onCreateView(inflater, container, savedInstanceState);
 
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view = super.onCreateView(inflater, container, savedInstanceState);
+    mFab.attachToRecyclerView(mRecycleView);
 
-        mFab.attachToRecyclerView(mRecycleView);
+    mFab.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View v) {
+        ((OnAddBookButtonClickListener) mActivity).onAddBookButtonClick();
+      }
+    });
 
-        mFab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment fragment = SelectBookTypeDialogFragment.newInstance("选择Book的类型");
-                ((SelectBookTypeDialogFragment) fragment).show(mActivity.getFragmentManager(), "dialog");
-
-            }
-        });
-
-        return view;
-    }
+    return view;
+  }
 }
