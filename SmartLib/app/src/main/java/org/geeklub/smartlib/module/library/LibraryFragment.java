@@ -68,8 +68,8 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
         mAdapter.setOnFavourClickListener(new LibraryAdapter.OnFavourClickListener() {
             @Override
             public void onFavourClick(SummaryBook book) {
-                book.favour = "1";
-                book.isLike = Integer.valueOf(book.isLike) + 1 + "";
+                book.isLike = "1";
+                book.favour = Integer.valueOf(book.favour) + 1 + "";
                 sendDianZanMsg(book);
             }
         });

@@ -23,4 +23,8 @@ public class Book {
         ", return_at='" + return_at + '\'' +
         '}';
   }
+
+    @Override public boolean equals(Object o) {
+        return o != null && (o instanceof Book) && ((Book) o).book_id.equals(book_id);
+    }
 }
