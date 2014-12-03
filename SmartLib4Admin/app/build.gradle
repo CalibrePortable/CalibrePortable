@@ -1,8 +1,8 @@
 apply plugin: 'com.android.application'
 
 android {
-    compileSdkVersion 21
-    buildToolsVersion "21.1.0"
+  compileSdkVersion 21
+  buildToolsVersion "21.1.0"
 
 
   packagingOptions {
@@ -10,21 +10,19 @@ android {
     exclude 'META-INF/NOTICE.txt'
   }
 
-    defaultConfig {
-        applicationId "org.geeklub.smartlib4admin"
-        minSdkVersion 15
-        targetSdkVersion 21
-        versionCode 1
-        versionName "1.0"
+  defaultConfig {
+    applicationId "org.geeklub.smartlib4admin"
+    minSdkVersion 15
+    targetSdkVersion 21
+    versionCode 1
+    versionName "1.0"
+  }
+  buildTypes {
+    release {
+      runProguard false
+      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
-    buildTypes {
-        release {
-            runProguard false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
-    }
-
-
+  }
 }
 
 dependencies {
@@ -46,5 +44,6 @@ dependencies {
   compile files('libs/avosfeedback-v2.6.8.jar')
   compile files('libs/fastjson.jar')
   compile files('libs/httpmime-4.2.4.jar')
-    compile 'com.melnykov:floatingactionbutton:1.0.9'
+  compile 'com.melnykov:floatingactionbutton:1.0.9'
+  compile "com.daimajia.swipelayout:library:1.1.7@aar"
 }
