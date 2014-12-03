@@ -1,46 +1,46 @@
 apply plugin: 'com.android.application'
 
 android {
-  compileSdkVersion 21
-  buildToolsVersion '21.0.2'
+    compileSdkVersion 21
+    buildToolsVersion '21.0.2'
 
-  defaultConfig {
-    applicationId "org.geeklub.smartlib"
-    minSdkVersion 15
-    targetSdkVersion 21
-    versionCode 8
-    versionName "0.5"
-  }
-
-  packagingOptions {
-    exclude 'META-INF/LICENSE.txt'
-    exclude 'META-INF/NOTICE.txt'
-  }
-
-  buildTypes {
-    release {
-      runProguard false
-      proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+    defaultConfig {
+        applicationId "org.geeklub.smartlib"
+        minSdkVersion 15
+        targetSdkVersion 21
+        versionCode 8
+        versionName "0.5"
     }
-  }
+
+    packagingOptions {
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+    buildTypes {
+        release {
+            runProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 }
 
 dependencies {
-  compile fileTree(dir: 'libs', include: ['*.jar'])
-  compile 'com.android.support:support-v13:21.0.0'
-  compile 'com.squareup.retrofit:retrofit:1.7.1'
-  compile 'com.jakewharton:butterknife:5.1.1'
-  compile 'com.android.support:appcompat-v7:21.0.0'
-  compile 'com.android.support:recyclerview-v7:21.0.0'
-  compile 'com.android.support:cardview-v7:21.0.0'
-  compile 'com.squareup.picasso:picasso:2.3.2'
-  compile 'com.embarkmobile:zxing-android-minimal:2.0.0@aar'
-  compile 'com.embarkmobile:zxing-android-integration:2.0.0@aar'
-  compile 'com.google.zxing:core:3.0.1'
-  compile files('libs/android-async-http-1.4.6.jar')
-  compile files('libs/avoscloud-v2.6.8.jar')
-  compile files('libs/fastjson.jar')
-  compile files('libs/httpmime-4.2.4.jar')
-  compile files('libs/avosfeedback-v2.6.4.jar')
-  compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.android.support:support-v13:21.0.0'
+    compile 'com.squareup.retrofit:retrofit:1.7.1'
+    compile 'com.jakewharton:butterknife:5.1.1'
+    compile 'com.android.support:appcompat-v7:21.0.0'
+    compile 'com.android.support:recyclerview-v7:21.0.0'
+    compile 'com.android.support:cardview-v7:21.0.0'
+    compile 'com.squareup.picasso:picasso:2.3.2'
+    compile 'com.embarkmobile:zxing-android-minimal:2.0.0@aar'
+    compile 'com.embarkmobile:zxing-android-integration:2.0.0@aar'
+    compile 'com.google.zxing:core:3.0.1'
+    compile files('libs/android-async-http-1.4.6.jar')
+    compile files('libs/avoscloud-v2.6.8.jar')
+    compile files('libs/fastjson.jar')
+    compile files('libs/httpmime-4.2.4.jar')
+    compile files('libs/avosfeedback-v2.6.4.jar')
+    compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
 }

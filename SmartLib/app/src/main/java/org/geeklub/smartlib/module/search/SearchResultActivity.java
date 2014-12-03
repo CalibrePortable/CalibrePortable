@@ -5,6 +5,7 @@ import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
@@ -12,10 +13,15 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBar;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+
 import butterknife.InjectView;
+
 import com.astuetz.PagerSlidingTabStrip;
+
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.utils.LogUtil;
@@ -25,102 +31,138 @@ import org.geeklub.smartlib.utils.LogUtil;
  */
 public class SearchResultActivity extends BaseActivity {
 
-  @InjectView(R.id.pager) ViewPager mViewPager;
+    @InjectView(R.id.pager)
+    ViewPager mViewPager;
 
-  @InjectView(R.id.tabs) PagerSlidingTabStrip mTabs;
+    @InjectView(R.id.tabs)
+    PagerSlidingTabStrip mTabs;
 
-  private SearchPagerAdapter mAdapter;
+    @InjectView(R.id.toolbar)
+    Toolbar mToolBar;
 
-  @Override protected void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+    private SearchPagerAdapter mAdapter;
 
-    initActionBar();
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-    mAdapter = new SearchPagerAdapter(getFragmentManager());
-    mViewPager.setAdapter(mAdapter);
-    mViewPager.setOffscreenPageLimit(4);
-    mTabs.setViewPager(mViewPager);
+        initToolBar();
+        initTabs();
 
-    handleIntent(getIntent());
-  }
+        mAdapter = new SearchPagerAdapter(getFragmentManager());
+        mViewPager.setAdapter(mAdapter);
+        mViewPager.setOffscreenPageLimit(4);
+        mTabs.setViewPager(mViewPager);
 
-  @Override protected int getLayoutResource() {
-    return R.layout.activity_search;
-  }
-
-  private void initActionBar() {
-    ActionBar actionBar = getSupportActionBar();
-    actionBar.setDisplayHomeAsUpEnabled(true);
-    actionBar.setHomeButtonEnabled(true);
-  }
-
-  @Override protected void onNewIntent(Intent intent) {
-    super.onNewIntent(intent);
-    handleIntent(intent);
-  }
-
-  private void handleIntent(Intent intent) {
-    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-      String queryWord = intent.getStringExtra(SearchManager.QUERY);
-      LogUtil.i("搜索的关键字是 ===>>>" + queryWord);
-      mAdapter.setKeyWord(queryWord);
-      mAdapter.refresh();
-    }
-  }
-
-  @Override public boolean onCreateOptionsMenu(Menu menu) {
-
-    getMenuInflater().inflate(R.menu.search, menu);
-
-    SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-    SearchView searchView =
-        (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
-    searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
-    return true;
-  }
-
-  @Override public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case android.R.id.home:
-        //我也不知道这么做对不对
-        NavUtils.navigateUpTo(this, getIntent());
-    }
-    return super.onOptionsItemSelected(item);
-  }
-
-  private class SearchPagerAdapter extends FragmentStatePagerAdapter {
-    private final String[] TITLES = { "书名", "出版社", "作者", "种类"};
-
-    private String mKeyWord;
-
-    public SearchPagerAdapter(FragmentManager fm) {
-      super(fm);
-      mKeyWord = "";
+        handleIntent(getIntent());
     }
 
-    public void setKeyWord(String keyWord) {
-      mKeyWord = keyWord;
+    private void initToolBar() {
+        mToolBar.setTitle("搜索");
+        mToolBar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
+        setSupportActionBar(mToolBar);
     }
 
-    @Override public Fragment getItem(int position) {
-      return SearchFragment.newInstance(position + 1, mKeyWord);
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.activity_search;
     }
 
-    @Override public int getCount() {
-      return TITLES.length;
+
+
+
+    private void initTabs() {
+        // 底部游标颜色
+        mTabs.setIndicatorColor(Color.parseColor("#e74c3c"));
+        // tab的分割线颜色
+        mTabs.setDividerColor(Color.TRANSPARENT);
+        // tab背景
+        mTabs.setBackgroundColor(Color.parseColor("#f1c40f"));
+        // tab底线高度
+        mTabs.setUnderlineHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                1, getResources().getDisplayMetrics()));
+        // 游标高度
+        mTabs.setIndicatorHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                5, getResources().getDisplayMetrics()));
+
+        // 正常文字颜色
+        mTabs.setTextColor(Color.parseColor("#34495e"));
     }
 
-    @Override public CharSequence getPageTitle(int position) {
-      return TITLES[position];
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
     }
 
-    public void refresh() {
-      notifyDataSetChanged();
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String queryWord = intent.getStringExtra(SearchManager.QUERY);
+            LogUtil.i("搜索的关键字是 ===>>>" + queryWord);
+            mAdapter.setKeyWord(queryWord);
+            mAdapter.refresh();
+        }
     }
 
-    @Override public int getItemPosition(Object object) {
-      return POSITION_NONE;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.search, menu);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView searchView =
+                (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+
+        return true;
     }
-  }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                //我也不知道这么做对不对
+                NavUtils.navigateUpTo(this, getIntent());
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
+    private class SearchPagerAdapter extends FragmentStatePagerAdapter {
+        private final String[] TITLES = {"书名", "出版社", "作者", "种类"};
+
+        private String mKeyWord;
+
+        public SearchPagerAdapter(FragmentManager fm) {
+            super(fm);
+            mKeyWord = "";
+        }
+
+        public void setKeyWord(String keyWord) {
+            mKeyWord = keyWord;
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            return SearchFragment.newInstance(position + 1, mKeyWord);
+        }
+
+        @Override
+        public int getCount() {
+            return TITLES.length;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            return TITLES[position];
+        }
+
+        public void refresh() {
+            notifyDataSetChanged();
+        }
+
+        @Override
+        public int getItemPosition(Object object) {
+            return POSITION_NONE;
+        }
+    }
 }
