@@ -3,6 +3,7 @@ package org.geeklub.smartlib4admin.module.base;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -52,6 +53,7 @@ public abstract class BasePageListFragment extends BaseFragment
     mRecycleView.setLayoutManager(new LinearLayoutManager(mActivity));
     mRecycleView.setHasFixedSize(true);
     mRecycleView.setAdapter(mAdapter);
+    mRecycleView.setItemAnimator(new DefaultItemAnimator());
 
     mRecycleView.setOnScrollListener(new RecyclerView.OnScrollListener() {
       @Override public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
