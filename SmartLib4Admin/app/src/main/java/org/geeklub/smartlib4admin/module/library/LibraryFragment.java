@@ -99,7 +99,8 @@ public class LibraryFragment extends BasePageListFragment {
       Bundle savedInstanceState) {
     View view = super.onCreateView(inflater, container, savedInstanceState);
 
-    mFab.attachToRecyclerView(mRecycleView);
+    //TODO FloatActionBar 在recylerview上还有bug
+    //mFab.attachToRecyclerView(mRecycleView);
 
     mFab.setOnClickListener(new View.OnClickListener() {
       @Override
