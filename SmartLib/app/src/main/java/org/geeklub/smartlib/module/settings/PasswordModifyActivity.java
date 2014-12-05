@@ -1,4 +1,4 @@
-package org.geeklub.smartlib.module;
+package org.geeklub.smartlib.module.settings;
 
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;

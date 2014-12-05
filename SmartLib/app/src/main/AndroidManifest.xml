@@ -53,7 +53,7 @@
         <!--密码修改-->
 
         <activity
-            android:name=".module.PasswordModifyActivity"
+            android:name=".module.settings.PasswordModifyActivity"
             android:parentActivityName=".module.settings.SettingsActivity"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ToolBarStyle">
