@@ -18,6 +18,7 @@
         <!--登陆-->
         <activity
             android:name=".module.login.LoginActivity"
+            android:label="@string/login"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ActionBarStyle">
 
@@ -32,6 +33,7 @@
         <!--注册-->
         <activity
             android:name=".module.register.RegisterActivity"
+            android:label="@string/register"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ActionBarStyle">
 

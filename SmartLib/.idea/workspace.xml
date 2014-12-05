@@ -1332,8 +1332,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/org/geeklub/smartlib/module/adapters/DetailAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/header_detail.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/org/geeklub/smartlib/module/register/RegisterActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/values/styles.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" />
       </list>
     </option>
   </component>
@@ -1471,6 +1471,10 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="app" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="manifests" />
+              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidManifestsGroupNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -2379,9 +2383,13 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/AndroidManifest.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.5710784" vertical-offset="2209" max-vertical-offset="3025">
-          <caret line="107" column="17" selection-start-line="107" selection-start-column="17" selection-end-line="107" selection-end-column="17" />
-          <folding />
+        <state vertical-scroll-proportion="0.75490195" vertical-offset="234" max-vertical-offset="3075">
+          <caret line="34" column="12" selection-start-line="34" selection-start-column="12" selection-end-line="34" selection-end-column="12" />
+          <folding>
+            <element signature="e#710#725#0" expanded="true" />
+            <element signature="e#1183#1201#0" expanded="true" />
+            <element signature="e#2214#2232#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
