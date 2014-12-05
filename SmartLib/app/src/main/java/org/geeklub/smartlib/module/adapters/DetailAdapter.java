@@ -24,6 +24,7 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
         @InjectView(R.id.iv_book_icon)
         ImageView mBookIcon;
+        public
         @InjectView(R.id.tv_book_name)
         TextView mBookName;
         @InjectView(R.id.tv_book_author)
@@ -122,7 +123,7 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
 
     @Override
     public int getItemCount() {
-        return bookDetailInfo == null ? 0 : bookDetailInfo.book_list.size() + 1;
+        return bookDetailInfo == null ? 0 : 1 + bookDetailInfo.book_list.size();
     }
 
     @Override
