@@ -1,30 +1,36 @@
 <resources>
 
-  <!-- Base application theme. -->
-  <style name="AppTheme" parent="AppTheme.Base">
+    <style name="AppTheme" parent="AppTheme.Base">
 
-  </style>
+    </style>
 
-  <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
-    <!--   your app branding color for the app bar -->
-    <item name="colorPrimary">@color/SUN_FLOWER</item>
-    <!--   darker variant for the status bar and contextual app bars -->
-    <item name="colorPrimaryDark">@color/ORANGE</item>
-
-    <item name="android:textColorPrimary">@color/MIDNIGHT_BLUE</item>
-
-    <item name="windowActionBar">true</item>
-
-    <item name="android:windowNoTitle">true</item>
-
-  </style>
+    <style name="AppTheme.Base" parent="Theme.AppCompat.Light">
+        <item name="colorPrimary">@color/SUN_FLOWER</item>
+        <item name="colorPrimaryDark">@color/ORANGE</item>
+        <item name="colorAccent">@color/WISTERIA</item>
+    </style>
 
 
-  <style name="AppTheme.ToolBarStyle" parent="AppTheme.Base">
-    <item name="windowActionBar">false</item>
-    <item name="android:windowNoTitle">true</item>
-    <item name="android:windowActionBarOverlay">true</item>
-  </style>
+    <style name="AppTheme.ToolBarStyle" parent="AppTheme.Base">
+        <item name="windowActionBar">false</item>
+        <item name="toolbarStyle">@style/MyToolBarStyle</item>
+    </style>
+
+    <style name="MyToolBarStyle" parent="Widget.AppCompat.Toolbar">
+        <item name="android:background">?attr/colorPrimary</item>
+        <item name="android:minHeight">?attr/actionBarSize</item>
+    </style>
+
+
+    <style name="AppTheme.ActionBarStyle" parent="AppTheme.Base">
+        <item name="android:windowActionBar">false</item>
+        <item name="android:actionBarStyle">@style/MyActionBarStyle</item>
+    </style>
+
+
+    <style name="MyActionBarStyle" parent="Widget.AppCompat.ActionBar">
+        <item name="android:background">?attr/colorPrimary</item>
+    </style>
 
 
 </resources>
