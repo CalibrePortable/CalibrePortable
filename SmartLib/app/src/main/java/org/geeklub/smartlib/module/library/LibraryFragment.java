@@ -36,6 +36,7 @@ import retrofit.client.Response;
  * Created by Vass on 2014/11/3.
  */
 public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
+    public final static String TAG  = LibraryFragment.class.getSimpleName();
 
     @InjectView(R.id.swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
