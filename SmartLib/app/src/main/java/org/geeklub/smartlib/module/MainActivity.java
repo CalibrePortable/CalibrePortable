@@ -12,7 +12,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -40,7 +39,6 @@ import org.geeklub.smartlib.utils.SmartLibraryUser;
 import org.geeklub.smartlib.utils.ToastUtil;
 
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -255,7 +253,7 @@ public class MainActivity extends BaseActivity {
 
                 QRCodeInfo qrCodeInfo = new Gson().fromJson(result.getContents(), QRCodeInfo.class);
 
-                LogUtil.i("Book_Id ===>>>"+qrCodeInfo.book_id);
+                LogUtil.i("Book_Id ===>>>" + qrCodeInfo.book_id);
 
                 service.borrow(qrCodeInfo.book_id, user.getUserId(), user.getPassWord(),
                         new Callback<ServerResponse>() {
