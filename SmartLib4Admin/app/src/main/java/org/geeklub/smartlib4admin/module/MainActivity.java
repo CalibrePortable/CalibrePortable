@@ -263,10 +263,11 @@ public class MainActivity extends BaseActivity
                 ToastUtil.showShort("取消扫描");
             } else {
                 LogUtil.i("mBookType == null?" + (mBookType == null ? true : false));
-
+//              扫描二维码还书
                 if (mBookType == null) {
                     QRCodeInfo qrCodeInfo = new Gson().fromJson(result.getContents(), QRCodeInfo.class);
                     notifyServerReturnBook(qrCodeInfo.book_id);
+//              扫描条形码增加图书
                 } else {
                     notifyServerBookPlusOne(result.getContents());
                 }
@@ -283,7 +284,6 @@ public class MainActivity extends BaseActivity
         service.returnBook(bookId, "12108238", "12108238", new Callback<ServerResponse>() {
             @Override
             public void success(ServerResponse serverResponse, Response response) {
-
                 ToastUtil.showShort("还书成功...");
             }
 
