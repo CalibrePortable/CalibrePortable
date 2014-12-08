@@ -28,87 +28,100 @@ import retrofit.client.Response;
  * Created by Vass on 2014/11/25.
  */
 public class LibraryFragment extends BasePageListFragment {
-  public static final String TAG = LibraryFragment.class.getSimpleName();
+    public static final String TAG = LibraryFragment.class.getSimpleName();
 
-  @InjectView(R.id.fab) FloatingActionButton mFab;
+    @InjectView(R.id.fab)
+    FloatingActionButton mFab;
 
-  public static interface OnAddBookButtonClickListener {
-    void onAddBookButtonClick();
-  }
 
-  public static Fragment newInstance() {
-    Fragment libraryFragment = new LibraryFragment();
-    return libraryFragment;
-  }
+    public static interface OnAddBookButtonClickListener {
+        void onAddBookButtonClick();
+    }
 
-  @Override
-  protected int getLayoutResource() {
-    return R.layout.fragment_library;
-  }
+    public static Fragment newInstance() {
+        Fragment libraryFragment = new LibraryFragment();
+        return libraryFragment;
+    }
 
-  @Override
-  protected RecyclerView.Adapter newAdapter() {
-    return new LibraryAdapter(mActivity);
-  }
+    @Override
+    protected int getLayoutResource() {
+        return R.layout.fragment_library;
+    }
 
-  @Override
-  protected void executeRequest(int page) {
+    @Override
+    protected RecyclerView.Adapter newAdapter() {
+        return new LibraryAdapter(mActivity);
+    }
 
-    SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+    @Override
+    protected void executeRequest(int page) {
 
-    mService.search("12108238", "5", page, "all", new Callback<List<SummaryBook>>() {
-      @Override
-      public void success(List<SummaryBook> bookList, Response response) {
+        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-        mSwipeRefreshLayout.setRefreshing(false);
+        mService.search("12108238", "5", page, "all", new Callback<List<SummaryBook>>() {
+            @Override
+            public void success(List<SummaryBook> bookList, Response response) {
 
-        if (mIsRefreshFromTop) {
-          if (((LibraryAdapter) mAdapter).equals(bookList)) {
+                mSwipeRefreshLayout.setRefreshing(false);
 
-          } else {
-            ((LibraryAdapter) mAdapter).replaceWith(bookList);
-          }
-        } else {
-          ((LibraryAdapter) mAdapter).addAll(bookList);
-        }
-        mPage++;
-      }
+                if (mIsRefreshFromTop) {
+                    if (((LibraryAdapter) mAdapter).equals(bookList)) {
 
-      @Override
-      public void failure(RetrofitError error) {
-        LogUtil.i(error.getMessage());
-        mSwipeRefreshLayout.setRefreshing(false);
-      }
-    });
-  }
+                    } else {
+                        ((LibraryAdapter) mAdapter).replaceWith(bookList);
+                    }
+                } else {
+                    ((LibraryAdapter) mAdapter).addAll(bookList);
+                }
+                mPage++;
+            }
 
-  @Override
-  public void onCreate(Bundle savedInstanceState) {
-    super.onCreate(savedInstanceState);
+            @Override
+            public void failure(RetrofitError error) {
+                LogUtil.i(error.getMessage());
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
 
-    ((LibraryAdapter) mAdapter).setOnItemClickListener(new LibraryAdapter.OnItemClickListener() {
-      @Override
-      public void onItemClick(SummaryBook book) {
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-      }
-    });
-  }
+        ((LibraryAdapter) mAdapter).setOnItemClickListener(new LibraryAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(SummaryBook book) {
 
-  @Nullable @Override
-  public View onCreateView(LayoutInflater inflater, ViewGroup container,
-      Bundle savedInstanceState) {
-    View view = super.onCreateView(inflater, container, savedInstanceState);
+            }
+        });
 
-    //TODO FloatActionBar 在recylerview上还有bug
-    //mFab.attachToRecyclerView(mRecycleView);
 
-    mFab.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View v) {
-        ((OnAddBookButtonClickListener) mActivity).onAddBookButtonClick();
-      }
-    });
+        ((LibraryAdapter) mAdapter).setOnItemRemoveListener(new LibraryAdapter.OnItemRemoveListener() {
+            @Override
+            public void onItemRemove(SummaryBook book) {
+                ((LibraryAdapter) mAdapter).remove(book);
 
-    return view;
-  }
+            }
+        });
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        //TODO FloatActionBar 在recylerview上还有bug
+        //mFab.attachToRecyclerView(mRecycleView);
+
+        mFab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ((OnAddBookButtonClickListener) mActivity).onAddBookButtonClick();
+            }
+        });
+
+
+        return view;
+    }
 }
