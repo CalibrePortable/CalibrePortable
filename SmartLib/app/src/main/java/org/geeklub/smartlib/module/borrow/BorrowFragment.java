@@ -130,6 +130,8 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
                     public void success(List<SummaryBook> bookList, Response response) {
                         mRefreshLayout.setRefreshing(false);
 
+                        LogUtil.i("bookList ===>>>"+bookList.toString());
+
                         if (isRefreshFromTop) {
                             LogUtil.i("isRefreshFromTop ===>>>" + isRefreshFromTop);
                             if (mAdapter.equals(bookList)) {

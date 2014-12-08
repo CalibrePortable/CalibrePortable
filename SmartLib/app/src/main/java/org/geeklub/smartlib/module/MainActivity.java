@@ -12,6 +12,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -19,11 +20,14 @@ import android.view.View;
 
 import butterknife.InjectView;
 
+import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
+import org.geeklub.smartlib.GlobalContext;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.api.NormalUserService;
+import org.geeklub.smartlib.beans.QRCodeInfo;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.module.login.LoginActivity;
@@ -245,24 +249,23 @@ public class MainActivity extends BaseActivity {
             if (result.getContents() == null) {
                 ToastUtil.showShort("取消...");
             } else {
-
-                RestAdapter restAdapter =
-                        new RestAdapter.Builder().setEndpoint("http://book.duanpengfei.com/API.php").build();
-
-                NormalUserService service = restAdapter.create(NormalUserService.class);
+                NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
 
                 SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-                service.borrow(result.getContents(), user.getUserId(), user.getPassWord(),
+                QRCodeInfo qrCodeInfo = new Gson().fromJson(result.getContents(), QRCodeInfo.class);
+
+                service.borrow(qrCodeInfo.book_id, user.getUserId(), user.getPassWord(),
                         new Callback<ServerResponse>() {
                             @Override
                             public void success(ServerResponse serverResponse, Response response) {
-                                LogUtil.i(serverResponse.getInfo());
+                                ToastUtil.showShort(serverResponse.getInfo());
                             }
 
                             @Override
                             public void failure(RetrofitError error) {
                                 LogUtil.i(error.getMessage());
+                                ToastUtil.showShort(error.getMessage());
                             }
                         });
             }
