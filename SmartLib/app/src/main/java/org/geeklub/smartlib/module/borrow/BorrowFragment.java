@@ -137,6 +137,7 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
                             if (mAdapter.equals(bookList)) {
                                 ToastUtil.showShort("没有新的书本...");
                             } else {
+                                LogUtil.i("刷新数据");
                                 mAdapter.replaceWith(bookList);
                             }
                         } else {
@@ -148,6 +149,7 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
                     @Override
                     public void failure(RetrofitError error) {
                         mRefreshLayout.setRefreshing(false);
+                        LogUtil.i("错误 ===>>>"+error.getMessage());
                         ToastUtil.showShort("Failed to load. Try again later...");
                     }
                 });

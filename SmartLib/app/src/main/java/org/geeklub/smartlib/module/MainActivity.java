@@ -255,6 +255,8 @@ public class MainActivity extends BaseActivity {
 
                 QRCodeInfo qrCodeInfo = new Gson().fromJson(result.getContents(), QRCodeInfo.class);
 
+                LogUtil.i("Book_Id ===>>>"+qrCodeInfo.book_id);
+
                 service.borrow(qrCodeInfo.book_id, user.getUserId(), user.getPassWord(),
                         new Callback<ServerResponse>() {
                             @Override
