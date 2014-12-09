@@ -12,13 +12,11 @@ import java.util.List;
 
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.Book;
-import org.geeklub.smartlib4admin.beans.ServerResponse;
 import org.geeklub.smartlib4admin.module.adapters.LendAdapter;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
 import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
-import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -86,39 +84,7 @@ public class LendFragment extends BasePageListFragment {
             }
         });
 
-        ((LendAdapter) mAdapter).setOnItemRemoveListener(new LendAdapter.OnItemRemoveListener() {
-            @Override
-            public void onItemRemove(final Book book) {
-                new SweetAlertDialog(mActivity, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("是否要删除？")
-                        .setContentText("不能恢复删除的图书！")
-                        .setConfirmText("确认删除")
-                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
-                            @Override
-                            public void onClick(final SweetAlertDialog sDialog) {
-                                mService.deleteBook(book.book_id, "12108238", "12108238", new Callback<ServerResponse>() {
-                                    @Override
-                                    public void success(ServerResponse serverResponse, Response response) {
-                                        sDialog.setTitleText("Deleted!")
-                                                .setContentText("图书已经被删除d!")
-                                                .setConfirmText("OK")
-                                                .setConfirmClickListener(null)
-                                                .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
-                                        ((LendAdapter) mAdapter).remove(book);
-                                    }
 
-                                    @Override
-                                    public void failure(RetrofitError error) {
-                                        LogUtil.i("删除图书失败");
-                                        sDialog.dismissWithAnimation();
-                                    }
-                                });
-
-                            }
-                        })
-                        .show();
-            }
-        });
     }
 
     @Nullable

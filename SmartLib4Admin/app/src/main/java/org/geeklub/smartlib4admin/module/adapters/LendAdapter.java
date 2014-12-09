@@ -23,7 +23,6 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
 
     private OnItemClickListener onItemClickListener;
 
-    private OnItemRemoveListener onItemRemoveListener;
 
     public LendAdapter(Context context) {
         mContext = context;
@@ -63,14 +62,7 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
             }
         });
 
-        viewHolder.mBookDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onItemRemoveListener != null) {
-                    onItemRemoveListener.onItemRemove(book);
-                }
-            }
-        });
+
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -96,8 +88,7 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
         @InjectView(R.id.tv_user_name)
         TextView mUserName;
 
-        @InjectView(R.id.tv_delete)
-        TextView mBookDelete;
+
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -114,11 +105,7 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
         this.onItemClickListener = listener;
     }
 
-    public static interface OnItemRemoveListener {
-        void onItemRemove(Book book);
-    }
 
-    public void setOnItemRemoveListener(OnItemRemoveListener listener) {
-        this.onItemRemoveListener = listener;
-    }
+
+
 }

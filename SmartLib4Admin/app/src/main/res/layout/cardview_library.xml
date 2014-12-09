@@ -55,6 +55,17 @@
             android:drawableLeft="@drawable/ic_action_favorite"
             android:gravity="center"/>
 
+        <TextView
+            android:id="@+id/tv_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/tv_book_favour"
+            android:layout_marginRight="20dp"
+            android:layout_toLeftOf="@+id/tv_book_favour"
+            android:clickable="true"
+            android:drawableLeft="@drawable/ic_action_discard"
+            android:gravity="center"/>
+
 
     </RelativeLayout>
 
