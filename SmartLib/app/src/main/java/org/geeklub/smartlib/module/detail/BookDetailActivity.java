@@ -9,6 +9,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.pnikosis.materialishprogress.ProgressWheel;
+
 import butterknife.InjectView;
 
 import org.geeklub.smartlib.GlobalContext;
@@ -34,6 +36,9 @@ public class BookDetailActivity extends BaseActivity {
 
     @InjectView(R.id.recycle_view)
     RecyclerView mRecyclerView;
+
+    @InjectView(R.id.progress_wheel)
+    ProgressWheel progressWheel;
 
     private DetailAdapter mAdapter;
 
@@ -121,10 +126,12 @@ public class BookDetailActivity extends BaseActivity {
     }
 
     private void loadData() {
+        progressWheel.setVisibility(View.VISIBLE);
         NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
         service.bookDetail(mBook.book_kind, new Callback<BookDetailInfo>() {
             @Override
             public void success(BookDetailInfo bookDetailInfo, Response response) {
+                progressWheel.setVisibility(View.GONE);
                 mToolBar.setTitle(bookDetailInfo.book_detail.book_name);
                 mToolBar.setTitleTextColor(Color.TRANSPARENT);
                 mAdapter.setBookDetailInfo(bookDetailInfo);
@@ -133,6 +140,7 @@ public class BookDetailActivity extends BaseActivity {
 
             @Override
             public void failure(RetrofitError error) {
+                progressWheel.setVisibility(View.GONE);
                 LogUtil.i("failure ===>>>" + error.getMessage());
             }
         });
