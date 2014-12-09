@@ -23,7 +23,6 @@ public class LibraryAdapter extends BaseRecyclerAdapter<SummaryBook, LibraryAdap
 
     private OnItemClickListener onItemClickListener;
 
-    private OnItemRemoveListener onItemRemoveListener;
 
     public LibraryAdapter(Context context) {
         mContext = context;
@@ -59,14 +58,6 @@ public class LibraryAdapter extends BaseRecyclerAdapter<SummaryBook, LibraryAdap
             }
         });
 
-        viewHolder.mBookDelete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (onItemRemoveListener != null) {
-                    onItemRemoveListener.onItemRemove(book);
-                }
-            }
-        });
 
     }
 
@@ -84,9 +75,6 @@ public class LibraryAdapter extends BaseRecyclerAdapter<SummaryBook, LibraryAdap
         @InjectView(R.id.tv_book_favour)
         TextView mBookFavour;
 
-        @InjectView(R.id.tv_delete)
-        TextView mBookDelete;
-
 
         public ViewHolder(View itemView) {
             super(itemView);
@@ -102,11 +90,5 @@ public class LibraryAdapter extends BaseRecyclerAdapter<SummaryBook, LibraryAdap
         this.onItemClickListener = listener;
     }
 
-    public static interface OnItemRemoveListener {
-        void onItemRemove(SummaryBook book);
-    }
 
-    public void setOnItemRemoveListener(OnItemRemoveListener listener) {
-        this.onItemRemoveListener = listener;
-    }
 }

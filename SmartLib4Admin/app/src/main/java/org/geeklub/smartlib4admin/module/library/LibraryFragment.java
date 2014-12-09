@@ -96,13 +96,7 @@ public class LibraryFragment extends BasePageListFragment {
         });
 
 
-        ((LibraryAdapter) mAdapter).setOnItemRemoveListener(new LibraryAdapter.OnItemRemoveListener() {
-            @Override
-            public void onItemRemove(SummaryBook book) {
-                ((LibraryAdapter) mAdapter).remove(book);
 
-            }
-        });
     }
 
     @Nullable

@@ -55,7 +55,7 @@ public interface AdministratorService {
     //删除图书
     @GET("/admin/delete/{bookId}/{userId}/{password}")
     void deleteBook(@Path("bookId") String bookId,
-                    @Path("userId") String userId, @Path("password") String password);
+                    @Path("userId") String userId, @Path("password") String password, Callback<ServerResponse> callback);
 
     //查看已经借出的图书(无法detail)(无法点赞)(有翻页)
     @GET("/admin/showRe/{userId}/{password}/page={page}")
