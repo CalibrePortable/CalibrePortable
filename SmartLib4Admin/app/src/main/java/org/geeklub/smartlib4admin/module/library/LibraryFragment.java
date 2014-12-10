@@ -1,6 +1,7 @@
 package org.geeklub.smartlib4admin.module.library;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
@@ -16,6 +17,7 @@ import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.SummaryBook;
 import org.geeklub.smartlib4admin.module.adapters.LibraryAdapter;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
+import org.geeklub.smartlib4admin.module.detail.BookDetailActivity;
 import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
@@ -91,10 +93,10 @@ public class LibraryFragment extends BasePageListFragment {
         ((LibraryAdapter) mAdapter).setOnItemClickListener(new LibraryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(SummaryBook book) {
+                startActivity(new Intent(mActivity, BookDetailActivity.class));
 
             }
         });
-
 
 
     }

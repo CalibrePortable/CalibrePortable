@@ -53,10 +53,10 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
 
         if (Integer.valueOf(book.return_at) > 0) {
             viewHolder.mReturnAt.setTextColor(mContext.getResources().getColor(R.color.GREEN_SEA));
-            viewHolder.mReturnAt.setText("剩余:" + book.return_at);
+            viewHolder.mReturnAt.setText("剩余:" + book.return_at+"天");
         } else {
             viewHolder.mReturnAt.setTextColor(mContext.getResources().getColor(R.color.ALIZARIN));
-            viewHolder.mReturnAt.setText("超期:" + Math.abs(Integer.valueOf(book.return_at)));
+            viewHolder.mReturnAt.setText("超期:" + Math.abs(Integer.valueOf(book.return_at))+"天");
         }
         viewHolder.mBookFavour.setText(book.favour);
         viewHolder.mUserName.setText("借阅人:" + book.user_name);
