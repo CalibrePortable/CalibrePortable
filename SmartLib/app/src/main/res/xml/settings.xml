@@ -11,7 +11,7 @@
         android:title="@string/settings_key_modify_password_title">
 
       <intent
-          android:targetClass="org.geeklub.smartlib.module.PasswordModifyActivity"
+          android:targetClass="org.geeklub.smartlib.module.settings.PasswordModifyActivity"
           android:targetPackage="org.geeklub.smartlib">
 
       </intent>
