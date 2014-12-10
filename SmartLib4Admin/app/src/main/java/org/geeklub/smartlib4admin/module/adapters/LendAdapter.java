@@ -13,6 +13,12 @@ import butterknife.InjectView;
 
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.Book;
+import org.geeklub.smartlib4admin.beans.SummaryBook;
+import org.geeklub.smartlib4admin.utils.LogUtil;
+
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 /**
  * Created by Vass on 2014/11/8.
@@ -44,13 +50,16 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
         viewHolder.mBookDescription.setText(book.book_status);
         viewHolder.mBorrowAt.setText("FROM:" + book.created_at);
 
+
         if (Integer.valueOf(book.return_at) > 0) {
+            viewHolder.mReturnAt.setTextColor(mContext.getResources().getColor(R.color.GREEN_SEA));
             viewHolder.mReturnAt.setText("剩余:" + book.return_at);
         } else {
+            viewHolder.mReturnAt.setTextColor(mContext.getResources().getColor(R.color.ALIZARIN));
             viewHolder.mReturnAt.setText("超期:" + Math.abs(Integer.valueOf(book.return_at)));
         }
         viewHolder.mBookFavour.setText(book.favour);
-        viewHolder.mUserName.setText(book.user_name);
+        viewHolder.mUserName.setText("借阅人:" + book.user_name);
 
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -89,7 +98,6 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
         TextView mUserName;
 
 
-
         public ViewHolder(View itemView) {
             super(itemView);
 
@@ -105,7 +113,11 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
         this.onItemClickListener = listener;
     }
 
-
+    public void sort(List<Book> bookList, Comparator<Book> comparator) {
+        LogUtil.i("排序前 ===>>>" + bookList.toString());
+        Collections.sort(bookList, comparator);
+        LogUtil.i("排序后 ===>>>" + bookList.toString());
+    }
 
 
 }

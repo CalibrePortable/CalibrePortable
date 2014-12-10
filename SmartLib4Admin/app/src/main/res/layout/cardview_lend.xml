@@ -26,12 +26,11 @@
 
         <TextView
             android:id="@+id/tv_book_name"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/iv_book_icon"
             android:layout_marginLeft="5dp"
             android:layout_toRightOf="@+id/iv_book_icon"
-            android:singleLine="true"
             android:text="书名"/>
 
         <TextView
@@ -70,6 +69,15 @@
             android:layout_marginLeft="80dp"
             android:layout_toRightOf="@+id/tv_borrow_at"
             android:text="TO"/>
+
+        <TextView
+            android:id="@+id/tv_user_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/tv_book_name"
+            android:layout_marginRight="10dp"
+            android:text="借阅人"/>
 
 
     </RelativeLayout>

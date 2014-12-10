@@ -41,7 +41,6 @@
             android:layout_alignLeft="@+id/tv_book_name"
             android:layout_below="@+id/tv_book_name"
             android:layout_marginTop="5dp"
-            android:singleLine="true"
             android:text="描述"/>
 
 
@@ -53,17 +52,6 @@
             android:layout_alignParentRight="true"
             android:clickable="true"
             android:drawableLeft="@drawable/ic_action_favorite"
-            android:gravity="center"/>
-
-        <TextView
-            android:id="@+id/tv_delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tv_book_favour"
-            android:layout_marginRight="20dp"
-            android:layout_toLeftOf="@+id/tv_book_favour"
-            android:clickable="true"
-            android:drawableLeft="@drawable/ic_action_discard"
             android:gravity="center"/>
 
 

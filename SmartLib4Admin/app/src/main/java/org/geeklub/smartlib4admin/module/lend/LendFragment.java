@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.Comparator;
 import java.util.List;
 
 import org.geeklub.smartlib4admin.R;
@@ -57,9 +58,11 @@ public class LendFragment extends BasePageListFragment {
                     if (((LendAdapter) mAdapter).equals(bookList)) {
 
                     } else {
+                        ((LendAdapter) mAdapter).sort(bookList, new OverDueComparator());
                         ((LendAdapter) mAdapter).replaceWith(bookList);
                     }
                 } else {
+                    ((LendAdapter) mAdapter).sort(bookList, new OverDueComparator());
                     ((LendAdapter) mAdapter).addAll(bookList);
                 }
                 mPage++;
@@ -95,5 +98,14 @@ public class LendFragment extends BasePageListFragment {
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
         return view;
+    }
+
+    private static class OverDueComparator implements Comparator<Book> {
+        @Override
+        public int compare(Book lhs, Book rhs) {
+            Integer return_at_1 = Integer.valueOf(lhs.return_at);
+            Integer return_at_2 = Integer.valueOf(rhs.return_at);
+            return return_at_1.compareTo(return_at_2);
+        }
     }
 }
