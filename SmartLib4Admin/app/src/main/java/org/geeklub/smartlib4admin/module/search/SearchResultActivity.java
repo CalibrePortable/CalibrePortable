@@ -49,9 +49,13 @@ public class SearchResultActivity extends BaseActivity {
         initToolBar();
         initTabs();
 
+
         mAdapter = new SearchPagerAdapter(getFragmentManager());
+
+        mViewPager.setPageTransformer(true, new ZoomOutSlideTransformer());
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(4);
+
         mTabs.setViewPager(mViewPager);
 
         handleIntent(getIntent());
@@ -75,7 +79,7 @@ public class SearchResultActivity extends BaseActivity {
         // tab的分割线颜色
         mTabs.setDividerColor(Color.TRANSPARENT);
         // tab背景
-        mTabs.setBackgroundColor(Color.parseColor("#f1c40f"));
+        mTabs.setBackgroundColor(Color.parseColor("#3498db"));
         // tab底线高度
         mTabs.setUnderlineHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
                 1, getResources().getDisplayMetrics()));

@@ -1,5 +1,7 @@
 package org.geeklub.smartlib4admin.module.detail;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -21,7 +23,9 @@ import org.geeklub.smartlib4admin.beans.ServerResponse;
 import org.geeklub.smartlib4admin.module.adapters.BookDetailAdapter;
 import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BaseActivity;
+import org.geeklub.smartlib4admin.utils.Blur;
 import org.geeklub.smartlib4admin.utils.LogUtil;
+import org.geeklub.smartlib4admin.utils.ScreenUtil;
 
 import butterknife.InjectView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -62,6 +66,9 @@ public class BookDetailActivity extends BaseActivity {
     @InjectView(R.id.header)
     View mHeader;
 
+    @InjectView(R.id.blurred_image)
+    ImageView mBlurredImage;
+
     @InjectView(R.id.iv_book_icon)
     ImageView mBookIcon;
 
@@ -97,6 +104,7 @@ public class BookDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         mService = GlobalContext.getApiDispencer().getRestApi(AdministratorService.class);
 
         mBookKind = getIntent().getStringExtra(EXTRAS_BOOK_KIND);
@@ -106,8 +114,18 @@ public class BookDetailActivity extends BaseActivity {
 
         setUpToolBar();
         setUpRecyclerView();
+        setUpHeaderBackground();
 
         initCallBacks();
+    }
+
+    private void setUpHeaderBackground() {
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inSampleSize = 2;
+        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.picture0);
+        Bitmap newImg = Blur.fastblur(this, image, 12);
+        Bitmap bmpBlurred = Bitmap.createScaledBitmap(newImg, ScreenUtil.getScreenWidth(this), getResources().getDimensionPixelSize(R.dimen.header_height), false);
+        mBlurredImage.setImageBitmap(bmpBlurred);
     }
 
     private void initCallBacks() {
@@ -155,6 +173,7 @@ public class BookDetailActivity extends BaseActivity {
     }
 
     private void updateHeaderView(BookDetailInfo bookDetailInfo) {
+
         mBookName.setText("书名:" + bookDetailInfo.book_detail.book_name);
         mBookAuthor.setText("作者:" + bookDetailInfo.book_detail.book_author);
         mBookType.setText("类别:" + bookDetailInfo.book_detail.book_type);
