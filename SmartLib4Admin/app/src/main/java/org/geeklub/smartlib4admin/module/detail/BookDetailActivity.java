@@ -133,12 +133,16 @@ public class BookDetailActivity extends BaseActivity {
             @Override
             public void onItemRemove(final Book book) {
                 new SweetAlertDialog(BookDetailActivity.this, SweetAlertDialog.WARNING_TYPE)
-                        .setTitleText("Are you sure?")
+                        .setTitleText("你确定?")
                         .setContentText("删除后不能恢复")
-                        .setConfirmText("Yes,delete it!")
+                        .setConfirmText("是的，删除!")
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
+                                sDialog.getProgressHelper().setBarColor(Color.parseColor("#A5DC86"));
+                                sDialog.setTitleText("删除");
+                                sDialog.setCancelable(false);
+                                sDialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
                                 mService.deleteBook(book.book_id, "12108238", "12108238", new DeleteBookCallBack(sDialog, book));
                             }
                         })
@@ -256,7 +260,7 @@ public class BookDetailActivity extends BaseActivity {
 
         @Override
         public void success(ServerResponse serverResponse, Response response) {
-            mDialog.setTitleText("Deleted!")
+            mDialog.setTitleText("删除成功!")
                     .setContentText("书已经被删除")
                     .setConfirmText("OK")
                     .setConfirmClickListener(null)
@@ -271,6 +275,8 @@ public class BookDetailActivity extends BaseActivity {
         public void failure(RetrofitError error) {
             LogUtil.i("失败");
             mDialog.setTitleText("删除出错")
+                    .setConfirmText("Cancel")
+                    .setConfirmClickListener(null)
                     .setContentText("Something went wrong!")
                     .changeAlertType(SweetAlertDialog.ERROR_TYPE);
         }
