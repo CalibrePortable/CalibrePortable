@@ -32,6 +32,16 @@
             android:layout_marginTop="10dp"
             android:text="状态"/>
 
+        <TextView
+            android:id="@+id/tv_book_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignRight="@+id/tv_book_status"
+            android:layout_below="@+id/tv_book_status"
+            android:layout_marginTop="18dp"
+            android:drawableRight="@drawable/ic_action_discard"
+            android:gravity="center"/>
+
 
     </RelativeLayout>
 

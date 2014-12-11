@@ -15,12 +15,16 @@ import com.pnikosis.materialishprogress.ProgressWheel;
 
 import org.geeklub.smartlib4admin.GlobalContext;
 import org.geeklub.smartlib4admin.R;
+import org.geeklub.smartlib4admin.beans.Book;
 import org.geeklub.smartlib4admin.beans.BookDetailInfo;
+import org.geeklub.smartlib4admin.beans.ServerResponse;
 import org.geeklub.smartlib4admin.module.adapters.BookDetailAdapter;
 import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BaseActivity;
+import org.geeklub.smartlib4admin.utils.LogUtil;
 
 import butterknife.InjectView;
+import cn.pedant.SweetAlert.SweetAlertDialog;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
@@ -43,6 +47,8 @@ public class BookDetailActivity extends BaseActivity {
     public static final String EXTRAS_BOOK_KIND = "extras_book_kind";
 
     private String mBookKind;
+
+    private AdministratorService mService;
 
     @InjectView(R.id.progress_wheel)
     ProgressWheel progressWheel;
@@ -81,8 +87,6 @@ public class BookDetailActivity extends BaseActivity {
     TextView mBookInfo;
 
 
-
-
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_book_detail;
@@ -93,6 +97,8 @@ public class BookDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        mService = GlobalContext.getApiDispencer().getRestApi(AdministratorService.class);
+
         mBookKind = getIntent().getStringExtra(EXTRAS_BOOK_KIND);
 
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
@@ -100,6 +106,27 @@ public class BookDetailActivity extends BaseActivity {
 
         setUpToolBar();
         setUpRecyclerView();
+
+        initCallBacks();
+    }
+
+    private void initCallBacks() {
+        bookDetailAdapter.setOnItemRemoveListener(new BookDetailAdapter.OnItemRemoveListener() {
+            @Override
+            public void onItemRemove(final Book book) {
+                new SweetAlertDialog(BookDetailActivity.this, SweetAlertDialog.WARNING_TYPE)
+                        .setTitleText("Are you sure?")
+                        .setContentText("删除后不能恢复")
+                        .setConfirmText("Yes,delete it!")
+                        .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
+                            @Override
+                            public void onClick(SweetAlertDialog sDialog) {
+                                mService.deleteBook(book.book_id, "12108238", "12108238", new DeleteBookCallBack(sDialog, book));
+                            }
+                        })
+                        .show();
+            }
+        });
     }
 
     @Override
@@ -110,9 +137,8 @@ public class BookDetailActivity extends BaseActivity {
 
     private void loadData() {
         progressWheel.setVisibility(View.VISIBLE);
-        AdministratorService service = GlobalContext.getApiDispencer().getRestApi(AdministratorService.class);
 
-        service.bookDetail(mBookKind, new Callback<BookDetailInfo>() {
+        mService.bookDetail(mBookKind, new Callback<BookDetailInfo>() {
             @Override
             public void success(BookDetailInfo bookDetailInfo, Response response) {
                 progressWheel.setVisibility(View.GONE);
@@ -195,5 +221,40 @@ public class BookDetailActivity extends BaseActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+
+    private class DeleteBookCallBack implements Callback<ServerResponse> {
+        private SweetAlertDialog mDialog;
+        private Book mBook;
+
+
+        public DeleteBookCallBack(SweetAlertDialog dialog, Book book) {
+            this.mDialog = dialog;
+            this.mBook = book;
+        }
+
+
+        @Override
+        public void success(ServerResponse serverResponse, Response response) {
+            mDialog.setTitleText("Deleted!")
+                    .setContentText("书已经被删除")
+                    .setConfirmText("OK")
+                    .setConfirmClickListener(null)
+                    .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
+
+            bookDetailAdapter.deleteBook(mBook);
+
+
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+            LogUtil.i("失败");
+            mDialog.setTitleText("删除出错")
+                    .setContentText("Something went wrong!")
+                    .changeAlertType(SweetAlertDialog.ERROR_TYPE);
+        }
+
     }
 }

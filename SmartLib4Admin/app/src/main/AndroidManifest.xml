@@ -27,6 +27,7 @@
 
         <activity
             android:name=".module.detail.BookDetailActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ToolBarStyle">
 
         </activity>

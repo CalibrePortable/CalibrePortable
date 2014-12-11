@@ -29,6 +29,8 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private BookDetailInfo bookDetailInfo;
 
+    private OnItemRemoveListener onItemRemoveListener;
+
 
     public BookDetailAdapter(Context context) {
         this.mContext = context;
@@ -47,6 +49,11 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
 
+    public void deleteBook(Book book){
+        bookDetailInfo.book_list.remove(book);
+        notifyDataSetChanged();
+    }
+
 
     public static class ViewHolderBookItem extends RecyclerView.ViewHolder {
 
@@ -55,6 +62,9 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
         @InjectView(R.id.tv_book_status)
         TextView mBookStatus;
+
+        @InjectView(R.id.tv_book_delete)
+        TextView mBookDelete;
 
         public ViewHolderBookItem(View itemView) {
             super(itemView);
@@ -87,10 +97,21 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 break;
 
             case VIEW_TYPE_BOOK_ITEM:
-                Book book = bookDetailInfo.book_list.get(position - 1);
+                final Book book = bookDetailInfo.book_list.get(position - 1);
                 ViewHolderBookItem holderBookItem = (ViewHolderBookItem) viewHolder;
                 holderBookItem.mBookId.setText("书本ID:" + book.book_id);
                 holderBookItem.mBookStatus.setText("书本状态:" + book.book_status);
+
+                holderBookItem.mBookDelete.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onItemRemoveListener != null) {
+                            onItemRemoveListener.onItemRemove(book);
+                        }
+                    }
+                });
+
+
                 break;
             default:
                 break;
@@ -107,5 +128,13 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public int getItemViewType(int position) {
         return position == 0 ? VIEW_TYPE_PLACE_HOLDER : VIEW_TYPE_BOOK_ITEM;
+    }
+
+    public static interface OnItemRemoveListener {
+        void onItemRemove(Book book);
+    }
+
+    public void setOnItemRemoveListener(OnItemRemoveListener listener) {
+        this.onItemRemoveListener = listener;
     }
 }
