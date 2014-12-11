@@ -8,25 +8,48 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import butterknife.ButterKnife;
-import butterknife.InjectView;
-
 
 import org.geeklub.smartlib4admin.R;
-import org.geeklub.smartlib4admin.beans.Book;
+import org.geeklub.smartlib4admin.beans.SummaryBook;
+
+import butterknife.ButterKnife;
+import butterknife.InjectView;
 
 /**
  * Created by Vass on 2014/11/7.
  */
-public class SearchAdapter extends BaseRecyclerAdapter<Book, SearchAdapter.ViewHolder> {
-
+public class SearchAdapter extends BaseRecyclerAdapter<SummaryBook, SearchAdapter.ViewHolder> {
 
     private Context mContext;
 
     private OnItemClickListener onItemClickListener;
 
+
     public SearchAdapter(Context context) {
         this.mContext = context;
+    }
+
+    public void updateItem(int position) {
+        notifyItemChanged(position);
+    }
+
+
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        @InjectView(R.id.iv_book_icon)
+        ImageView mBookIcon;
+        @InjectView(R.id.tv_book_name)
+        TextView mBookName;
+        @InjectView(R.id.tv_book_description)
+        TextView mBookDescription;
+        @InjectView(R.id.tv_book_favour)
+        TextView mBookFavour;
+        @InjectView(R.id.tv_add_one)
+        TextView mAddOneTextView;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+            ButterKnife.inject(this, itemView);
+        }
     }
 
     @Override
@@ -37,12 +60,23 @@ public class SearchAdapter extends BaseRecyclerAdapter<Book, SearchAdapter.ViewH
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        final Book book = get(position);
-        viewHolder.mBookName.setText(book.book_name);
-        viewHolder.mBookDescription.setText(book.book_status);
-        viewHolder.mBookFavour.setText(book.favour);
+    public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
+        final SummaryBook book = get(position);
 
+        viewHolder.mBookName.setText(book.book_name);
+        viewHolder.mBookDescription.setText(book.book_author);
+        viewHolder.mBookFavour.setText(book.favour);
+        viewHolder.mAddOneTextView.setVisibility(View.GONE);
+
+        if ("1".equals(book.isLike)) {
+            viewHolder.mBookFavour.setEnabled(false);
+        } else {
+            viewHolder.mBookFavour.setEnabled(true);
+        }
+
+        StringBuilder description = new StringBuilder();
+        description.append("作者:").append(book.book_author).append("\n\n当前状态:").append(book.book_status);
+        viewHolder.mBookDescription.setText(description);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -52,35 +86,17 @@ public class SearchAdapter extends BaseRecyclerAdapter<Book, SearchAdapter.ViewH
                 }
             }
         });
-    }
 
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-
-        @InjectView(R.id.iv_book_icon)
-        ImageView mBookIcon;
-
-        @InjectView(R.id.tv_book_name)
-        TextView mBookName;
-
-        @InjectView(R.id.tv_book_description)
-        TextView mBookDescription;
-
-        @InjectView(R.id.tv_book_favour)
-        TextView mBookFavour;
-
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            ButterKnife.inject(this, itemView);
-        }
     }
 
     public static interface OnItemClickListener {
-        void onItemClick(Book book);
+        void onItemClick(SummaryBook book);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
         this.onItemClickListener = listener;
     }
+
+
 }

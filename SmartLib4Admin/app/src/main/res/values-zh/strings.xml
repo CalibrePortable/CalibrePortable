@@ -1,41 +1,42 @@
 <resources>
-  <string name="app_name">管理员</string>
+    <string name="app_name">管理员</string>
 
 
-  <string name="drawer_open">drawer open</string>
-  <string name="drawer_close">drawer close</string>
+    <string name="drawer_open">drawer open</string>
+    <string name="drawer_close">drawer close</string>
 
-  <string name="action_search">搜索</string>
-  <string name="action_settings">设置</string>
-  <string name="action_qr_code">扫一扫还书</string>
-
-
-  <array name="admin_functions">
-    <item>全部</item>
-    <item>已借</item>
-  </array>
+    <string name="action_search">搜索</string>
+    <string name="action_settings">设置</string>
+    <string name="action_qr_code">扫一扫还书</string>
+    <string name="search_hint">搜索你想要的书本</string>
 
 
-  <string name="alert_dialog_ok">确定</string>
-  <string name="alert_dialog_cancel">取消</string>
+    <array name="admin_functions">
+        <item>全部</item>
+        <item>已借</item>
+    </array>
 
-  <array name="book_type">
-    <item>移动端</item>
-    <item>Java</item>
-    <item>Web小技术</item>
-    <item>UML</item>
-    <item>JS</item>
-    <item>小众后端</item>
-    <item>操作系统</item>
-    <item>PHP</item>
-    <item>数据挖掘</item>
-    <item>前端</item>
-    <item>C++</item>
-    <item>思维锻炼</item>
-    <item>数据库</item>
-    <item>杂项</item>
-    <item>交互</item>
-  </array>
+
+    <string name="alert_dialog_ok">确定</string>
+    <string name="alert_dialog_cancel">取消</string>
+
+    <array name="book_type">
+        <item>移动端</item>
+        <item>Java</item>
+        <item>Web小技术</item>
+        <item>UML</item>
+        <item>JS</item>
+        <item>小众后端</item>
+        <item>操作系统</item>
+        <item>PHP</item>
+        <item>数据挖掘</item>
+        <item>前端</item>
+        <item>C++</item>
+        <item>思维锻炼</item>
+        <item>数据库</item>
+        <item>杂项</item>
+        <item>交互</item>
+    </array>
 
 
 </resources>

@@ -93,7 +93,9 @@ public class LibraryFragment extends BasePageListFragment {
         ((LibraryAdapter) mAdapter).setOnItemClickListener(new LibraryAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(SummaryBook book) {
-                startActivity(new Intent(mActivity, BookDetailActivity.class));
+                Intent intent = new Intent(mActivity, BookDetailActivity.class);
+                intent.putExtra(BookDetailActivity.EXTRAS_BOOK_KIND, book.book_kind);
+                startActivity(intent);
 
             }
         });

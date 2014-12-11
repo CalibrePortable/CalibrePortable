@@ -3,6 +3,7 @@ package org.geeklub.smartlib4admin.module.api;
 import java.util.List;
 
 import org.geeklub.smartlib4admin.beans.Book;
+import org.geeklub.smartlib4admin.beans.BookDetailInfo;
 import org.geeklub.smartlib4admin.beans.LoginUser;
 import org.geeklub.smartlib4admin.beans.ServerResponse;
 import org.geeklub.smartlib4admin.beans.SummaryBook;
@@ -62,4 +63,9 @@ public interface AdministratorService {
     void haveLended(
             @Path("userId") String userId, @Path("password") String password, @Path("page") int page,
             Callback<List<Book>> callback);
+
+    //  图书详细内容
+    @GET("/public/detail/{bookKind}")
+    void bookDetail(@Path("bookKind") String bookKind,
+                    Callback<BookDetailInfo> callback);
 }
