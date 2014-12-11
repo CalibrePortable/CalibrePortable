@@ -452,7 +452,7 @@ Method:GET
 
 
 4.根据批次返回该批次的图书id
->API.php/admin/getid/:actId/:userId/:password
+>API.php/admin/getId/:actId/:userId/:password
 
 ***请求***
 
