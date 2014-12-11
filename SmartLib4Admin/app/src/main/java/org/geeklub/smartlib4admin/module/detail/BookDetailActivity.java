@@ -136,6 +136,7 @@ public class BookDetailActivity extends BaseActivity {
                         .setTitleText("你确定?")
                         .setContentText("删除后不能恢复")
                         .setConfirmText("是的，删除!")
+                        .setCancelClickListener(null)
                         .setConfirmClickListener(new SweetAlertDialog.OnSweetClickListener() {
                             @Override
                             public void onClick(SweetAlertDialog sDialog) {
@@ -263,6 +264,7 @@ public class BookDetailActivity extends BaseActivity {
             mDialog.setTitleText("删除成功!")
                     .setContentText("书已经被删除")
                     .setConfirmText("OK")
+                    .setCancelClickListener(null)
                     .setConfirmClickListener(null)
                     .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
 
@@ -276,6 +278,7 @@ public class BookDetailActivity extends BaseActivity {
             LogUtil.i("失败");
             mDialog.setTitleText("删除出错")
                     .setConfirmText("Cancel")
+                    .setCancelClickListener(null)
                     .setConfirmClickListener(null)
                     .setContentText("Something went wrong!")
                     .changeAlertType(SweetAlertDialog.ERROR_TYPE);
