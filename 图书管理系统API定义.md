@@ -210,7 +210,7 @@
 
 `Response`
 >{
-    {"batches":["0","1",...]}
+    "batches":["0","1",...]
 }
 
 ---
@@ -487,7 +487,7 @@ Method:GET
 
 ***用例***
 
->API.php/admin/getid/0/12108238/12108238
+>API.php/admin/getId/0/12108238/12108238
 
 ***参数***
 
