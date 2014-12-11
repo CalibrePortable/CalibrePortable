@@ -190,6 +190,33 @@
     ...
 },...
 }]
+
+---
+
+
+
+7.获取批次信息
+>API.php/public/batch
+
+**请求**
+
+>Method:GET
+
+**用例**
+
+>API.php/public/batch
+
+**参数**
+
+`Response`
+>{
+    {"batches":["0","1",...]}
+}
+
+---
+
+
+
 #### 普通用户
 
 1.登录
