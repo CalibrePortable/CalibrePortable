@@ -368,7 +368,7 @@ Method:POST
 **用例**
 
 >12108238
->123
+>12108238
 
 **参数**
 
@@ -451,8 +451,8 @@ Method:GET
 
 
 
-4.修改图书为已超期(显示在已借出的图书列表中)
->API.php/admin/alter/:bookId/:userId/:password
+4.根据批次返回该批次的图书id
+>API.php/admin/getid/:actId/:userId/:password
 
 ***请求***
 
@@ -460,19 +460,23 @@ Method:GET
 
 ***用例***
 
->API.php/admin/alter/100/12108238/12108238
+>API.php/admin/getid/0/12108238/12108238
 
 ***参数***
 
->bookId:String
+>actId:String
 >>userId:String
 >>>password:String(获取)
 
 `Response `
->{
-    "status":RESULT_CONSTANT,
-	"info":"成功/错误原因"
-}
+>[
+{"book_id":书本id,
+"book_name":书本名称,
+"boou_info":书本介绍},
+{
+	...
+},...
+}]
 
 ---
 
@@ -599,34 +603,3 @@ API.php/admin/showRe/12108238/12108238/page=1
 
 
 
-9.查看已超期的图书(无法detail)(无法点赞)(无翻页)
->API.php/admin/showOut/:userId/:password
-
-***请求***
-
->Method:GET
-
-***用例***
-
-API.php/admin/showOut/12108238/12108238
-
-***参数***
-
->userId:String
->>password:String(获取)
-
-`Response`
->[
-{"book_id":书本id,
-"book_name":书本名称,
-"boou_author":作者,
-"book_status":书本状态,
-"user_name":借阅人,
-"favour":点赞数,
-"book_pic":图书图片,
-"created_at":借阅时间,
-"return_at":剩余天数},
-{
-    ...
-},...
-}]
