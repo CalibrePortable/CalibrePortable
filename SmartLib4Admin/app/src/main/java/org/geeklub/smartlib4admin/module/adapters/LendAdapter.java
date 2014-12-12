@@ -114,9 +114,9 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
     }
 
     public void sort(List<Book> bookList, Comparator<Book> comparator) {
-        LogUtil.i("排序前 ===>>>" + bookList.toString());
+//        LogUtil.i("排序前 ===>>>" + bookList.toString());
         Collections.sort(bookList, comparator);
-        LogUtil.i("排序后 ===>>>" + bookList.toString());
+//        LogUtil.i("排序后 ===>>>" + bookList.toString());
     }
 
 

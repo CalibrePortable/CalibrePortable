@@ -5,9 +5,12 @@ import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Spannable;
+import android.text.SpannableString;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,6 +29,7 @@ import org.geeklub.smartlib4admin.module.base.BaseActivity;
 import org.geeklub.smartlib4admin.utils.Blur;
 import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.ScreenUtil;
+import org.geeklub.smartlib4admin.widget.AlphaForegroundColorSpan;
 
 import butterknife.InjectView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -38,6 +42,9 @@ import retrofit.client.Response;
  */
 public class BookDetailActivity extends BaseActivity {
 
+    public static final String EXTRAS_BOOK_KIND = "extras_book_kind";
+
+    private String mBookKind;
 
     private int mHeaderHeight;
 
@@ -47,12 +54,13 @@ public class BookDetailActivity extends BaseActivity {
 
     private BookDetailAdapter bookDetailAdapter;
 
-
-    public static final String EXTRAS_BOOK_KIND = "extras_book_kind";
-
-    private String mBookKind;
-
     private AdministratorService mService;
+
+    private AlphaForegroundColorSpan mAlphaForegroundColorSpan;
+
+    private SpannableString mSpannableString;
+
+    private int mToolBarTitleColor;
 
     @InjectView(R.id.progress_wheel)
     ProgressWheel progressWheel;
@@ -110,6 +118,12 @@ public class BookDetailActivity extends BaseActivity {
         mBookKind = getIntent().getStringExtra(EXTRAS_BOOK_KIND);
 
         mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
+
+        mToolBarTitleColor = getResources().getColor(R.color.CLOUDS);
+
+        mSpannableString = new SpannableString("图书详情");
+        mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(mToolBarTitleColor);
+
         mMinHeaderTranslation = -mHeaderHeight + getToolBarHeight();
 
         setUpToolBar();
@@ -117,6 +131,8 @@ public class BookDetailActivity extends BaseActivity {
         setUpHeaderBackground();
 
         initCallBacks();
+
+        loadData();
     }
 
     private void setUpHeaderBackground() {
@@ -152,11 +168,6 @@ public class BookDetailActivity extends BaseActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        loadData();
-    }
 
     private void loadData() {
         progressWheel.setVisibility(View.VISIBLE);
@@ -195,6 +206,7 @@ public class BookDetailActivity extends BaseActivity {
 
         mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setAdapter(bookDetailAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
@@ -203,9 +215,24 @@ public class BookDetailActivity extends BaseActivity {
                 int scrollY = getScrollY();
                 //sticky actionbar
                 mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
+
+                float ratio = clamp(mHeader.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
+
+                setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
             }
         });
 
+    }
+
+    public static float clamp(float value, float min, float max) {
+        return Math.max(min, Math.min(value, max));
+    }
+
+    private void setTitleAlpha(float alpha) {
+        mAlphaForegroundColorSpan.setAlpha(alpha);
+        mSpannableString.setSpan(mAlphaForegroundColorSpan, 0, mSpannableString.length(),
+                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        mToolBar.setTitle(mSpannableString);
     }
 
     private int getScrollY() {

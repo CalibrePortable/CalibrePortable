@@ -49,9 +49,10 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         notifyDataSetChanged();
     }
 
-    public void deleteBook(Book book){
+    public void deleteBook(Book book) {
+        int index = bookDetailInfo.book_list.indexOf(book);
         bookDetailInfo.book_list.remove(book);
-        notifyDataSetChanged();
+        notifyItemRemoved(index);
     }
 
 

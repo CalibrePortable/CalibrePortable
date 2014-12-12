@@ -58,7 +58,6 @@ public class LibraryFragment extends BasePageListFragment {
     @Override
     protected void executeRequest(int page) {
 
-        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
         mService.search("12108238", "5", page, "all", new Callback<List<SummaryBook>>() {
             @Override

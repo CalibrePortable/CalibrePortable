@@ -81,8 +81,6 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
     }
 
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
