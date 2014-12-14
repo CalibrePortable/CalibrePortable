@@ -10,127 +10,12 @@
         android:id="@+id/recycle_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:fadeScrollbars="true"
-        android:padding="5dp"
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical">
+        android:scrollbars="none">
     </android.support.v7.widget.RecyclerView>
 
 
-    <FrameLayout
-        android:id="@+id/header"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/header_height">
-
-        <ImageView
-            android:id="@+id/blurred_image"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-
-            <ImageView
-                android:id="@+id/iv_book_icon"
-                android:layout_width="70dp"
-                android:layout_height="120dp"
-                android:layout_alignParentRight="true"
-                android:layout_marginRight="20dp"
-                android:layout_marginTop="10dp"
-                android:background="@color/GREEN_SEA"/>
-
-            <TextView
-                android:id="@+id/tv_book_name"
-                android:layout_width="200dp"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:text="书名"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:id="@+id/tv_book_author"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/tv_book_name"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:text="作者"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:id="@+id/tv_book_type"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/tv_book_author"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:text="类型"
-                android:textColor="@color/CLOUDS"
-                android:textSize="14sp"/>
-
-
-            <TextView
-                android:id="@+id/tv_book_edit"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/tv_book_type"
-                android:layout_below="@+id/tv_book_type"
-                android:layout_marginTop="10dp"
-                android:text="edit"
-                android:textColor="@color/CLOUDS"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:id="@+id/tv_book_pub"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_below="@+id/tv_book_edit"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="10dp"
-                android:text="版次"
-                android:textColor="@color/CLOUDS"
-                android:textSize="14sp"/>
-
-
-            <TextView
-                android:id="@+id/tv_book_price"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignTop="@+id/tv_book_pub"
-                android:layout_marginLeft="40dp"
-                android:layout_toRightOf="@+id/tv_book_pub"
-                android:text="价格"
-                android:textColor="@color/CLOUDS"
-                android:textSize="14sp"/>
-
-            <TextView
-                android:id="@+id/tv_book_info"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignLeft="@+id/tv_book_pub"
-                android:layout_below="@+id/tv_book_pub"
-                android:layout_marginTop="10dp"
-                android:singleLine="true"
-                android:text="info"
-                android:textColor="@color/CLOUDS"/>
-
-        </RelativeLayout>
-
-
-    </FrameLayout>
-
-
     <include
-        layout="@layout/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/toolbar_size"/>
+        layout="@layout/toolbar"/>
 
 
     <com.pnikosis.materialishprogress.ProgressWheel

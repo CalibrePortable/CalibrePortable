@@ -46,21 +46,15 @@ public class BookDetailActivity extends BaseActivity {
 
     private String mBookKind;
 
-    private int mHeaderHeight;
-
-    private int mMinHeaderTranslation;
-
-    private LinearLayoutManager linearLayoutManager;
-
     private BookDetailAdapter bookDetailAdapter;
 
     private AdministratorService mService;
 
-    private AlphaForegroundColorSpan mAlphaForegroundColorSpan;
+    private View mFirstItemView;
 
-    private SpannableString mSpannableString;
+    private float mTransHeight;
 
-    private int mToolBarTitleColor;
+    private int[] mPrimary = new int[3];
 
     @InjectView(R.id.progress_wheel)
     ProgressWheel progressWheel;
@@ -70,36 +64,6 @@ public class BookDetailActivity extends BaseActivity {
 
     @InjectView(R.id.toolbar)
     Toolbar mToolBar;
-
-    @InjectView(R.id.header)
-    View mHeader;
-
-    @InjectView(R.id.blurred_image)
-    ImageView mBlurredImage;
-
-    @InjectView(R.id.iv_book_icon)
-    ImageView mBookIcon;
-
-    @InjectView(R.id.tv_book_name)
-    TextView mBookName;
-
-    @InjectView(R.id.tv_book_author)
-    TextView mBookAuthor;
-
-    @InjectView(R.id.tv_book_type)
-    TextView mBookType;
-
-    @InjectView(R.id.tv_book_edit)
-    TextView mBookEdit;
-
-    @InjectView(R.id.tv_book_pub)
-    TextView mBookPub;
-
-    @InjectView(R.id.tv_book_price)
-    TextView mBookPrice;
-
-    @InjectView(R.id.tv_book_info)
-    TextView mBookInfo;
 
 
     @Override
@@ -112,37 +76,25 @@ public class BookDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        int color = getResources().getColor(R.color.PETER_RIVER);
+        mPrimary[0] = Color.red(color);
+        mPrimary[1] = Color.green(color);
+        mPrimary[2] = Color.blue(color);
+
 
         mService = GlobalContext.getApiDispencer().getRestApi(AdministratorService.class);
 
         mBookKind = getIntent().getStringExtra(EXTRAS_BOOK_KIND);
 
-        mHeaderHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
-
-        mToolBarTitleColor = getResources().getColor(R.color.CLOUDS);
-
-        mSpannableString = new SpannableString("图书详情");
-        mAlphaForegroundColorSpan = new AlphaForegroundColorSpan(mToolBarTitleColor);
-
-        mMinHeaderTranslation = -mHeaderHeight + getToolBarHeight();
 
         setUpToolBar();
         setUpRecyclerView();
-        setUpHeaderBackground();
 
         initCallBacks();
 
         loadData();
     }
 
-    private void setUpHeaderBackground() {
-        BitmapFactory.Options options = new BitmapFactory.Options();
-        options.inSampleSize = 2;
-        Bitmap image = BitmapFactory.decodeResource(getResources(), R.drawable.picture0);
-        Bitmap newImg = Blur.fastblur(this, image, 12);
-        Bitmap bmpBlurred = Bitmap.createScaledBitmap(newImg, ScreenUtil.getScreenWidth(this), getResources().getDimensionPixelSize(R.dimen.header_height), false);
-        mBlurredImage.setImageBitmap(bmpBlurred);
-    }
 
     private void initCallBacks() {
         bookDetailAdapter.setOnItemRemoveListener(new BookDetailAdapter.OnItemRemoveListener() {
@@ -160,7 +112,10 @@ public class BookDetailActivity extends BaseActivity {
                                 sDialog.setTitleText("删除");
                                 sDialog.setCancelable(false);
                                 sDialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
+
                                 mService.deleteBook(book.book_id, "12108238", "12108238", new DeleteBookCallBack(sDialog, book));
+
+
                             }
                         })
                         .show();
@@ -176,8 +131,9 @@ public class BookDetailActivity extends BaseActivity {
             @Override
             public void success(BookDetailInfo bookDetailInfo, Response response) {
                 progressWheel.setVisibility(View.GONE);
+                mToolBar.setTitle(bookDetailInfo.book_detail.book_name);
+                mToolBar.setTitleTextColor(Color.TRANSPARENT);
                 bookDetailAdapter.setBookDetailInfo(bookDetailInfo);
-                updateHeaderView(bookDetailInfo);
             }
 
             @Override
@@ -188,69 +144,70 @@ public class BookDetailActivity extends BaseActivity {
 
     }
 
-    private void updateHeaderView(BookDetailInfo bookDetailInfo) {
-
-        mBookName.setText("书名:" + bookDetailInfo.book_detail.book_name);
-        mBookAuthor.setText("作者:" + bookDetailInfo.book_detail.book_author);
-        mBookType.setText("类别:" + bookDetailInfo.book_detail.book_type);
-        mBookEdit.setText("出版社:" + bookDetailInfo.book_detail.book_edit);
-        mBookPub.setText("版次:" + bookDetailInfo.book_detail.book_pub);
-        mBookPrice.setText("价格:" + bookDetailInfo.book_detail.book_price + "￥");
-        mBookInfo.setText("介绍:" + bookDetailInfo.book_detail.book_info);
-    }
 
     private void setUpRecyclerView() {
 
         bookDetailAdapter = new BookDetailAdapter(this);
-        linearLayoutManager = new LinearLayoutManager(this);
 
-        mRecyclerView.setLayoutManager(linearLayoutManager);
-        mRecyclerView.setAdapter(bookDetailAdapter);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(bookDetailAdapter);
+
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
-                int scrollY = getScrollY();
-                //sticky actionbar
-                mHeader.setTranslationY(Math.max(-scrollY, mMinHeaderTranslation));
-
-                float ratio = clamp(mHeader.getTranslationY() / mMinHeaderTranslation, 0.0f, 1.0f);
-
-                setTitleAlpha(clamp(5.0F * ratio - 4.0F, 0.0F, 1.0F));
+                handleScroll();
             }
         });
 
     }
 
-    public static float clamp(float value, float min, float max) {
-        return Math.max(min, Math.min(value, max));
+    private int color(float alpha) {
+        return Color.argb((int) (alpha * 0xff), mPrimary[0], mPrimary[1], mPrimary[2]);
     }
 
-    private void setTitleAlpha(float alpha) {
-        mAlphaForegroundColorSpan.setAlpha(alpha);
-        mSpannableString.setSpan(mAlphaForegroundColorSpan, 0, mSpannableString.length(),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        mToolBar.setTitle(mSpannableString);
-    }
-
-    private int getScrollY() {
-        View c = linearLayoutManager.getChildAt(0);
-        if (c == null) {
-            return 0;
+    private void handleScroll() {
+        if (mFirstItemView == null || mTransHeight == 0) {
+            initScroll();
+            return;
         }
 
-        int firstVisiblePosition = linearLayoutManager.findFirstVisibleItemPosition();
-        int top = c.getTop();
+        float scrolled = mFirstItemView.getTop() * -1;
 
-        int headerHeight = 0;
-        if (firstVisiblePosition >= 1) {
-            headerHeight = getResources().getDimensionPixelSize(R.dimen.header_height);
+
+        if (scrolled < mTransHeight) {
+            mToolBar.setBackgroundColor(color(scrolled / mTransHeight));
+        } else {
+            mToolBar.setBackgroundColor(color(1));
         }
 
-        return -top + firstVisiblePosition * c.getHeight() + headerHeight;
+        if (scrolled < mTransHeight / 2) {
+            mToolBar.setTitleTextColor(Color.TRANSPARENT);
+        } else if (scrolled < mTransHeight) {
+            float alpha = (scrolled - mTransHeight) / (mTransHeight / 2);
+            mToolBar.setTitleTextColor(Color.argb((int) (alpha * 0xff), 0, 0, 0));
+        } else {
+            mToolBar.setTitleTextColor(Color.WHITE);
+        }
     }
+
+    private void initScroll() {
+        BookDetailAdapter.ViewHolderHeader header =
+                (BookDetailAdapter.ViewHolderHeader) mRecyclerView.findViewHolderForPosition(0);
+
+        if (header == null) {
+            return;
+        }
+
+        mFirstItemView = header.itemView;
+
+        View title = header.mBookName;
+        mTransHeight = title.getTop() + title.getHeight();
+
+    }
+
 
     private void setUpToolBar() {
         mToolBar.setTitle("");
@@ -259,9 +216,6 @@ public class BookDetailActivity extends BaseActivity {
         setSupportActionBar(mToolBar);
     }
 
-    private int getToolBarHeight() {
-        return getResources().getDimensionPixelOffset(R.dimen.toolbar_size);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -296,7 +250,6 @@ public class BookDetailActivity extends BaseActivity {
                     .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
 
             bookDetailAdapter.deleteBook(mBook);
-
 
         }
 
