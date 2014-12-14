@@ -74,7 +74,17 @@ public class SummaryBook implements Parcelable {
     }
 
     @Override
-    public boolean equals(Object o) {
-        return o != null && (o instanceof SummaryBook) && ((SummaryBook) o).book_kind.equals(book_kind);
+    public boolean equals(Object otherObject) {
+        if (otherObject == null) {
+            return false;
+        }
+
+        if (!(otherObject instanceof SummaryBook)) {
+            return false;
+        }
+
+        return ((SummaryBook) otherObject).book_kind.equals(book_kind);
+
+
     }
 }

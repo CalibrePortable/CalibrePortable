@@ -33,6 +33,7 @@ import org.geeklub.smartlib4admin.module.lend.LendFragment;
 import org.geeklub.smartlib4admin.module.library.LibraryFragment;
 import org.geeklub.smartlib4admin.module.library.SelectBookTypeDialogFragment;
 import org.geeklub.smartlib4admin.module.type.Category;
+import org.geeklub.smartlib4admin.module.type.ScanCategory;
 import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.ToastUtil;
 
@@ -69,7 +70,10 @@ public class MainActivity extends BaseActivity
 
     private Category mCategory;
 
+    private ScanCategory mScanCategory;
+
     private FragmentManager fragmentManager;
+
 
     private void initActionBar() {
         ActionBar actionBar = getSupportActionBar();
@@ -202,6 +206,7 @@ public class MainActivity extends BaseActivity
                 return true;
 
             case R.id.action_qr_code:
+                mScanCategory = ScanCategory.QRCode;
                 new IntentIntegrator(this).initiateScan();
                 return true;
 
@@ -250,6 +255,7 @@ public class MainActivity extends BaseActivity
     @Override
     public void onPositiveButtonClick(CharSequence bookType) {
         LogUtil.i("书本的类型 ===>>>" + bookType);
+        mScanCategory = ScanCategory.ShapeCode;
         mBookType = bookType;
         new IntentIntegrator(this).initiateScan();
     }
@@ -262,14 +268,18 @@ public class MainActivity extends BaseActivity
             if (result.getContents() == null) {
                 ToastUtil.showShort("取消扫描");
             } else {
-                LogUtil.i("mBookType == null?" + (mBookType == null ? true : false));
-//              扫描二维码还书
-                if (mBookType == null) {
-                    QRCodeInfo qrCodeInfo = new Gson().fromJson(result.getContents(), QRCodeInfo.class);
-                    notifyServerReturnBook(qrCodeInfo.book_id);
-//              扫描条形码增加图书
-                } else {
-                    notifyServerBookPlusOne(result.getContents());
+                switch (mScanCategory) {
+                    //              扫描二维码还书
+                    case QRCode:
+                        QRCodeInfo qrCodeInfo = new Gson().fromJson(result.getContents(), QRCodeInfo.class);
+                        notifyServerReturnBook(qrCodeInfo.book_id);
+                        break;
+                    //              扫描条形码增加图书
+                    case ShapeCode:
+                        notifyServerBookPlusOne(result.getContents());
+                        break;
+                    default:
+                        break;
                 }
             }
         } else {

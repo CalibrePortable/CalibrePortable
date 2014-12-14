@@ -64,13 +64,10 @@ public class LibraryFragment extends BasePageListFragment {
             public void success(List<SummaryBook> bookList, Response response) {
 
                 mSwipeRefreshLayout.setRefreshing(false);
+                LogUtil.i("bookList ===>>>" + bookList.toString());
 
                 if (mIsRefreshFromTop) {
-                    if (((LibraryAdapter) mAdapter).equals(bookList)) {
-
-                    } else {
-                        ((LibraryAdapter) mAdapter).replaceWith(bookList);
-                    }
+                    ((LibraryAdapter) mAdapter).replaceWith(bookList);
                 } else {
                     ((LibraryAdapter) mAdapter).addAll(bookList);
                 }

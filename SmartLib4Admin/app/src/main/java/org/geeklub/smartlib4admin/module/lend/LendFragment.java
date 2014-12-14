@@ -52,16 +52,11 @@ public class LendFragment extends BasePageListFragment {
             public void success(List<Book> bookList, Response response) {
 
                 mSwipeRefreshLayout.setRefreshing(false);
+                ((LendAdapter) mAdapter).sort(bookList, new OverDueComparator());
 
                 if (mIsRefreshFromTop) {
-                    if (((LendAdapter) mAdapter).equals(bookList)) {
-
-                    } else {
-                        ((LendAdapter) mAdapter).sort(bookList, new OverDueComparator());
-                        ((LendAdapter) mAdapter).replaceWith(bookList);
-                    }
+                    ((LendAdapter) mAdapter).replaceWith(bookList);
                 } else {
-                    ((LendAdapter) mAdapter).sort(bookList, new OverDueComparator());
                     ((LendAdapter) mAdapter).addAll(bookList);
                 }
                 mPage++;

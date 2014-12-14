@@ -139,12 +139,7 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
             public void success(List<SummaryBook> bookList, Response response) {
                 mRefreshLayout.setRefreshing(false);
                 if (isRefreshFromTop) {
-                    LogUtil.i("isRefreshFromTop ===>>>" + isRefreshFromTop);
-                    if (mAdapter.equals(bookList)) {
-                        ToastUtil.showShort("没有新的书本...");
-                    } else {
-                        mAdapter.replaceWith(bookList);
-                    }
+                    mAdapter.replaceWith(bookList);
                 } else {
                     mAdapter.addAll(bookList);
                 }
