@@ -17,7 +17,8 @@
         <!--Main-->
         <activity
             android:name=".module.MainActivity"
-            android:configChanges="screenSize|orientation">
+            android:configChanges="screenSize|orientation"
+            android:launchMode="singleTop">
 
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

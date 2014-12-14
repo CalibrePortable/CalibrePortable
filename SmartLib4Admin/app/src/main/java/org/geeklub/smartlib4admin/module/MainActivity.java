@@ -58,7 +58,7 @@ public class MainActivity extends BaseActivity
 
     private CharSequence mTitle;
 
-    private CharSequence mBookType;
+    private CharSequence mBookType = "";
 
     private Fragment mContentFragment;
 
@@ -207,12 +207,31 @@ public class MainActivity extends BaseActivity
 
             case R.id.action_qr_code:
                 mScanCategory = ScanCategory.QRCode;
-                new IntentIntegrator(this).initiateScan();
+                NewQRCodeInstance();
                 return true;
 
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void NewQRCodeInstance() {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+        integrator.setPrompt("扫描书本的二维码");
+        integrator.setResultDisplayDuration(0);
+        integrator.setCameraId(0);  // Use a specific camera of the device
+        integrator.initiateScan();
+    }
+
+    private void NewScanShapeInstance() {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+        integrator.setPrompt("扫描书本的ISBN码");
+        integrator.setWide();
+        integrator.setResultDisplayDuration(0);
+        integrator.setCameraId(0);  // Use a specific camera of the device
+        integrator.initiateScan();
     }
 
     @Override
@@ -257,17 +276,18 @@ public class MainActivity extends BaseActivity
         LogUtil.i("书本的类型 ===>>>" + bookType);
         mScanCategory = ScanCategory.ShapeCode;
         mBookType = bookType;
-        new IntentIntegrator(this).initiateScan();
+        NewScanShapeInstance();
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        LogUtil.i("requestCode ===>>> " + requestCode + ",resultCode ===>>> " + resultCode);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
         if (result != null) {
             if (result.getContents() == null) {
                 ToastUtil.showShort("取消扫描");
             } else {
+                LogUtil.i("BookType ===>>>" + mBookType);
+                LogUtil.i("选择的功能 ===>>>" + mScanCategory.toString());
                 switch (mScanCategory) {
                     //              扫描二维码还书
                     case QRCode:
@@ -312,14 +332,14 @@ public class MainActivity extends BaseActivity
                 new Callback<ServerResponse>() {
                     @Override
                     public void success(ServerResponse serverResponse, Response response) {
-                        mBookType = null;
                         ToastUtil.showShort("新增图书成功...");
+                        mBookType = "";
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        mBookType = null;
                         ToastUtil.showShort("新增图书失败...");
+                        mBookType = "";
                     }
                 });
     }
