@@ -19,7 +19,6 @@ import org.geeklub.smartlib4admin.module.adapters.LibraryAdapter;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
 import org.geeklub.smartlib4admin.module.detail.BookDetailActivity;
 import org.geeklub.smartlib4admin.utils.LogUtil;
-import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
 import butterknife.InjectView;
 import retrofit.Callback;

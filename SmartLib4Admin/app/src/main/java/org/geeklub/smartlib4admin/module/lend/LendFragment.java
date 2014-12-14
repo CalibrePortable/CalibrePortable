@@ -16,7 +16,6 @@ import org.geeklub.smartlib4admin.beans.Book;
 import org.geeklub.smartlib4admin.module.adapters.LendAdapter;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
 import org.geeklub.smartlib4admin.utils.LogUtil;
-import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
