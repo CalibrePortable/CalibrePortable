@@ -1,7 +1,5 @@
 package org.geeklub.smartlib4admin.module.detail;
 
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
@@ -9,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -25,6 +22,7 @@ import org.geeklub.smartlib4admin.beans.ServerResponse;
 import org.geeklub.smartlib4admin.module.adapters.BookDetailAdapter;
 import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BaseActivity;
+import org.geeklub.smartlib4admin.module.event.BookDeleteEvent;
 import org.geeklub.smartlib4admin.utils.LogUtil;
 
 import butterknife.InjectView;
@@ -89,19 +87,6 @@ public class BookDetailActivity extends BaseActivity {
         initCallBacks();
 
         loadData();
-    }
-
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        BusProvider.getInstance().register(this);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        BusProvider.getInstance().unregister(this);
     }
 
 
@@ -262,8 +247,6 @@ public class BookDetailActivity extends BaseActivity {
 
             bookDetailAdapter.deleteBook(mBook);
 
-            BusProvider.getInstance().post(produceBookEvent());
-
         }
 
         @Override
@@ -279,8 +262,4 @@ public class BookDetailActivity extends BaseActivity {
 
     }
 
-    @Produce
-    public BookDeleteEvent produceBookEvent() {
-        return new BookDeleteEvent();
-    }
 }

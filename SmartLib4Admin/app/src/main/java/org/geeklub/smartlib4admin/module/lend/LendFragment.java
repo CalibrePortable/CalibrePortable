@@ -8,13 +8,18 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+
+import com.squareup.otto.Subscribe;
+
 import java.util.Comparator;
 import java.util.List;
 
+import org.geeklub.smartlib4admin.BusProvider;
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.Book;
 import org.geeklub.smartlib4admin.module.adapters.LendAdapter;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
+import org.geeklub.smartlib4admin.module.event.BookDeleteEvent;
 import org.geeklub.smartlib4admin.utils.LogUtil;
 
 import retrofit.Callback;
@@ -69,6 +74,7 @@ public class LendFragment extends BasePageListFragment {
         });
     }
 
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,4 +107,6 @@ public class LendFragment extends BasePageListFragment {
             return return_at_1.compareTo(return_at_2);
         }
     }
+
+
 }
