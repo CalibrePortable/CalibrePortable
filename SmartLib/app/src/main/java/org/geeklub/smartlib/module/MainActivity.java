@@ -110,6 +110,7 @@ public class MainActivity extends BaseActivity {
         initLibraryFragment();
 
         setContentFragment(mLibraryFragment);
+        setCategory(Category.library);
     }
 
     @Override
