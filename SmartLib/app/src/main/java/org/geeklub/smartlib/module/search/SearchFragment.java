@@ -41,6 +41,12 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     private static final String ARGS_TYPE = "args_type";
 
+    private static final String ARG_POSITION = "args_position";
+
+    private int mPosition;
+
+    private static final int[] drawables = {R.drawable.search_fragment_bg_1, R.drawable.search_fragment_bg_2, R.drawable.search_fragment_bg_3, R.drawable.search_fragment_bg_4};
+
     private String mQueryWord;
 
     private int mType;
@@ -55,11 +61,12 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     private int mPage = 1;
 
-    public static Fragment newInstance(int type, String keyWord) {
+    public static Fragment newInstance(int type, String keyWord, int position) {
         Fragment searchFragment = new SearchFragment();
         Bundle args = new Bundle();
         args.putString(ARGS_KEYWORD, keyWord);
         args.putInt(ARGS_TYPE, type);
+        args.putInt(ARG_POSITION, position);
         searchFragment.setArguments(args);
         return searchFragment;
     }
@@ -113,6 +120,8 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
                              Bundle savedInstanceState) {
         parseArgument();
         View view = super.onCreateView(inflater, container, savedInstanceState);
+
+        view.setBackgroundResource(drawables[mPosition]);
 
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -189,6 +198,7 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
         Bundle args = getArguments();
         mQueryWord = args.getString(ARGS_KEYWORD);
         mType = args.getInt(ARGS_TYPE);
+        mPosition = args.getInt(ARG_POSITION);
     }
 
     @Override
@@ -199,5 +209,9 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void onRefresh() {
         loadFirstPage();
+    }
+
+    public static int getBackgroundBitmapPosition(int selectViewPagerItem) {
+        return drawables[selectViewPagerItem];
     }
 }

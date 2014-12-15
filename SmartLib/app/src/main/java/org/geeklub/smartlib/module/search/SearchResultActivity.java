@@ -5,13 +5,15 @@ import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.ActionBar;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
@@ -53,6 +55,7 @@ public class SearchResultActivity extends BaseActivity {
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(4);
         mTabs.setViewPager(mViewPager);
+        mTabs.setOnPageChangeListener(new SearchOnPageChangeListener());
 
         handleIntent(getIntent());
     }
@@ -67,8 +70,6 @@ public class SearchResultActivity extends BaseActivity {
     protected int getLayoutResource() {
         return R.layout.activity_search;
     }
-
-
 
 
     private void initTabs() {
@@ -143,7 +144,7 @@ public class SearchResultActivity extends BaseActivity {
 
         @Override
         public Fragment getItem(int position) {
-            return SearchFragment.newInstance(position + 1, mKeyWord);
+            return SearchFragment.newInstance(position + 1, mKeyWord, position);
         }
 
         @Override
@@ -164,5 +165,41 @@ public class SearchResultActivity extends BaseActivity {
         public int getItemPosition(Object object) {
             return POSITION_NONE;
         }
+    }
+
+    private class SearchOnPageChangeListener implements ViewPager.OnPageChangeListener {
+
+        @Override
+        public void onPageScrolled(int i, float v, int i2) {
+
+        }
+
+        @Override
+        public void onPageSelected(int position) {
+            changeColor(position);
+
+        }
+
+        @Override
+        public void onPageScrollStateChanged(int i) {
+
+        }
+    }
+
+    private void changeColor(int position) {
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), SearchFragment.getBackgroundBitmapPosition(position));
+
+        Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+                Palette.Swatch vibrant = palette.getVibrantSwatch();
+                  /* 界面颜色UI统一性处理,看起来更Material一些 */
+                mTabs.setBackgroundColor(vibrant.getRgb());
+                mTabs.setTextColor(vibrant.getTitleTextColor());
+                // 其中状态栏、游标、底部导航栏的颜色需要加深一下，也可以不加
+                mToolBar.setBackgroundColor(vibrant.getRgb());
+
+            }
+        });
     }
 }
