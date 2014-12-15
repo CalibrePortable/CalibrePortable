@@ -11,6 +11,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.otto.Subscribe;
+
 import butterknife.InjectView;
 
 import java.util.List;
@@ -21,6 +23,7 @@ import org.geeklub.smartlib.module.adapters.BorrowAdapter;
 import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.module.base.BaseFragment;
 import org.geeklub.smartlib.api.NormalUserService;
+import org.geeklub.smartlib.module.event.BookBorrowEvent;
 import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 import org.geeklub.smartlib.utils.ToastUtil;
@@ -56,6 +59,8 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
         super.onCreate(savedInstanceState);
 
         mAdapter = new BorrowAdapter(mActivity);
+
+
     }
 
     @Nullable
@@ -90,11 +95,25 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
             }
         });
 
+
         loadFirstPage();
 
         return view;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtil.i("注册");
+        GlobalContext.getBusInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LogUtil.i("取消注册");
+        GlobalContext.getBusInstance().unregister(this);
+    }
 
     private void loadFirstPage() {
         mPage = 1;
@@ -149,4 +168,12 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
                     }
                 });
     }
+
+    @Subscribe
+    public void onBookBorrow(BookBorrowEvent event) {
+        LogUtil.i("接收 ===>>>借书事件");
+        onRefresh();
+    }
+
+
 }

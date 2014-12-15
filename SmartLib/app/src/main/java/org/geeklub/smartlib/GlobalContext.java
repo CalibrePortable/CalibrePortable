@@ -2,8 +2,12 @@ package org.geeklub.smartlib;
 
 import android.app.Application;
 import android.content.Context;
+
 import com.avos.avoscloud.AVOSCloud;
+import com.squareup.otto.Bus;
+
 import org.geeklub.smartlib.api.RestApiDispencer;
+
 import retrofit.RestAdapter;
 
 /**
@@ -11,26 +15,34 @@ import retrofit.RestAdapter;
  */
 public class GlobalContext extends Application {
 
-  private static Context sContext;
+    private static Bus sBus;
 
-  private static RestApiDispencer sApiDispencer;
+    private static Context sContext;
 
-  public static Context getInstance() {
-    return sContext;
-  }
+    private static RestApiDispencer sApiDispencer;
 
-  public static RestApiDispencer getApiDispencer() {
-    return sApiDispencer;
-  }
+    public static Context getInstance() {
+        return sContext;
+    }
 
-  @Override public void onCreate() {
-    super.onCreate();
+    public static Bus getBusInstance() {
+        return sBus;
+    }
 
-    sContext = getApplicationContext();
-    sApiDispencer = new RestApiDispencer(
-        new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build());
+    public static RestApiDispencer getApiDispencer() {
+        return sApiDispencer;
+    }
 
-    AVOSCloud.initialize(sContext, "skr3lpa65qd2maqwvl6b00k9ra1ecvc6usloso5in3kw8e9s",
-        "2t8luwbujuvpfwv4xjswips2y4fqim56yeptjtm5lclzv6fb");
-  }
+    @Override
+    public void onCreate() {
+        super.onCreate();
+
+        sBus = new Bus();
+        sContext = getApplicationContext();
+        sApiDispencer = new RestApiDispencer(
+                new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build());
+
+        AVOSCloud.initialize(sContext, "skr3lpa65qd2maqwvl6b00k9ra1ecvc6usloso5in3kw8e9s",
+                "2t8luwbujuvpfwv4xjswips2y4fqim56yeptjtm5lclzv6fb");
+    }
 }

@@ -22,6 +22,7 @@ import butterknife.InjectView;
 import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+import com.squareup.otto.Produce;
 
 import org.geeklub.smartlib.GlobalContext;
 import org.geeklub.smartlib.R;
@@ -29,6 +30,8 @@ import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.beans.QRCodeInfo;
 import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.base.BaseActivity;
+import org.geeklub.smartlib.module.event.BookBorrowEvent;
+import org.geeklub.smartlib.module.event.BookPlusEvent;
 import org.geeklub.smartlib.module.login.LoginActivity;
 import org.geeklub.smartlib.module.settings.SettingsActivity;
 import org.geeklub.smartlib.module.type.Category;
@@ -72,6 +75,8 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+
         mTitle = mDrawerTitle = getTitle();
 
         fragmentManager = getFragmentManager();
@@ -105,6 +110,20 @@ public class MainActivity extends BaseActivity {
         initLibraryFragment();
 
         setContentFragment(mLibraryFragment);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        LogUtil.i("注册");
+        GlobalContext.getBusInstance().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        LogUtil.i("取消注册");
+        GlobalContext.getBusInstance().unregister(this);
     }
 
     private void initLibraryFragment() {
@@ -260,6 +279,11 @@ public class MainActivity extends BaseActivity {
                             @Override
                             public void success(ServerResponse serverResponse, Response response) {
                                 ToastUtil.showShort(serverResponse.getInfo());
+
+                                GlobalContext.getBusInstance().post(new BookBorrowEvent());
+                                GlobalContext.getBusInstance().post(new BookPlusEvent());
+
+
                             }
 
                             @Override
@@ -283,4 +307,6 @@ public class MainActivity extends BaseActivity {
         integrator.setCameraId(0);  // Use a specific camera of the device
         integrator.initiateScan();
     }
+
+
 }

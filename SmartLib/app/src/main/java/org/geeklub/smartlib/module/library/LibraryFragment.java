@@ -12,6 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.otto.Subscribe;
+
 import butterknife.InjectView;
 
 import java.util.List;
@@ -24,6 +26,8 @@ import org.geeklub.smartlib.module.adapters.LibraryAdapter;
 import org.geeklub.smartlib.module.base.BaseFragment;
 import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
+import org.geeklub.smartlib.module.event.BookBorrowEvent;
+import org.geeklub.smartlib.module.event.BookPlusEvent;
 import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 import org.geeklub.smartlib.utils.ToastUtil;
@@ -74,6 +78,20 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
                 sendDianZanMsg(book);
             }
         });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtil.i("注册");
+        GlobalContext.getBusInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        LogUtil.i("取消注册");
+        GlobalContext.getBusInstance().unregister(this);
     }
 
     private void sendDianZanMsg(SummaryBook book) {
@@ -177,5 +195,11 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
     @Override
     public void onRefresh() {
         loadFirstPage();
+    }
+
+    @Subscribe
+    public void onBookPlusEvent(BookPlusEvent event) {
+        LogUtil.i("接收 ===>>>书本+1事件");
+        onRefresh();
     }
 }
