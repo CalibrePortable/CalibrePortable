@@ -5,18 +5,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
+import org.geeklub.smartlib4admin.BusProvider;
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.SummaryBook;
 import org.geeklub.smartlib4admin.module.adapters.LibraryAdapter;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
+import org.geeklub.smartlib4admin.module.detail.BookDeleteEvent;
 import org.geeklub.smartlib4admin.module.detail.BookDetailActivity;
 import org.geeklub.smartlib4admin.utils.LogUtil;
 
@@ -98,6 +102,20 @@ public class LibraryFragment extends BasePageListFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        LogUtil.i("");
+        BusProvider.getInstance().register(this);
+    }
+
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        BusProvider.getInstance().unregister(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -117,4 +135,11 @@ public class LibraryFragment extends BasePageListFragment {
 
         return view;
     }
+
+
+    @Subscribe
+    public void onBookDelete(BookDeleteEvent event) {
+        onRefresh();
+    }
+
 }

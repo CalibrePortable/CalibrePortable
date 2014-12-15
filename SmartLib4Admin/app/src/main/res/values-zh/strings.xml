@@ -21,21 +21,20 @@
     <string name="alert_dialog_cancel">取消</string>
 
     <array name="book_type">
-        <item>移动端</item>
+        <item>C,C++</item>
         <item>Java</item>
-        <item>Web小技术</item>
-        <item>UML</item>
         <item>JS</item>
-        <item>小众后端</item>
-        <item>操作系统</item>
-        <item>PHP</item>
-        <item>数据挖掘</item>
-        <item>前端</item>
-        <item>C++</item>
-        <item>思维锻炼</item>
         <item>数据库</item>
-        <item>杂项</item>
-        <item>交互</item>
+        <item>移动端</item>
+        <item>前端</item>
+        <item>大数据</item>
+        <item>后端</item>
+        <item>操作系统</item>
+        <item>人工智能</item>
+        <item>PC端</item>
+        <item>人机交互</item>
+        <item>思维锻炼</item>
+        <item>Other</item>
     </array>
 
 

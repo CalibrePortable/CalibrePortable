@@ -9,15 +9,14 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.text.Spannable;
-import android.text.SpannableString;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
+import com.squareup.otto.Produce;
 
+import org.geeklub.smartlib4admin.BusProvider;
 import org.geeklub.smartlib4admin.GlobalContext;
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.Book;
@@ -26,10 +25,7 @@ import org.geeklub.smartlib4admin.beans.ServerResponse;
 import org.geeklub.smartlib4admin.module.adapters.BookDetailAdapter;
 import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BaseActivity;
-import org.geeklub.smartlib4admin.utils.Blur;
 import org.geeklub.smartlib4admin.utils.LogUtil;
-import org.geeklub.smartlib4admin.utils.ScreenUtil;
-import org.geeklub.smartlib4admin.widget.AlphaForegroundColorSpan;
 
 import butterknife.InjectView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -93,6 +89,19 @@ public class BookDetailActivity extends BaseActivity {
         initCallBacks();
 
         loadData();
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        BusProvider.getInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        BusProvider.getInstance().unregister(this);
     }
 
 
@@ -251,6 +260,8 @@ public class BookDetailActivity extends BaseActivity {
 
             bookDetailAdapter.deleteBook(mBook);
 
+            BusProvider.getInstance().post(produceBookEvent());
+
         }
 
         @Override
@@ -264,5 +275,10 @@ public class BookDetailActivity extends BaseActivity {
                     .changeAlertType(SweetAlertDialog.ERROR_TYPE);
         }
 
+    }
+
+    @Produce
+    public BookDeleteEvent produceBookEvent() {
+        return new BookDeleteEvent();
     }
 }

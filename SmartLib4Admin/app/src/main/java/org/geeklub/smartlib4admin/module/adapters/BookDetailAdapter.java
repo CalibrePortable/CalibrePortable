@@ -88,6 +88,7 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         int index = bookDetailInfo.book_list.indexOf(book);
         bookDetailInfo.book_list.remove(book);
         notifyItemRemoved(index + 1);
+
     }
 
 
