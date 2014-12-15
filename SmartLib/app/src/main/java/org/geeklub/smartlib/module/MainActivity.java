@@ -199,7 +199,7 @@ public class MainActivity extends BaseActivity {
                 return true;
 
             case R.id.action_qr_code:
-                new IntentIntegrator(this).initiateScan();
+                NewQRCodeInstance();
                 return true;
 
             case R.id.action_logout:
@@ -273,5 +273,14 @@ public class MainActivity extends BaseActivity {
             // This is important, otherwise the result will not be passed to the fragment
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void NewQRCodeInstance() {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
+        integrator.setPrompt("扫描书本的二维码");
+        integrator.setResultDisplayDuration(0);
+        integrator.setCameraId(0);  // Use a specific camera of the device
+        integrator.initiateScan();
     }
 }
