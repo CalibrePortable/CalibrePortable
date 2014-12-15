@@ -109,7 +109,7 @@ public class BookDetailActivity extends BaseActivity {
         bookDetailAdapter.setOnItemRemoveListener(new BookDetailAdapter.OnItemRemoveListener() {
             @Override
             public void onItemRemove(final Book book) {
-                new SweetAlertDialog(BookDetailActivity.this, SweetAlertDialog.WARNING_TYPE)
+                SweetAlertDialog sweetAlertDialog = new SweetAlertDialog(BookDetailActivity.this, SweetAlertDialog.WARNING_TYPE)
                         .setTitleText("你确定?")
                         .setContentText("删除后不能恢复")
                         .setConfirmText("是的，删除!")
@@ -126,8 +126,10 @@ public class BookDetailActivity extends BaseActivity {
 
 
                             }
-                        })
-                        .show();
+                        });
+                sweetAlertDialog.setCanceledOnTouchOutside(true);
+                sweetAlertDialog.show();
+
             }
         });
     }
