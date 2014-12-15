@@ -1,6 +1,7 @@
 package org.geeklub.smartlib.module.adapters;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -83,10 +84,17 @@ public class BorrowAdapter extends BaseRecyclerAdapter<SummaryBook, BorrowAdapte
         viewHolder.mBookFavour.setText(book.favour);
         viewHolder.mBorrowAt.setText("FROM:" + book.created_at);
 
-        if (Integer.valueOf(book.return_at) > 0) {
-            viewHolder.mReturnAt.setText("剩余:" + book.return_at);
+
+        if ("已还".equals(book.book_status)) {
+            viewHolder.mReturnAt.setTextColor(Color.GREEN);
+            viewHolder.mReturnAt.setText("已还");
         } else {
-            viewHolder.mReturnAt.setText("超期:" + Math.abs(Integer.valueOf(book.return_at)));
+            viewHolder.mReturnAt.setTextColor(Color.RED);
+            if (Integer.valueOf(book.return_at) > 0) {
+                viewHolder.mReturnAt.setText("剩余:" + book.return_at + "天");
+            } else {
+                viewHolder.mReturnAt.setText("超期:" + Math.abs(Integer.valueOf(book.return_at)) + "天");
+            }
         }
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

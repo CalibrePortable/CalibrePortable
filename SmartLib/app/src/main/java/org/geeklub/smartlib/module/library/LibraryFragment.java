@@ -36,7 +36,7 @@ import retrofit.client.Response;
  * Created by Vass on 2014/11/3.
  */
 public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
-    public final static String TAG  = LibraryFragment.class.getSimpleName();
+    public final static String TAG = LibraryFragment.class.getSimpleName();
 
     @InjectView(R.id.swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
@@ -155,12 +155,7 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
             public void success(List<SummaryBook> summaryBooks, Response response) {
                 mRefreshLayout.setRefreshing(false);
                 if (isRefreshFromTop) {
-                    LogUtil.i("isRefreshFromTop ===>>>" + isRefreshFromTop);
-                    if (mAdapter.equals(summaryBooks)) {
-                        ToastUtil.showShort("没有新的书本...");
-                    } else {
-                        mAdapter.replaceWith(summaryBooks);
-                    }
+                    mAdapter.replaceWith(summaryBooks);
                 } else {
                     mAdapter.addAll(summaryBooks);
                 }

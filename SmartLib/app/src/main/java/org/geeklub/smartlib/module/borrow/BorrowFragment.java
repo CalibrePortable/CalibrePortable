@@ -130,16 +130,10 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
                     public void success(List<SummaryBook> bookList, Response response) {
                         mRefreshLayout.setRefreshing(false);
 
-                        LogUtil.i("bookList ===>>>"+bookList.toString());
+                        LogUtil.i("bookList ===>>>" + bookList.toString());
 
                         if (isRefreshFromTop) {
-                            LogUtil.i("isRefreshFromTop ===>>>" + isRefreshFromTop);
-                            if (mAdapter.equals(bookList)) {
-                                ToastUtil.showShort("没有新的书本...");
-                            } else {
-                                LogUtil.i("刷新数据");
-                                mAdapter.replaceWith(bookList);
-                            }
+                            mAdapter.replaceWith(bookList);
                         } else {
                             mAdapter.addAll(bookList);
                         }
@@ -149,7 +143,7 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
                     @Override
                     public void failure(RetrofitError error) {
                         mRefreshLayout.setRefreshing(false);
-                        LogUtil.i("错误 ===>>>"+error.getMessage());
+                        LogUtil.i("错误 ===>>>" + error.getMessage());
                         ToastUtil.showShort("Failed to load. Try again later...");
                     }
                 });
