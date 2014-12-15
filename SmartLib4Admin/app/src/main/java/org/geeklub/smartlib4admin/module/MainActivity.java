@@ -217,7 +217,7 @@ public class MainActivity extends BaseActivity
 
     private void NewQRCodeInstance() {
         IntentIntegrator integrator = new IntentIntegrator(this);
-        integrator.setDesiredBarcodeFormats(IntentIntegrator.ONE_D_CODE_TYPES);
+        integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE_TYPES);
         integrator.setPrompt("扫描书本的二维码");
         integrator.setResultDisplayDuration(0);
         integrator.setCameraId(0);  // Use a specific camera of the device
