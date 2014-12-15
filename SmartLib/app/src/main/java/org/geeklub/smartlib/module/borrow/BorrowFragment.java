@@ -38,10 +38,12 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @InjectView(R.id.swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
+
     @InjectView(R.id.recycle_view)
     RecyclerView mRecyclerView;
 
     private BorrowAdapter mAdapter;
+
     private int mPage = 1;
 
     public static Fragment newInstance() {
@@ -70,7 +72,6 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
         mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {

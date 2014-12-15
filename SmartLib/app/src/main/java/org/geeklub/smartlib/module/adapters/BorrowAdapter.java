@@ -53,7 +53,6 @@ public class BorrowAdapter extends BaseRecyclerAdapter<SummaryBook, BorrowAdapte
         void onItemClick(SummaryBook book);
     }
 
-    private List<SummaryBook> mData;
 
     private Context mContext;
 
@@ -64,7 +63,6 @@ public class BorrowAdapter extends BaseRecyclerAdapter<SummaryBook, BorrowAdapte
     }
 
     public BorrowAdapter(Context context) {
-        mData = new ArrayList<SummaryBook>();
         mContext = context;
     }
 

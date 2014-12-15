@@ -72,13 +72,8 @@ public class SummaryBook implements Parcelable {
     public String toString() {
         return "SummaryBook{" +
                 "book_kind='" + book_kind + '\'' +
-                ", book_detail_url='" + book_detail_url + '\'' +
                 ", book_name='" + book_name + '\'' +
-                ", book_author='" + book_author + '\'' +
                 ", book_status='" + book_status + '\'' +
-                ", favour='" + favour + '\'' +
-                ", book_pic='" + book_pic + '\'' +
-                ", isLike='" + isLike + '\'' +
                 ", created_at='" + created_at + '\'' +
                 ", return_at='" + return_at + '\'' +
                 '}';
