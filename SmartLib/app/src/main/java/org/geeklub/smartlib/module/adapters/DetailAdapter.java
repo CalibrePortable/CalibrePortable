@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -107,6 +109,13 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 viewHolderHeader.mBookPub.setText("版次:" + bookDetailInfo.book_detail.book_pub);
                 viewHolderHeader.mBookPrice.setText("价格:" + bookDetailInfo.book_detail.book_price + "￥");
                 viewHolderHeader.mBookInfo.setText("介绍:" + bookDetailInfo.book_detail.book_info);
+
+                Picasso.with(mContext)
+                        .load(bookDetailInfo.book_detail.book_pic)
+                        .placeholder(R.drawable.ic_launcher)
+                        .error(R.drawable.ic_launcher)
+                        .into(viewHolderHeader.mBookIcon);
+
                 break;
 
             case VIEW_TYPE_BOOK:
