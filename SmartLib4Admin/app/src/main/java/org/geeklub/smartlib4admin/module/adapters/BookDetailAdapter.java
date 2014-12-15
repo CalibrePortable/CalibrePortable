@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.Book;
 import org.geeklub.smartlib4admin.beans.BookDetailInfo;
@@ -141,6 +143,12 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 header.mBookPub.setText("版次:" + bookDetailInfo.book_detail.book_pub);
                 header.mBookPrice.setText("价格:" + bookDetailInfo.book_detail.book_price + "￥");
                 header.mBookInfo.setText("介绍:" + bookDetailInfo.book_detail.book_info);
+
+                Picasso.with(mContext)
+                        .load(bookDetailInfo.book_detail.book_pic)
+                        .placeholder(R.drawable.ic_launcher)
+                        .error(R.drawable.ic_launcher)
+                        .into(header.mBookIcon);
 
                 break;
 

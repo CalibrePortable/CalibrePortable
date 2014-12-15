@@ -8,6 +8,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
@@ -70,6 +72,12 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
                 }
             }
         });
+
+        Picasso.with(mContext)
+                .load(book.book_pic)
+                .placeholder(R.drawable.ic_launcher)
+                .error(R.drawable.ic_launcher)
+                .into(viewHolder.mBookIcon);
 
 
     }

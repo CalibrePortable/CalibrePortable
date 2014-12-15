@@ -9,6 +9,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
+import com.squareup.picasso.Picasso;
+
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.SummaryBook;
 
@@ -86,6 +88,12 @@ public class SearchAdapter extends BaseRecyclerAdapter<SummaryBook, SearchAdapte
                 }
             }
         });
+
+        Picasso.with(mContext)
+                .load(book.book_pic)
+                .placeholder(R.drawable.ic_launcher)
+                .error(R.drawable.ic_launcher)
+                .into(viewHolder.mBookIcon);
 
 
     }
