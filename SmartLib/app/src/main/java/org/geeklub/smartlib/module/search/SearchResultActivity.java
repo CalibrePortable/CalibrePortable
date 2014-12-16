@@ -56,6 +56,7 @@ public class SearchResultActivity extends BaseActivity {
         mAdapter = new SearchPagerAdapter(getFragmentManager());
         mViewPager.setAdapter(mAdapter);
         mViewPager.setOffscreenPageLimit(4);
+        mViewPager.setPageTransformer(true, new StackTransformer());
         mTabs.setViewPager(mViewPager);
         mTabs.setOnPageChangeListener(new SearchOnPageChangeListener());
 
