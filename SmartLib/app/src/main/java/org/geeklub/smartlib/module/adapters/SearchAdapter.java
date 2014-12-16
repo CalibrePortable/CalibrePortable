@@ -97,7 +97,7 @@ public class SearchAdapter extends BaseRecyclerAdapter<SummaryBook, SearchAdapte
         }
 
         StringBuilder description = new StringBuilder();
-        description.append("作者:").append(book.book_author).append("\n\n当前状态:").append(book.book_status);
+        description.append(book.book_author).append("\n\n").append(book.book_status);
         viewHolder.mBookDescription.setText(description);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {

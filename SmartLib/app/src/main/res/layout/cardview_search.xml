@@ -11,27 +11,22 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="160dp"
+        android:layout_height="300dp"
         android:padding="5dp">
 
 
         <ImageView
             android:id="@+id/iv_book_icon"
-            android:layout_width="70dp"
-            android:layout_height="120dp"
-            android:layout_alignParentLeft="true"
-            android:layout_marginLeft="5dp"
-            android:layout_marginTop="5dp"/>
+            android:layout_width="match_parent"
+            android:layout_height="200dp"/>
 
         <TextView
             android:id="@+id/tv_book_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/iv_book_icon"
-            android:layout_marginLeft="5dp"
-            android:layout_toRightOf="@+id/iv_book_icon"
-            android:singleLine="true"
-            android:text="书名"/>
+            android:layout_below="@+id/iv_book_icon"
+            android:text="书名"
+            android:textSize="14sp"/>
 
         <TextView
             android:id="@+id/tv_book_description"
@@ -39,8 +34,8 @@
             android:layout_height="wrap_content"
             android:layout_alignLeft="@+id/tv_book_name"
             android:layout_below="@+id/tv_book_name"
-            android:layout_marginTop="5dp"
-            android:text="描述"/>
+            android:text="描述"
+            android:textSize="12sp"/>
 
         <TextView
             android:id="@+id/tv_book_favour"
@@ -51,7 +46,7 @@
             android:drawableLeft="@drawable/ic_book_favourite"
             android:gravity="center"
             android:textColor="@drawable/book_favour_text_color"
-            android:textSize="14sp"/>
+            android:textSize="12sp"/>
 
 
         <TextView
@@ -59,10 +54,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_above="@+id/tv_book_favour"
+            android:layout_alignParentBottom="true"
             android:layout_alignRight="@+id/tv_book_favour"
             android:text="+1"
             android:textColor="@color/POMEGRANATE"
-            android:textSize="20sp"
+            android:textSize="14sp"
             android:visibility="gone"/>
     </RelativeLayout>
 
