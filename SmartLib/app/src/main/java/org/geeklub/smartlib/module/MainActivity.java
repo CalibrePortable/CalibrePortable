@@ -270,10 +270,11 @@ public class MainActivity extends BaseActivity {
                 NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
 
                 SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+//                LogUtil.i("result ===>>>" + result.getContents());
 
                 QRCodeInfo qrCodeInfo = new Gson().fromJson(result.getContents(), QRCodeInfo.class);
 
-                LogUtil.i("Book_Id ===>>>" + qrCodeInfo.book_id);
+//                LogUtil.i("Book_Id ===>>>" + qrCodeInfo.book_id);
 
                 service.borrow(qrCodeInfo.book_id, user.getUserId(), user.getPassWord(),
                         new Callback<ServerResponse>() {
