@@ -21,7 +21,7 @@ import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BaseFragment;
 import org.geeklub.smartlib4admin.module.detail.BookDetailActivity;
 import org.geeklub.smartlib4admin.utils.LogUtil;
-import org.geeklub.smartlib4admin.utils.ToastUtil;
+import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
 import java.util.List;
 
@@ -132,9 +132,10 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
             mRefreshLayout.setRefreshing(true);
         }
 
+        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
         AdministratorService service = GlobalContext.getApiDispencer().getRestApi(AdministratorService.class);
 
-        service.search("12108238", mType, page, mQueryWord, new Callback<List<SummaryBook>>() {
+        service.search(user.getUserId(), mType, page, mQueryWord, new Callback<List<SummaryBook>>() {
             @Override
             public void success(List<SummaryBook> bookList, Response response) {
                 mRefreshLayout.setRefreshing(false);

@@ -36,6 +36,7 @@ import org.geeklub.smartlib4admin.module.library.SelectBookTypeDialogFragment;
 import org.geeklub.smartlib4admin.module.type.Category;
 import org.geeklub.smartlib4admin.module.type.ScanCategory;
 import org.geeklub.smartlib4admin.utils.LogUtil;
+import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 import org.geeklub.smartlib4admin.utils.ToastUtil;
 
 import retrofit.Callback;
@@ -324,7 +325,8 @@ public class MainActivity extends BaseActivity
         AdministratorService service =
                 GlobalContext.getApiDispencer().getRestApi(AdministratorService.class);
 
-        service.returnBook(bookId, "12108238", "12108238", new Callback<ServerResponse>() {
+        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+        service.returnBook(bookId, user.getUserId(), user.getPassWord(), new Callback<ServerResponse>() {
             @Override
             public void success(ServerResponse serverResponse, Response response) {
                 ToastUtil.showShort("还书成功...");
@@ -341,7 +343,9 @@ public class MainActivity extends BaseActivity
         AdministratorService service =
                 GlobalContext.getApiDispencer().getRestApi(AdministratorService.class);
 
-        service.addBook(ISBN, mBookType.toString(), "12108238", "12108238",
+        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+
+        service.addBook(ISBN, mBookType.toString(), user.getUserId(), user.getPassWord(),
                 new Callback<ServerResponse>() {
                     @Override
                     public void success(ServerResponse serverResponse, Response response) {

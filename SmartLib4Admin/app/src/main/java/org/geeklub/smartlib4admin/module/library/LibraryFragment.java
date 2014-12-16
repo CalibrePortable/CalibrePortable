@@ -10,8 +10,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.melnykov.fab.FloatingActionButton;
-import com.squareup.otto.Bus;
-import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
@@ -21,6 +19,7 @@ import org.geeklub.smartlib4admin.module.adapters.LibraryAdapter;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
 import org.geeklub.smartlib4admin.module.detail.BookDetailActivity;
 import org.geeklub.smartlib4admin.utils.LogUtil;
+import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
 import butterknife.InjectView;
 import retrofit.Callback;
@@ -60,7 +59,9 @@ public class LibraryFragment extends BasePageListFragment {
     protected void executeRequest(int page) {
 
 
-        mService.search("12108238", "5", page, "all", new Callback<List<SummaryBook>>() {
+        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+
+        mService.search(user.getUserId(), "5", page, "all", new Callback<List<SummaryBook>>() {
             @Override
             public void success(List<SummaryBook> bookList, Response response) {
 
@@ -101,7 +102,6 @@ public class LibraryFragment extends BasePageListFragment {
     }
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -121,10 +121,6 @@ public class LibraryFragment extends BasePageListFragment {
 
         return view;
     }
-
-
-
-
 
 
 }

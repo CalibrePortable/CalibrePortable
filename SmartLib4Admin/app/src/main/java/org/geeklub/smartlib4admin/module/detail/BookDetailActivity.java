@@ -24,6 +24,7 @@ import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BaseActivity;
 import org.geeklub.smartlib4admin.module.event.BookDeleteEvent;
 import org.geeklub.smartlib4admin.utils.LogUtil;
+import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
 import butterknife.InjectView;
 import cn.pedant.SweetAlert.SweetAlertDialog;
@@ -107,7 +108,9 @@ public class BookDetailActivity extends BaseActivity {
                                 sDialog.setCancelable(false);
                                 sDialog.changeAlertType(SweetAlertDialog.PROGRESS_TYPE);
 
-                                mService.deleteBook(book.book_id, "12108238", "12108238", new DeleteBookCallBack(sDialog, book));
+                                SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+
+                                mService.deleteBook(book.book_id, user.getUserId(), user.getPassWord(), new DeleteBookCallBack(sDialog, book));
 
 
                             }

@@ -11,6 +11,15 @@
     <string name="search_hint">搜索你想要的书本</string>
 
 
+    <string name="login">登陆</string>
+    <string name="user_id">学号:</string>
+    <string name="password">密码:</string>
+    <string name="et_user_id_hint">请输入你的账号</string>
+    <string name="et_password_hint">请输入你的密码</string>
+    <string name="user_id_not_empty">user id不能为空!!!</string>
+    <string name="password_not_empty">密码不能为空!!!</string>
+
+
     <array name="admin_functions">
         <item>全部</item>
         <item>已借</item>

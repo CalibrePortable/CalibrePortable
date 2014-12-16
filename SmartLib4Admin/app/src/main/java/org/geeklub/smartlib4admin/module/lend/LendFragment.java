@@ -9,18 +9,15 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import com.squareup.otto.Subscribe;
-
 import java.util.Comparator;
 import java.util.List;
 
-import org.geeklub.smartlib4admin.BusProvider;
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.Book;
 import org.geeklub.smartlib4admin.module.adapters.LendAdapter;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
-import org.geeklub.smartlib4admin.module.event.BookDeleteEvent;
 import org.geeklub.smartlib4admin.utils.LogUtil;
+import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -50,8 +47,9 @@ public class LendFragment extends BasePageListFragment {
     @Override
     protected void executeRequest(int page) {
 
+        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
-        mService.haveLended("12108238", "12108238", page, new Callback<List<Book>>() {
+        mService.haveLended(user.getUserId(), user.getPassWord(), page, new Callback<List<Book>>() {
             @Override
             public void success(List<Book> bookList, Response response) {
 
