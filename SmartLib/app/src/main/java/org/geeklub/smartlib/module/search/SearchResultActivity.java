@@ -19,6 +19,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 
 import butterknife.InjectView;
 
@@ -27,6 +28,7 @@ import com.astuetz.PagerSlidingTabStrip;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.utils.LogUtil;
+import org.geeklub.smartlib.utils.VersionUtil;
 
 /**
  * Created by Vass on 2014/11/17.
@@ -176,6 +178,7 @@ public class SearchResultActivity extends BaseActivity {
 
         @Override
         public void onPageSelected(int position) {
+            LogUtil.i("onPageSelected ===>>>position" + position);
             changeColor(position);
 
         }
@@ -197,9 +200,29 @@ public class SearchResultActivity extends BaseActivity {
                 mTabs.setBackgroundColor(vibrant.getRgb());
                 mTabs.setTextColor(vibrant.getTitleTextColor());
                 // 其中状态栏、游标、底部导航栏的颜色需要加深一下，也可以不加
+                mTabs.setIndicatorColor(colorBurn(vibrant.getRgb()));
+
                 mToolBar.setBackgroundColor(vibrant.getRgb());
+
+                if (VersionUtil.IS_LOLLIPOP) {
+                    Window window = getWindow();
+                    window.setStatusBarColor(colorBurn(vibrant.getRgb()));
+                    window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
+                }
 
             }
         });
+    }
+
+
+    private int colorBurn(int RGBValues) {
+        int alpha = RGBValues >> 24;
+        int red = RGBValues >> 16 & 0xFF;
+        int green = RGBValues >> 8 & 0xFF;
+        int blue = RGBValues & 0xFF;
+        red = (int) Math.floor(red * (1 - 0.1));
+        green = (int) Math.floor(green * (1 - 0.1));
+        blue = (int) Math.floor(blue * (1 - 0.1));
+        return Color.rgb(red, green, blue);
     }
 }
