@@ -11,9 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.pnikosis.materialishprogress.ProgressWheel;
-import com.squareup.otto.Produce;
 
-import org.geeklub.smartlib4admin.BusProvider;
 import org.geeklub.smartlib4admin.GlobalContext;
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.Book;
@@ -22,7 +20,6 @@ import org.geeklub.smartlib4admin.beans.ServerResponse;
 import org.geeklub.smartlib4admin.module.adapters.BookDetailAdapter;
 import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BaseActivity;
-import org.geeklub.smartlib4admin.module.event.BookDeleteEvent;
 import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 

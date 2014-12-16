@@ -5,7 +5,6 @@ package org.geeklub.smartlib4admin.beans;
  */
 public class QRCodeInfo {
     public String book_name;
-    public String book_info;
     public String book_id;
 
 }

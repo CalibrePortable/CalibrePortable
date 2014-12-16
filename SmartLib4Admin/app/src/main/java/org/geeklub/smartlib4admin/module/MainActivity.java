@@ -23,7 +23,6 @@ import com.google.gson.Gson;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
-import org.geeklub.smartlib4admin.BusProvider;
 import org.geeklub.smartlib4admin.GlobalContext;
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.QRCodeInfo;
@@ -127,17 +126,6 @@ public class MainActivity extends BaseActivity
         setContentFragment(mLibraryFragment);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        BusProvider.getInstance().register(this);
-    }
-
-    @Override
-    protected void onPause() {
-        super.onPause();
-        BusProvider.getInstance().unregister(this);
-    }
 
     public void setContentFragment(Fragment contentFragment) {
         this.mContentFragment = contentFragment;
