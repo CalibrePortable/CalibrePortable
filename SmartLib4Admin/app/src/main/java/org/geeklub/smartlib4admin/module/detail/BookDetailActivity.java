@@ -20,6 +20,7 @@ import org.geeklub.smartlib4admin.beans.ServerResponse;
 import org.geeklub.smartlib4admin.module.adapters.BookDetailAdapter;
 import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BaseActivity;
+import org.geeklub.smartlib4admin.module.event.BookDeleteEvent;
 import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
@@ -85,6 +86,18 @@ public class BookDetailActivity extends BaseActivity {
         initCallBacks();
 
         loadData();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        GlobalContext.getBusInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        GlobalContext.getBusInstance().unregister(this);
     }
 
 
@@ -246,6 +259,7 @@ public class BookDetailActivity extends BaseActivity {
                     .changeAlertType(SweetAlertDialog.SUCCESS_TYPE);
 
             bookDetailAdapter.deleteBook(mBook);
+            GlobalContext.getBusInstance().post(new BookDeleteEvent());
 
         }
 

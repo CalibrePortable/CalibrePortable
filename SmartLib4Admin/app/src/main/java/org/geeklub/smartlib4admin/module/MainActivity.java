@@ -29,6 +29,8 @@ import org.geeklub.smartlib4admin.beans.QRCodeInfo;
 import org.geeklub.smartlib4admin.beans.ServerResponse;
 import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BaseActivity;
+import org.geeklub.smartlib4admin.module.event.BookPlusEvent;
+import org.geeklub.smartlib4admin.module.event.BookReturnEvent;
 import org.geeklub.smartlib4admin.module.lend.LendFragment;
 import org.geeklub.smartlib4admin.module.library.LibraryFragment;
 import org.geeklub.smartlib4admin.module.library.SelectBookTypeDialogFragment;
@@ -126,6 +128,17 @@ public class MainActivity extends BaseActivity
         setContentFragment(mLibraryFragment);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+        GlobalContext.getBusInstance().register(this);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        GlobalContext.getBusInstance().unregister(this);
+    }
 
     public void setContentFragment(Fragment contentFragment) {
         this.mContentFragment = contentFragment;
@@ -318,6 +331,7 @@ public class MainActivity extends BaseActivity
             @Override
             public void success(ServerResponse serverResponse, Response response) {
                 ToastUtil.showShort("还书成功...");
+                GlobalContext.getBusInstance().post(new BookReturnEvent());
             }
 
             @Override
@@ -338,6 +352,7 @@ public class MainActivity extends BaseActivity
                     @Override
                     public void success(ServerResponse serverResponse, Response response) {
                         ToastUtil.showShort("新增图书成功...");
+                        GlobalContext.getBusInstance().post(new BookPlusEvent());
                         mBookType = "";
                     }
 

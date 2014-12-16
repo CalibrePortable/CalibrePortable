@@ -9,13 +9,18 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
+import com.squareup.otto.Subscribe;
+
 import java.util.Comparator;
 import java.util.List;
 
+import org.geeklub.smartlib4admin.GlobalContext;
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.Book;
 import org.geeklub.smartlib4admin.module.adapters.LendAdapter;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
+import org.geeklub.smartlib4admin.module.event.BookPlusEvent;
+import org.geeklub.smartlib4admin.module.event.BookReturnEvent;
 import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
@@ -87,6 +92,18 @@ public class LendFragment extends BasePageListFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        GlobalContext.getBusInstance().register(this);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        GlobalContext.getBusInstance().unregister(this);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -104,6 +121,11 @@ public class LendFragment extends BasePageListFragment {
             Integer return_at_2 = Integer.valueOf(rhs.return_at);
             return return_at_1.compareTo(return_at_2);
         }
+    }
+
+    @Subscribe
+    public void onBookReturn(BookReturnEvent event) {
+        onRefresh();
     }
 
 

@@ -10,14 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.melnykov.fab.FloatingActionButton;
+import com.squareup.otto.Subscribe;
 
 import java.util.List;
 
+import org.geeklub.smartlib4admin.GlobalContext;
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.SummaryBook;
 import org.geeklub.smartlib4admin.module.adapters.LibraryAdapter;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
 import org.geeklub.smartlib4admin.module.detail.BookDetailActivity;
+import org.geeklub.smartlib4admin.module.event.BookDeleteEvent;
+import org.geeklub.smartlib4admin.module.event.BookPlusEvent;
+import org.geeklub.smartlib4admin.module.event.BookReturnEvent;
 import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
@@ -101,6 +106,17 @@ public class LibraryFragment extends BasePageListFragment {
 
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        GlobalContext.getBusInstance().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        GlobalContext.getBusInstance().unregister(this);
+    }
 
     @Nullable
     @Override
@@ -120,6 +136,21 @@ public class LibraryFragment extends BasePageListFragment {
 
 
         return view;
+    }
+
+    @Subscribe
+    public void onBookReturn(BookReturnEvent event) {
+        onRefresh();
+    }
+
+    @Subscribe
+    public void onBookPlus(BookPlusEvent event) {
+        onRefresh();
+    }
+
+    @Subscribe
+    public void onBookDelete(BookDeleteEvent event) {
+        onRefresh();
     }
 
 
