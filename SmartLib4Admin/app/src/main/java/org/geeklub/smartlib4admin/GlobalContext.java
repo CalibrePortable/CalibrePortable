@@ -8,6 +8,8 @@ import com.squareup.otto.Bus;
 
 import org.geeklub.smartlib4admin.module.api.RestApiDispencer;
 
+import java.util.logging.Logger;
+
 import retrofit.RestAdapter;
 
 /**

@@ -21,7 +21,6 @@ import org.geeklub.smartlib4admin.module.adapters.BookDetailAdapter;
 import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BaseActivity;
 import org.geeklub.smartlib4admin.module.event.BookDeleteEvent;
-import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
 import butterknife.InjectView;
@@ -265,7 +264,6 @@ public class BookDetailActivity extends BaseActivity {
 
         @Override
         public void failure(RetrofitError error) {
-            LogUtil.i("失败");
             mDialog.setTitleText("删除出错")
                     .setConfirmText("Cancel")
                     .setCancelClickListener(null)

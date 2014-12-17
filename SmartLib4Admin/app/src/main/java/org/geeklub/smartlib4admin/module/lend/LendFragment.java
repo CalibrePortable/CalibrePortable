@@ -19,9 +19,7 @@ import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.Book;
 import org.geeklub.smartlib4admin.module.adapters.LendAdapter;
 import org.geeklub.smartlib4admin.module.base.BasePageListFragment;
-import org.geeklub.smartlib4admin.module.event.BookPlusEvent;
 import org.geeklub.smartlib4admin.module.event.BookReturnEvent;
-import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
 import retrofit.Callback;
@@ -71,7 +69,6 @@ public class LendFragment extends BasePageListFragment {
 
             @Override
             public void failure(RetrofitError error) {
-                LogUtil.i(error.getMessage());
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });

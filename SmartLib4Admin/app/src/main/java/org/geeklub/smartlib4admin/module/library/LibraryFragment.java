@@ -23,7 +23,6 @@ import org.geeklub.smartlib4admin.module.detail.BookDetailActivity;
 import org.geeklub.smartlib4admin.module.event.BookDeleteEvent;
 import org.geeklub.smartlib4admin.module.event.BookPlusEvent;
 import org.geeklub.smartlib4admin.module.event.BookReturnEvent;
-import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
 import butterknife.InjectView;
@@ -71,7 +70,6 @@ public class LibraryFragment extends BasePageListFragment {
             public void success(List<SummaryBook> bookList, Response response) {
 
                 mSwipeRefreshLayout.setRefreshing(false);
-                LogUtil.i("bookList ===>>>" + bookList.toString());
 
                 if (mIsRefreshFromTop) {
                     ((LibraryAdapter) mAdapter).replaceWith(bookList);
@@ -83,7 +81,6 @@ public class LibraryFragment extends BasePageListFragment {
 
             @Override
             public void failure(RetrofitError error) {
-                LogUtil.i(error.getMessage());
                 mSwipeRefreshLayout.setRefreshing(false);
             }
         });

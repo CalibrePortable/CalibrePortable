@@ -22,7 +22,6 @@ import com.astuetz.PagerSlidingTabStrip;
 
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.module.base.BaseActivity;
-import org.geeklub.smartlib4admin.utils.LogUtil;
 
 import butterknife.InjectView;
 
@@ -100,7 +99,6 @@ public class SearchResultActivity extends BaseActivity {
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String queryWord = intent.getStringExtra(SearchManager.QUERY);
-            LogUtil.i("搜索的关键字是 ===>>>" + queryWord);
             mAdapter.setKeyWord(queryWord);
             mAdapter.refresh();
         }

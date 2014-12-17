@@ -20,7 +20,6 @@ import org.geeklub.smartlib4admin.module.adapters.SearchAdapter;
 import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.base.BaseFragment;
 import org.geeklub.smartlib4admin.module.detail.BookDetailActivity;
-import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 
 import java.util.List;
@@ -149,7 +148,6 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
 
             @Override
             public void failure(RetrofitError error) {
-                LogUtil.i(error.getMessage());
                 mRefreshLayout.setRefreshing(false);
             }
         });

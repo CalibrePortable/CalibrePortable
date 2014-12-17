@@ -15,8 +15,6 @@ import butterknife.InjectView;
 
 import org.geeklub.smartlib4admin.R;
 import org.geeklub.smartlib4admin.beans.Book;
-import org.geeklub.smartlib4admin.beans.SummaryBook;
-import org.geeklub.smartlib4admin.utils.LogUtil;
 
 import java.util.Collections;
 import java.util.Comparator;
@@ -26,6 +24,7 @@ import java.util.List;
  * Created by Vass on 2014/11/8.
  */
 public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolder> {
+
 
     private Context mContext;
 
@@ -55,10 +54,10 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
 
         if (Integer.valueOf(book.return_at) > 0) {
             viewHolder.mReturnAt.setTextColor(mContext.getResources().getColor(R.color.GREEN_SEA));
-            viewHolder.mReturnAt.setText("剩余:" + book.return_at+"天");
+            viewHolder.mReturnAt.setText("剩余:" + book.return_at + "天");
         } else {
             viewHolder.mReturnAt.setTextColor(mContext.getResources().getColor(R.color.ALIZARIN));
-            viewHolder.mReturnAt.setText("超期:" + Math.abs(Integer.valueOf(book.return_at))+"天");
+            viewHolder.mReturnAt.setText("超期:" + Math.abs(Integer.valueOf(book.return_at)) + "天");
         }
         viewHolder.mBookFavour.setText(book.favour);
         viewHolder.mUserName.setText("借阅人:" + book.user_name);
@@ -122,9 +121,7 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
     }
 
     public void sort(List<Book> bookList, Comparator<Book> comparator) {
-//        LogUtil.i("排序前 ===>>>" + bookList.toString());
         Collections.sort(bookList, comparator);
-//        LogUtil.i("排序后 ===>>>" + bookList.toString());
     }
 
 

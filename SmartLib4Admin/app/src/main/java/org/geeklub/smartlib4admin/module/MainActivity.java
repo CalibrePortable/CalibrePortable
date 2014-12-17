@@ -36,9 +36,10 @@ import org.geeklub.smartlib4admin.module.library.LibraryFragment;
 import org.geeklub.smartlib4admin.module.library.SelectBookTypeDialogFragment;
 import org.geeklub.smartlib4admin.module.type.Category;
 import org.geeklub.smartlib4admin.module.type.ScanCategory;
-import org.geeklub.smartlib4admin.utils.LogUtil;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
 import org.geeklub.smartlib4admin.utils.ToastUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -50,6 +51,8 @@ import retrofit.client.Response;
 public class MainActivity extends BaseActivity
         implements LibraryFragment.OnAddBookButtonClickListener,
         SelectBookTypeDialogFragment.OnDialogButtonClickListener {
+
+    private static final Logger logger = LoggerFactory.getLogger(MainActivity.class);
 
     public
     @InjectView(R.id.drawer_layout)
@@ -183,7 +186,7 @@ public class MainActivity extends BaseActivity
 
     private void switchContent(Fragment from, Fragment to, String tag) {
         if (mContentFragment != to) {
-            LogUtil.i("mContentFragment != to");
+            logger.info("mContentFragment != to");
             mContentFragment = to;
             if (!to.isAdded()) {
                 fragmentManager.beginTransaction().hide(from).add(R.id.content_frame, to, tag).commit();
@@ -288,7 +291,6 @@ public class MainActivity extends BaseActivity
 
     @Override
     public void onPositiveButtonClick(CharSequence bookType) {
-        LogUtil.i("书本的类型 ===>>>" + bookType);
         mScanCategory = ScanCategory.ShapeCode;
         mBookType = bookType;
         NewScanShapeInstance();
@@ -301,8 +303,6 @@ public class MainActivity extends BaseActivity
             if (result.getContents() == null) {
                 ToastUtil.showShort("取消扫描");
             } else {
-                LogUtil.i("BookType ===>>>" + mBookType);
-                LogUtil.i("选择的功能 ===>>>" + mScanCategory.toString());
                 switch (mScanCategory) {
                     //              扫描二维码还书
                     case QRCode:
