@@ -364,7 +364,8 @@
 
 `Response`
 >[
-{"book_kind":书本kind,
+{"cir_id":借阅活动id,
+"book_kind":书本kind,
 "book_detail_url":书本详细url,
 "book_name":书本名称,
 "book_author":书本作者,
@@ -612,7 +613,8 @@ API.php/admin/showRe/12108238/12108238/page=1
 
 `Response`
 >[
-{"book_id":书本id,
+{"cir_id":借阅活动id,
+"book_id":书本id,
 "book_name":书本名称,
 "boou_author":作者,
 "book_status":书本状态,
