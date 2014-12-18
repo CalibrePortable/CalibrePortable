@@ -1,81 +1,43 @@
 package org.geeklub.smartlib.beans;
 
-import android.os.Parcel;
-import android.os.Parcelable;
 
 /**
- * Created by Vass on 2014/11/28.
+ * Created by Vass on 2014/11/4.
  */
-public class SummaryBook implements Parcelable {
+public class SummaryBook {
 
-  public String book_kind;
-  public String book_detail_url;
-  public String book_name;
-  public String book_author;
-  public String book_status;
-  public String favour;
-  public String book_pic;
-  public String isLike;
-  public String created_at;
-  public String return_at;
+    public String book_kind;
 
-  @Override public int describeContents() {
-    return 0;
-  }
+    public String book_detail_url;
 
-  @Override public void writeToParcel(Parcel dest, int flags) {
-    dest.writeString(this.book_kind);
-    dest.writeString(this.book_detail_url);
-    dest.writeString(this.book_name);
-    dest.writeString(this.book_author);
-    dest.writeString(this.book_status);
-    dest.writeString(this.favour);
-    dest.writeString(this.book_pic);
-    dest.writeString(this.isLike);
-    dest.writeString(this.created_at);
-    dest.writeString(this.return_at);
-  }
+    public String book_name;
 
-  public SummaryBook() {
-  }
+    public String book_author;
 
-  private SummaryBook(Parcel in) {
-    this.book_kind = in.readString();
-    this.book_detail_url = in.readString();
-    this.book_name = in.readString();
-    this.book_author = in.readString();
-    this.book_status = in.readString();
-    this.favour = in.readString();
-    this.book_pic = in.readString();
-    this.isLike = in.readString();
-    this.created_at = in.readString();
-    this.return_at = in.readString();
-  }
+    public String book_status;
 
-  public static final Parcelable.Creator<SummaryBook> CREATOR =
-      new Parcelable.Creator<SummaryBook>() {
-        public SummaryBook createFromParcel(Parcel source) {
-          return new SummaryBook(source);
-        }
+    public String favour;
 
-        public SummaryBook[] newArray(int size) {
-          return new SummaryBook[size];
-        }
-      };
+    public String book_pic;
 
-  @Override public boolean equals(Object o) {
-    return o != null && (o instanceof SummaryBook) && ((SummaryBook) o).book_kind.equals(book_kind);
-  }
+    public String isLike;
 
 
     @Override
-    public String toString() {
-        return "SummaryBook{" +
-                "book_kind='" + book_kind + '\'' +
-                ", book_name='" + book_name + '\'' +
-                ", book_status='" + book_status + '\'' +
-                ", created_at='" + created_at + '\'' +
-                ", return_at='" + return_at + '\'' +
-                '}';
+    public boolean equals(Object otherObject) {
+        if (otherObject == null) {
+            return false;
+        }
+
+        if (otherObject == this) {
+            return true;
+        }
+
+        if (getClass() != otherObject.getClass()) {
+            return false;
+        }
+
+        return ((SummaryBook) otherObject).book_kind.equals(book_kind);
+
     }
 }

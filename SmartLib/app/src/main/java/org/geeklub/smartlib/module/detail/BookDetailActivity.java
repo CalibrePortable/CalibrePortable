@@ -42,7 +42,7 @@ public class BookDetailActivity extends BaseActivity {
 
     private DetailAdapter mAdapter;
 
-    private SummaryBook mBook;
+    private String  mBookDetailUrl;
 
     private int[] mPrimary = new int[3];
 
@@ -50,7 +50,7 @@ public class BookDetailActivity extends BaseActivity {
 
     private float mTransHeight;
 
-    public static final String EXTRAS_BOOK = "extras_book";
+    public static final String EXTRAS_BOOK_DETAIL_URL = "extras_book_detail_url";
 
     @Override
     protected int getLayoutResource() {
@@ -61,7 +61,7 @@ public class BookDetailActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mBook = getIntent().getParcelableExtra(EXTRAS_BOOK);
+        mBookDetailUrl = getIntent().getStringExtra(EXTRAS_BOOK_DETAIL_URL);
 
         int color = getResources().getColor(R.color.SUN_FLOWER);
         mPrimary[0] = Color.red(color);
@@ -128,11 +128,11 @@ public class BookDetailActivity extends BaseActivity {
     private void loadData() {
         progressWheel.setVisibility(View.VISIBLE);
         NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
-        service.bookDetail(mBook.book_kind, new Callback<BookDetailInfo>() {
+        service.bookDetail(mBookDetailUrl, new Callback<BookDetailInfo>() {
             @Override
             public void success(BookDetailInfo bookDetailInfo, Response response) {
                 progressWheel.setVisibility(View.GONE);
-                mToolBar.setTitle(bookDetailInfo.book_detail.book_name);
+                mToolBar.setTitle(bookDetailInfo.book_name);
                 mToolBar.setTitleTextColor(Color.TRANSPARENT);
                 mAdapter.setBookDetailInfo(bookDetailInfo);
 

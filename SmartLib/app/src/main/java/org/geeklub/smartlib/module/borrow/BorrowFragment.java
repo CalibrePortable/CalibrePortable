@@ -19,6 +19,7 @@ import java.util.List;
 
 import org.geeklub.smartlib.GlobalContext;
 import org.geeklub.smartlib.R;
+import org.geeklub.smartlib.beans.Book;
 import org.geeklub.smartlib.module.adapters.BorrowAdapter;
 import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.module.base.BaseFragment;
@@ -145,9 +146,9 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
         NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
 
         service.haveBorrowed(user.getUserId(), user.getPassWord(), page,
-                new Callback<List<SummaryBook>>() {
+                new Callback<List<Book>>() {
                     @Override
-                    public void success(List<SummaryBook> bookList, Response response) {
+                    public void success(List<Book> bookList, Response response) {
                         mRefreshLayout.setRefreshing(false);
 
                         LogUtil.i("bookList ===>>>" + bookList.toString());

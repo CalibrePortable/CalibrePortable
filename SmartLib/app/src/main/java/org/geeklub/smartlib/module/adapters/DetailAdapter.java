@@ -102,16 +102,16 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
         switch (getItemViewType(position)) {
             case VIEW_TYPE_HEADER:
                 ViewHolderHeader viewHolderHeader = (ViewHolderHeader) viewHolder;
-                viewHolderHeader.mBookName.setText("书名:" + bookDetailInfo.book_detail.book_name);
-                viewHolderHeader.mBookAuthor.setText("作者:" + bookDetailInfo.book_detail.book_author);
-                viewHolderHeader.mBookType.setText("类别:" + bookDetailInfo.book_detail.book_type);
-                viewHolderHeader.mBookEdit.setText("出版社:" + bookDetailInfo.book_detail.book_edit);
-                viewHolderHeader.mBookPub.setText("版次:" + bookDetailInfo.book_detail.book_pub);
-                viewHolderHeader.mBookPrice.setText("价格:" + bookDetailInfo.book_detail.book_price + "￥");
-                viewHolderHeader.mBookInfo.setText("介绍:" + bookDetailInfo.book_detail.book_info);
+                viewHolderHeader.mBookName.setText("书名:" + bookDetailInfo.book_name);
+                viewHolderHeader.mBookAuthor.setText("作者:" + bookDetailInfo.book_author);
+                viewHolderHeader.mBookType.setText("类别:" + bookDetailInfo.book_type);
+                viewHolderHeader.mBookEdit.setText("出版社:" + bookDetailInfo.book_edit);
+                viewHolderHeader.mBookPub.setText("版次:" + bookDetailInfo.book_pub);
+                viewHolderHeader.mBookPrice.setText("价格:" + bookDetailInfo.book_price + "￥");
+                viewHolderHeader.mBookInfo.setText("介绍:" + bookDetailInfo.book_info);
 
                 Picasso.with(mContext)
-                        .load(bookDetailInfo.book_detail.book_pic)
+                        .load(bookDetailInfo.book_pic)
                         .placeholder(R.drawable.ic_launcher)
                         .error(R.drawable.ic_launcher)
                         .into(viewHolderHeader.mBookIcon);
@@ -122,7 +122,7 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Book book = bookDetailInfo.book_list.get(position - 1);
                 ViewHolderItem viewHolderItem = (ViewHolderItem) viewHolder;
                 viewHolderItem.mBookId.setText("书本ID:" + book.book_id);
-                viewHolderItem.mCreatedAt.setText("借书日期:" + book.created_at);
+                viewHolderItem.mCreatedAt.setText("借书日期:" + book.create_at);
                 viewHolderItem.mReturnAt.setText("归还日期:" + book.return_at);
                 viewHolderItem.mUserName.setText("借书人:" + book.user_name);
                 viewHolderItem.mBookStatus.setText("书本状态:" + book.book_status);

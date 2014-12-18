@@ -18,12 +18,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.geeklub.smartlib.R;
+import org.geeklub.smartlib.beans.Book;
 import org.geeklub.smartlib.beans.SummaryBook;
 
 /**
  * Created by Vass on 2014/11/8.
  */
-public class BorrowAdapter extends BaseRecyclerAdapter<SummaryBook, BorrowAdapter.ViewHolder> {
+public class BorrowAdapter extends BaseRecyclerAdapter<Book, BorrowAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
@@ -52,7 +53,7 @@ public class BorrowAdapter extends BaseRecyclerAdapter<SummaryBook, BorrowAdapte
     }
 
     public static interface OnItemClickListener {
-        void onItemClick(SummaryBook book);
+        void onItemClick(Book book);
     }
 
 
@@ -77,12 +78,12 @@ public class BorrowAdapter extends BaseRecyclerAdapter<SummaryBook, BorrowAdapte
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int position) {
-        final SummaryBook book = get(position);
+        final Book book = get(position);
 
         viewHolder.mBookName.setText(book.book_name);
         viewHolder.mBookDescription.setText(book.book_author);
         viewHolder.mBookFavour.setText(book.favour);
-        viewHolder.mBorrowAt.setText("FROM:" + book.created_at);
+        viewHolder.mBorrowAt.setText("FROM:" + book.create_at);
 
 
         if ("已还".equals(book.book_status)) {

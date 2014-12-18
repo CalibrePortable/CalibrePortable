@@ -82,7 +82,7 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
             @Override
             public void onItemClick(SummaryBook book) {
                 Intent intent = new Intent(mActivity, BookDetailActivity.class);
-                intent.putExtra(BookDetailActivity.EXTRAS_BOOK, book);
+                intent.putExtra(BookDetailActivity.EXTRAS_BOOK_DETAIL_URL, book.book_kind);
                 startActivity(intent);
             }
         });

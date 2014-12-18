@@ -84,38 +84,38 @@ public class LibraryAdapter extends BaseRecyclerAdapter<SummaryBook, LibraryAdap
     @Override
     public void onBindViewHolder(final ViewHolder viewHolder, final int position) {
 
-        final SummaryBook summaryBook = get(position);
+        final SummaryBook book = get(position);
 
-        viewHolder.mBookName.setText(summaryBook.book_name);
+        viewHolder.mBookName.setText(book.book_name);
 
         StringBuilder description = new StringBuilder();
         description.append("作者:")
-                .append(summaryBook.book_author)
+                .append(book.book_author)
                 .append("\n\n当前状态:")
-                .append(summaryBook.book_status);
+                .append(book.book_status);
         viewHolder.mBookDescription.setText(description);
 
-        LogUtil.i("点赞数 ===>>>" + summaryBook.favour);
-        viewHolder.mBookFavour.setText(summaryBook.favour);
+        LogUtil.i("点赞数 ===>>>" + book.favour);
+        viewHolder.mBookFavour.setText(book.favour);
         viewHolder.mAddOneTextView.setVisibility(View.GONE);
 
         viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (onItemClickListener != null) {
-                    onItemClickListener.onItemClick(summaryBook);
+                    onItemClickListener.onItemClick(book);
                 }
             }
         });
 
-        if ("1".equals(summaryBook.isLike)) {
+        if ("1".equals(book.isLike)) {
             viewHolder.mBookFavour.setEnabled(false);
         } else {
             viewHolder.mBookFavour.setEnabled(true);
         }
 
         Picasso.with(mContext)
-                .load(summaryBook.book_pic)
+                .load(book.book_pic)
                 .placeholder(R.drawable.ic_launcher)
                 .error(R.drawable.ic_launcher)
                 .into(viewHolder.mBookIcon);
@@ -127,7 +127,7 @@ public class LibraryAdapter extends BaseRecyclerAdapter<SummaryBook, LibraryAdap
                     //禁用点赞按钮，否则会出现疯狂点赞情况
                     v.setEnabled(false);
                     //更新adapter中的数据
-                    onFavourClickListener.onFavourClick(summaryBook);
+                    onFavourClickListener.onFavourClick(book);
                     //载入动画
                     mAnimation = AnimationUtils.loadAnimation(mContext, R.anim.dianzan_anim);
                     //设置动画监听器
