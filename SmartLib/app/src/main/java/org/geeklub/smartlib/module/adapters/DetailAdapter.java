@@ -121,13 +121,26 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
             case VIEW_TYPE_BOOK:
                 Book book = bookDetailInfo.book_list.get(position - 1);
                 ViewHolderItem viewHolderItem = (ViewHolderItem) viewHolder;
-                viewHolderItem.mBookId.setText("书本ID:" + book.book_id);
+                viewHolderItem.mBookId.setText("ID:" + book.book_id);
                 viewHolderItem.mCreatedAt.setText("借书日期:" + book.created_at);
-                viewHolderItem.mReturnAt.setText("归还日期:" + book.return_at);
                 viewHolderItem.mUserName.setText("借书人:" + book.user_name);
-                viewHolderItem.mBookStatus.setText("书本状态:" + book.book_status);
+
+                if (book.return_at == null) {
+                    viewHolderItem.mReturnAt.setTextColor(mContext.getResources().getColor(R.color.GREEN_SEA));
+                    viewHolderItem.mBookStatus.setText("状态:" + "未被借");
+                    viewHolderItem.mUserName.setText("");
+                    viewHolderItem.mCreatedAt.setText("");
+                    viewHolderItem.mReturnAt.setText("");
+                } else if (Integer.valueOf(book.return_at) > 0) {
+                    viewHolderItem.mReturnAt.setTextColor(mContext.getResources().getColor(R.color.GREEN_SEA));
+                    viewHolderItem.mReturnAt.setText("剩余:" + book.return_at + "天");
+                } else {
+                    viewHolderItem.mReturnAt.setTextColor(mContext.getResources().getColor(R.color.ALIZARIN));
+                    viewHolderItem.mReturnAt.setText("超期:" + Math.abs(Integer.valueOf(book.return_at)) + "天");
+                }
                 break;
         }
+
     }
 
     @Override

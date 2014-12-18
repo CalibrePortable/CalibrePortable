@@ -11,7 +11,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="100dp"
+        android:layout_height="80dp"
         android:padding="10dp">
 
         <TextView
@@ -19,53 +19,51 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="40dp"
-            android:layout_marginTop="10dp"
             android:text="书本ID"
+            android:textColor="@color/MIDNIGHT_BLUE"
             android:textSize="14sp"/>
 
         <TextView
-            android:id="@+id/tv_created_at"
+            android:id="@+id/tv_user_name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/tv_book_id"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="10dp"
-            android:text="借阅时间"
-            android:textSize="10sp"/>
-
-
-        <TextView
-            android:id="@+id/tv_return_at"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignTop="@+id/tv_created_at"
-            android:layout_marginLeft="10dp"
-            android:layout_toRightOf="@+id/tv_created_at"
-            android:text="还书时间"
-            android:textSize="10sp"/>
+            android:layout_alignTop="@+id/tv_book_id"
+            android:layout_toLeftOf="@+id/tv_book_status"
+            android:text="借书人"
+            android:textColor="@color/MIDNIGHT_BLUE"
+            android:textSize="14sp"/>
 
 
         <TextView
             android:id="@+id/tv_book_status"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignLeft="@+id/tv_user_name"
-            android:layout_below="@+id/tv_user_name"
-            android:layout_marginTop="10dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginLeft="10dp"
             android:text="书本状态"
+            android:textColor="@color/MIDNIGHT_BLUE"
+            android:textSize="14sp"/>
+
+        <TextView
+            android:id="@+id/tv_created_at"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:text="借阅时间"
+            android:textColor="@color/MIDNIGHT_BLUE"
             android:textSize="14sp"/>
 
 
         <TextView
-            android:id="@+id/tv_user_name"
+            android:id="@+id/tv_return_at"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/tv_book_id"
-            android:layout_marginRight="50dp"
-            android:text="借书人"
-            android:textSize="14sp"/>
+            android:layout_alignTop="@+id/tv_created_at"
+            android:text="还书时间"
+            android:textSize="10sp"/>
 
 
     </RelativeLayout>

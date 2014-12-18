@@ -136,6 +136,8 @@ public class BookDetailActivity extends BaseActivity {
                 mToolBar.setTitleTextColor(Color.TRANSPARENT);
                 mAdapter.setBookDetailInfo(bookDetailInfo);
 
+                LogUtil.i("Detail ===>>>"+bookDetailInfo.book_list.toString());
+
             }
 
             @Override

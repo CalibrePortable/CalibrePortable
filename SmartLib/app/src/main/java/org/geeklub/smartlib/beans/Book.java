@@ -61,7 +61,10 @@ public class Book {
     public String toString() {
         return "Book{" +
                 "book_id='" + book_id + '\'' +
+                ", book_name='" + book_name + '\'' +
                 ", created_at='" + created_at + '\'' +
+                ", return_at='" + return_at + '\'' +
+                ", book_status='" + book_status + '\'' +
                 '}';
     }
 }
