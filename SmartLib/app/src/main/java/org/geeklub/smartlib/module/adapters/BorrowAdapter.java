@@ -83,7 +83,7 @@ public class BorrowAdapter extends BaseRecyclerAdapter<Book, BorrowAdapter.ViewH
         viewHolder.mBookName.setText(book.book_name);
         viewHolder.mBookDescription.setText(book.book_author);
         viewHolder.mBookFavour.setText(book.favour);
-        viewHolder.mBorrowAt.setText("FROM:" + book.create_at);
+        viewHolder.mBorrowAt.setText("FROM:" + book.created_at);
 
 
         if ("已还".equals(book.book_status)) {

@@ -122,7 +122,7 @@ public class DetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder>
                 Book book = bookDetailInfo.book_list.get(position - 1);
                 ViewHolderItem viewHolderItem = (ViewHolderItem) viewHolder;
                 viewHolderItem.mBookId.setText("书本ID:" + book.book_id);
-                viewHolderItem.mCreatedAt.setText("借书日期:" + book.create_at);
+                viewHolderItem.mCreatedAt.setText("借书日期:" + book.created_at);
                 viewHolderItem.mReturnAt.setText("归还日期:" + book.return_at);
                 viewHolderItem.mUserName.setText("借书人:" + book.user_name);
                 viewHolderItem.mBookStatus.setText("书本状态:" + book.book_status);

@@ -31,7 +31,7 @@ public class Book {
 
     public String favour;
 
-    public String create_at;
+    public String created_at;
 
     public String return_at;
 
@@ -52,8 +52,16 @@ public class Book {
 
         Book book = (Book) otherObject;
 
-        return book_id.equals(book.book_id) && create_at.equals(book.create_at);
+        return book_id.equals(book.book_id) && created_at.equals(book.created_at);
 
 
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "book_id='" + book_id + '\'' +
+                ", created_at='" + created_at + '\'' +
+                '}';
     }
 }
