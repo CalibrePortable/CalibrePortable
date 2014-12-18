@@ -27,6 +27,7 @@ import com.astuetz.PagerSlidingTabStrip;
 
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.module.base.BaseActivity;
+import org.geeklub.smartlib.utils.BitmapUtil;
 import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.VersionUtil;
 
@@ -191,7 +192,7 @@ public class SearchResultActivity extends BaseActivity {
     }
 
     private void changeColor(int position) {
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), SearchFragment.getBackgroundBitmapPosition(position));
+        Bitmap bitmap = BitmapUtil.decodeSampledBitmapFromResource(getResources(), SearchFragment.getBackgroundBitmapPosition(position), 200, 400);
 
         Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
             @Override

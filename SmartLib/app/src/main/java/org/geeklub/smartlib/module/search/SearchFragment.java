@@ -9,9 +9,13 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+
+import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
 
@@ -25,6 +29,9 @@ import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.module.adapters.SearchAdapter;
 import org.geeklub.smartlib.module.base.BaseFragment;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
+import org.geeklub.smartlib.utils.BitmapUtil;
+import org.geeklub.smartlib.utils.DisplayParams;
+import org.geeklub.smartlib.utils.DisplayUtil;
 import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 import org.geeklub.smartlib.utils.ToastUtil;
@@ -46,6 +53,7 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     private int mPosition;
 
+
     private static final int[] drawables = {R.drawable.search_fragment_bg_1, R.drawable.search_fragment_bg_2, R.drawable.search_fragment_bg_3, R.drawable.search_fragment_bg_4};
 
     private String mQueryWord;
@@ -59,6 +67,10 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @InjectView(R.id.recycle_view)
     RecyclerView mRecyclerView;
+
+    @InjectView(R.id.iv_background)
+    ImageView mBackground;
+
 
     private int mPage = 1;
 
@@ -122,7 +134,13 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
         parseArgument();
         View view = super.onCreateView(inflater, container, savedInstanceState);
 
-        view.setBackgroundResource(drawables[mPosition]);
+        int height = DisplayParams.getInstance(mActivity).screenHeight;
+        int width = DisplayParams.getInstance(mActivity).screenWidth;
+
+
+
+        mBackground.setImageBitmap(BitmapUtil.decodeSampledBitmapFromResource(mActivity.getResources(), drawables[mPosition], width, height));
+
 
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
@@ -214,4 +232,6 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
     public static int getBackgroundBitmapPosition(int selectViewPagerItem) {
         return drawables[selectViewPagerItem];
     }
+
+
 }
