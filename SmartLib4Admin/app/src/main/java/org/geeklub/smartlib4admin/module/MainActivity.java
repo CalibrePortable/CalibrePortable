@@ -54,7 +54,6 @@ public class MainActivity extends BaseActivity
 
     private static final Logger logger = LoggerFactory.getLogger(MainActivity.class);
 
-    public
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 

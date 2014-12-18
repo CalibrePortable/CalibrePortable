@@ -136,16 +136,16 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                 ViewHolderHeader header = (ViewHolderHeader) viewHolder;
 
                 setUpHeaderBackground(header.mBlurredImage);
-                header.mBookName.setText("书名:" + bookDetailInfo.book_detail.book_name);
-                header.mBookAuthor.setText("作者:" + bookDetailInfo.book_detail.book_author);
-                header.mBookType.setText("类别:" + bookDetailInfo.book_detail.book_type);
-                header.mBookEdit.setText("出版社:" + bookDetailInfo.book_detail.book_edit);
-                header.mBookPub.setText("版次:" + bookDetailInfo.book_detail.book_pub);
-                header.mBookPrice.setText("价格:" + bookDetailInfo.book_detail.book_price + "￥");
-                header.mBookInfo.setText("介绍:" + bookDetailInfo.book_detail.book_info);
+                header.mBookName.setText("书名:" + bookDetailInfo.book_name);
+                header.mBookAuthor.setText("作者:" + bookDetailInfo.book_author);
+                header.mBookType.setText("类别:" + bookDetailInfo.book_type);
+                header.mBookEdit.setText("出版社:" + bookDetailInfo.book_edit);
+                header.mBookPub.setText("版次:" + bookDetailInfo.book_pub);
+                header.mBookPrice.setText("价格:" + bookDetailInfo.book_price + "￥");
+                header.mBookInfo.setText("介绍:" + bookDetailInfo.book_info);
 
                 Picasso.with(mContext)
-                        .load(bookDetailInfo.book_detail.book_pic)
+                        .load(bookDetailInfo.book_pic)
                         .placeholder(R.drawable.ic_launcher)
                         .error(R.drawable.ic_launcher)
                         .into(header.mBookIcon);

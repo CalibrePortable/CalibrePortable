@@ -139,7 +139,7 @@ public class BookDetailActivity extends BaseActivity {
             @Override
             public void success(BookDetailInfo bookDetailInfo, Response response) {
                 progressWheel.setVisibility(View.GONE);
-                mToolBar.setTitle(bookDetailInfo.book_detail.book_name);
+                mToolBar.setTitle(bookDetailInfo.book_name);
                 mToolBar.setTitleTextColor(Color.TRANSPARENT);
                 bookDetailAdapter.setBookDetailInfo(bookDetailInfo);
             }

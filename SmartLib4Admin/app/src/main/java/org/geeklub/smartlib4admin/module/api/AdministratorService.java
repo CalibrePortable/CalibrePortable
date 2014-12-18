@@ -4,7 +4,7 @@ import java.util.List;
 
 import org.geeklub.smartlib4admin.beans.Book;
 import org.geeklub.smartlib4admin.beans.BookDetailInfo;
-import org.geeklub.smartlib4admin.beans.LoginUser;
+import org.geeklub.smartlib4admin.beans.LoginInfo;
 import org.geeklub.smartlib4admin.beans.ServerResponse;
 import org.geeklub.smartlib4admin.beans.SummaryBook;
 
@@ -20,7 +20,7 @@ import retrofit.http.Path;
 public interface AdministratorService {
     //登陆
     @POST("/admin/login")
-    void login(@Body LoginUser user, Callback<ServerResponse> callback);
+    void login(@Body LoginInfo user, Callback<ServerResponse> callback);
 
     //图书搜索
     @GET("/admin/search/{userId}/{type}/page={page}/{keyword}")

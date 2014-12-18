@@ -3,7 +3,7 @@ package org.geeklub.smartlib4admin.module.login.model;
 import android.text.TextUtils;
 
 import org.geeklub.smartlib4admin.GlobalContext;
-import org.geeklub.smartlib4admin.beans.LoginUser;
+import org.geeklub.smartlib4admin.beans.LoginInfo;
 import org.geeklub.smartlib4admin.beans.ServerResponse;
 import org.geeklub.smartlib4admin.module.api.AdministratorService;
 import org.geeklub.smartlib4admin.module.api.Constant;
@@ -35,7 +35,7 @@ public class LoginModelImpl implements LoginModel {
         }
         AdministratorService service = GlobalContext.getApiDispencer().getRestApi(AdministratorService.class);
 
-        service.login(new LoginUser(userId, password), new Callback<ServerResponse>() {
+        service.login(new LoginInfo(userId, password), new Callback<ServerResponse>() {
             @Override
             public void success(ServerResponse serverResponse, Response response) {
 

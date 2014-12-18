@@ -80,12 +80,7 @@ public class LendFragment extends BasePageListFragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        ((LendAdapter) mAdapter).setOnItemClickListener(new LendAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(Book book) {
 
-            }
-        });
 
 
     }
