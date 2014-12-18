@@ -52,6 +52,7 @@ public class LendFragment extends BasePageListFragment {
 
         SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
 
+
         mService.haveLended(user.getUserId(), user.getPassWord(), page, new Callback<List<Book>>() {
             @Override
             public void success(List<Book> bookList, Response response) {
