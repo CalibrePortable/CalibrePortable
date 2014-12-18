@@ -49,7 +49,7 @@ public class LendAdapter extends BaseRecyclerAdapter<Book, LendAdapter.ViewHolde
 
         viewHolder.mBookName.setText(book.book_name);
         viewHolder.mBookDescription.setText(book.book_status);
-        viewHolder.mBorrowAt.setText("FROM:" + book.create_at);
+        viewHolder.mBorrowAt.setText("FROM:" + book.created_at);
 
 
         if (Integer.valueOf(book.return_at) > 0) {
