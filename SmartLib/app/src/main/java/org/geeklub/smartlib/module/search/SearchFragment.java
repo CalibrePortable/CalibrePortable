@@ -2,6 +2,7 @@ package org.geeklub.smartlib.module.search;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
@@ -138,7 +139,7 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
         int width = DisplayParams.getInstance(mActivity).screenWidth;
 
 
-
+        mBackground.setScaleType(ImageView.ScaleType.CENTER_CROP);
         mBackground.setImageBitmap(BitmapUtil.decodeSampledBitmapFromResource(mActivity.getResources(), drawables[mPosition], width, height));
 
 
@@ -207,6 +208,7 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
             }
         });
     }
+
 
     private void loadNextPage() {
         loadData(mPage);

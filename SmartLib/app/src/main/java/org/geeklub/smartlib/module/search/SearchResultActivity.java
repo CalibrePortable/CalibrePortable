@@ -70,6 +70,7 @@ public class SearchResultActivity extends BaseActivity {
         setSupportActionBar(mToolBar);
     }
 
+
     @Override
     protected int getLayoutResource() {
         return R.layout.activity_search;

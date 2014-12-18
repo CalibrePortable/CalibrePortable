@@ -84,6 +84,7 @@
             android:name=".module.search.SearchResultActivity"
             android:configChanges="orientation|screenSize"
             android:launchMode="singleTop"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.ToolBarStyle"
             android:windowSoftInputMode="adjustPan">
 
