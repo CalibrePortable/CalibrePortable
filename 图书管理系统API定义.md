@@ -146,8 +146,9 @@
         {
             "book_id": 书本id,
             "book_status": 书本状态,
-			"user_name":借阅人,(未实现),
-			"created_at":借阅日期(未实现)
+			"user_name":借阅人,
+			"created_at":借阅日期,
+			"return_at":剩余时间
         },
         {
              ...
@@ -321,8 +322,8 @@
 **参数**
 
 >userId:String
->>type:int(12345)对应(书名 id 作者 种类 全部)
->>>page:int(若page=0则不分页)
+>>type:String(12345)对应(书名 id 作者 种类 全部)
+>>>page:String(若page=0则不分页)
 >>>>keyword:String (获取)
 
 `Response`
@@ -359,14 +360,12 @@
 
 >userId:String
 >>password:String
->>>page:int(获取)
+>>>page:String(获取)
 
 
 `Response`
 >[
-{"cir_id":借阅活动id,
-"book_kind":书本kind,
-"book_detail_url":书本详细url,
+{"book_id":书本id,
 "book_name":书本名称,
 "book_author":书本作者,
 "book_status":书本状态,
@@ -429,8 +428,8 @@ Method:GET
 **参数**
 
 >userId:String
->>type:int(12345)对应(书名 id 作者 种类 全部)
->>>page:int(若page=0则不分页)
+>>type:String(12345)对应(书名 id 作者 种类 全部)
+>>>page:String(若page=0则不分页)
 >>>>keyword:String (获取)
 
 `Response`
@@ -609,7 +608,7 @@ API.php/admin/showRe/12108238/12108238/page=1
 
 >userId:String
 >>password:String
->>>page:int(获取)
+>>>page:String(获取)
 
 `Response`
 >[
