@@ -42,7 +42,7 @@ public class BookDetailActivity extends BaseActivity {
 
     private DetailAdapter mAdapter;
 
-    private String  mBookDetailUrl;
+    private String mBookDetailUrl;
 
     private int[] mPrimary = new int[3];
 
@@ -131,12 +131,12 @@ public class BookDetailActivity extends BaseActivity {
         service.bookDetail(mBookDetailUrl, new Callback<BookDetailInfo>() {
             @Override
             public void success(BookDetailInfo bookDetailInfo, Response response) {
+                LogUtil.i("Detail ===>>>" + bookDetailInfo.book_list.toString());
                 progressWheel.setVisibility(View.GONE);
                 mToolBar.setTitle(bookDetailInfo.book_name);
                 mToolBar.setTitleTextColor(Color.TRANSPARENT);
                 mAdapter.setBookDetailInfo(bookDetailInfo);
 
-                LogUtil.i("Detail ===>>>"+bookDetailInfo.book_list.toString());
 
             }
 
