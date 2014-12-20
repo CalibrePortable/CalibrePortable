@@ -43,7 +43,7 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
     @InjectView(R.id.swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
 
-    @InjectView(R.id.recycle_view)
+    @InjectView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
     private BorrowAdapter mAdapter;

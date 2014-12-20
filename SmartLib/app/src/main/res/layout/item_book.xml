@@ -19,7 +19,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:text="书本ID"
             android:textColor="@color/MIDNIGHT_BLUE"
             android:textSize="14sp"/>
 
@@ -29,7 +28,6 @@
             android:layout_height="wrap_content"
             android:layout_alignTop="@+id/tv_book_id"
             android:layout_toLeftOf="@+id/tv_book_status"
-            android:text="借书人"
             android:textColor="@color/MIDNIGHT_BLUE"
             android:textSize="14sp"/>
 
@@ -40,7 +38,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="10dp"
-            android:text="书本状态"
             android:textColor="@color/MIDNIGHT_BLUE"
             android:textSize="14sp"/>
 
@@ -50,7 +47,6 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentLeft="true"
-            android:text="借阅时间"
             android:textColor="@color/MIDNIGHT_BLUE"
             android:textSize="14sp"/>
 
@@ -61,9 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/tv_created_at"
-            android:text="还书时间"
-            android:textSize="10sp"/>
+            android:textSize="14sp"/>
 
 
     </RelativeLayout>

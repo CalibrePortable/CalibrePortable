@@ -96,6 +96,7 @@
     <orderEntry type="library" exported="" name="support-annotations-21.0.2" level="project" />
     <orderEntry type="library" exported="" name="butterknife-5.1.1" level="project" />
     <orderEntry type="library" exported="" name="avosfeedback-v2.6.8" level="project" />
+    <orderEntry type="library" exported="" name="circleimageview-1.2.1" level="project" />
     <orderEntry type="library" exported="" name="core-3.0.1" level="project" />
     <orderEntry type="library" exported="" name="avosfeedback-v2.6.4" level="project" />
     <orderEntry type="library" exported="" name="appcompat-v7-21.0.2" level="project" />

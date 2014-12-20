@@ -50,7 +50,7 @@ import retrofit.client.Response;
  */
 public class MainActivity extends BaseActivity {
 
-    public
+
     @InjectView(R.id.drawer_layout)
     DrawerLayout mDrawerLayout;
 

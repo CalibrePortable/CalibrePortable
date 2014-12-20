@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
 
-  <android.support.v4.widget.SwipeRefreshLayout
-      android:layout_height="match_parent"
-      android:layout_width="match_parent"
-      android:id="@+id/swipe_layout">
-
-    <android.support.v7.widget.RecyclerView
-        android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical"
-        android:scrollbarThumbVertical="@color/EMERALD"
-        android:layout_height="match_parent"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipe_layout"
         android:layout_width="match_parent"
-        android:id="@+id/recycle_view">
-    </android.support.v7.widget.RecyclerView>
+        android:layout_height="match_parent">
 
-  </android.support.v4.widget.SwipeRefreshLayout>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbarStyle="outsideOverlay"
+            android:scrollbarThumbVertical="@color/EMERALD"
+            android:scrollbars="vertical">
+        </android.support.v7.widget.RecyclerView>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 
 </FrameLayout>

@@ -15,9 +15,9 @@ import java.util.ListIterator;
 public abstract class BaseRecyclerAdapter<E, VH extends RecyclerView.ViewHolder>
         extends RecyclerView.Adapter<VH> implements List<E> {
 
-    private final Object lock = new Object();
+    protected final Object lock = new Object();
 
-    private final List<E> list;
+    protected final List<E> list;
 
     public BaseRecyclerAdapter() {
         list = new ArrayList<E>();
