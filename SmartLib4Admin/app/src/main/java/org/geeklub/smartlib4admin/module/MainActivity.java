@@ -33,7 +33,7 @@ import org.geeklub.smartlib4admin.module.event.BookPlusEvent;
 import org.geeklub.smartlib4admin.module.event.BookReturnEvent;
 import org.geeklub.smartlib4admin.module.lend.LendFragment;
 import org.geeklub.smartlib4admin.module.library.LibraryFragment;
-import org.geeklub.smartlib4admin.module.library.SelectBookTypeDialogFragment;
+import org.geeklub.smartlib4admin.module.library.SelectBookTypeDialog;
 import org.geeklub.smartlib4admin.module.type.Category;
 import org.geeklub.smartlib4admin.module.type.ScanCategory;
 import org.geeklub.smartlib4admin.utils.SmartLibraryUser;
@@ -50,7 +50,7 @@ import retrofit.client.Response;
  */
 public class MainActivity extends BaseActivity
         implements LibraryFragment.OnAddBookButtonClickListener,
-        SelectBookTypeDialogFragment.OnDialogButtonClickListener {
+        SelectBookTypeDialog.OnDialogButtonClickListener {
 
     private static final Logger logger = LoggerFactory.getLogger(MainActivity.class);
 
@@ -286,9 +286,9 @@ public class MainActivity extends BaseActivity
     }
 
     private void showDialog() {
-        SelectBookTypeDialogFragment fragment =
-                (SelectBookTypeDialogFragment) SelectBookTypeDialogFragment.newInstance("请选择书本的类型");
-        fragment.show(fragmentManager, SelectBookTypeDialogFragment.TAG);
+        SelectBookTypeDialog fragment =
+                (SelectBookTypeDialog) SelectBookTypeDialog.newInstance("请选择书本的类型");
+        fragment.show(fragmentManager, SelectBookTypeDialog.TAG);
     }
 
     @Override

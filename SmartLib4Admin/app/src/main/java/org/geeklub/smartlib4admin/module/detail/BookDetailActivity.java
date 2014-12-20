@@ -48,6 +48,9 @@ public class BookDetailActivity extends BaseActivity {
 
     private int[] mPrimary = new int[3];
 
+    private BookInfoDialog bookInfoDialog;
+
+
     @InjectView(R.id.progress_wheel)
     ProgressWheel progressWheel;
 
@@ -82,6 +85,7 @@ public class BookDetailActivity extends BaseActivity {
         setUpToolBar();
         setUpRecyclerView();
 
+        initDialog();
         initCallBacks();
 
         loadData();
@@ -129,6 +133,24 @@ public class BookDetailActivity extends BaseActivity {
 
             }
         });
+
+        bookDetailAdapter.setOnDialogShowListener(new BookDetailAdapter.OnDialogShowListener() {
+            @Override
+            public void onDialogShow(BookDetailInfo detailInfo) {
+                if (bookInfoDialog != null) {
+                    bookInfoDialog.setDialogContent(detailInfo);
+                    bookInfoDialog.show(getFragmentManager(), BookInfoDialog.TAG);
+                }
+            }
+        });
+
+    }
+
+    private void initDialog() {
+        if (bookInfoDialog == null) {
+            bookInfoDialog = (BookInfoDialog) BookInfoDialog.newInstance();
+        }
+
     }
 
 
@@ -273,5 +295,6 @@ public class BookDetailActivity extends BaseActivity {
         }
 
     }
+
 
 }

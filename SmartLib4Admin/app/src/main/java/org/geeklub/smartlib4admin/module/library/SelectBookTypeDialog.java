@@ -21,9 +21,9 @@ import butterknife.InjectView;
 /**
  * Created by Vass on 2014/12/1.
  */
-public class SelectBookTypeDialogFragment extends DialogFragment {
+public class SelectBookTypeDialog extends DialogFragment {
 
-  public static final String TAG = SelectBookTypeDialogFragment.class.getSimpleName();
+  public static final String TAG = SelectBookTypeDialog.class.getSimpleName();
 
   private static final String ARGS_TITLE = "args_title";
 
@@ -52,12 +52,12 @@ public class SelectBookTypeDialogFragment extends DialogFragment {
   }
 
   public static Fragment newInstance(String title) {
-    Fragment fragment = new SelectBookTypeDialogFragment();
-    Bundle args = new Bundle();
-    args.putString(ARGS_TITLE, title);
-    fragment.setArguments(args);
-    return fragment;
-  }
+        Fragment fragment = new SelectBookTypeDialog();
+        Bundle args = new Bundle();
+        args.putString(ARGS_TITLE, title);
+        fragment.setArguments(args);
+        return fragment;
+    }
 
   private void parseArguments() {
     Bundle args = getArguments();
