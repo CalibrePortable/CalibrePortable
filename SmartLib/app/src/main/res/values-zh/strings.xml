@@ -1,45 +1,47 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-  <string name="app_name">图书管理</string>
+    <string name="app_name">图书管理</string>
 
 
-  <string name="user_id">学号:</string>
-  <string name="password">密码:</string>
-  <string name="user_name">用户名:</string>
-  <string name="confirm_password">确认密码:</string>
-  <string name="login">登陆</string>
-  <string name="register">注册</string>
-  <string name="new_password">新密码:</string>
-  <string name="modify_password">修改你的密码:</string>
-  <string name="confirm">确认</string>
+    <string name="user_id">学号:</string>
+    <string name="password">密码:</string>
+    <string name="user_name">用户名:</string>
+    <string name="confirm_password">确认密码:</string>
+    <string name="login">登陆</string>
+    <string name="register">注册</string>
+    <string name="new_password">新密码:</string>
+    <string name="modify_password">修改你的密码:</string>
+    <string name="confirm">确认</string>
 
-  <string name="et_user_id_hint">请输入你的账号</string>
-  <string name="et_user_name_hint">请输入你的用户名</string>
-  <string name="et_password_hint">请输入你的密码</string>
-  <string name="et_input_password_again_hint">请再输入你的密码</string>
-  <string name="search_hint">搜索你想要的书本</string>
-  <string name="et_new_password_hint">输入新的密码</string>
-
-
-  <string name="user_id_not_empty">user id不能为空!!!</string>
-  <string name="user_name_not_empty">用户名不能为空!!!</string>
-  <string name="password_not_empty">密码不能为空!!!</string>
-  <string name="re_password_error">两次密码输入不一致!!!</string>
-
-  <string name="drawer_open">drawer open</string>
-  <string name="drawer_close">drawer close</string>
-
-  <string name="action_search">搜索</string>
-  <string name="action_settings">设置</string>
-  <string name="action_qr_code">扫一扫借书</string>
-  <string name="action_logout">退出</string>
+    <string name="et_user_id_hint">请输入你的账号</string>
+    <string name="et_user_name_hint">请输入你的用户名</string>
+    <string name="et_password_hint">请输入你的密码</string>
+    <string name="et_input_password_again_hint">请再输入你的密码</string>
+    <string name="search_hint">搜索你想要的书本</string>
+    <string name="et_new_password_hint">输入新的密码</string>
 
 
-  <array name="normal_user_functions">
-    <item>全部</item>
-    <item>已借</item>
-  </array>
+    <string name="user_id_not_empty">user id不能为空!!!</string>
+    <string name="user_name_not_empty">用户名不能为空!!!</string>
+    <string name="password_not_empty">密码不能为空!!!</string>
+    <string name="re_password_error">两次密码输入不一致!!!</string>
+
+    <string name="drawer_open">drawer open</string>
+    <string name="drawer_close">drawer close</string>
+
+    <string name="action_search">搜索</string>
+    <string name="action_open">打开</string>
+    <string name="action_share">分享</string>
+    <string name="action_settings">设置</string>
+    <string name="action_qr_code">扫一扫借书</string>
+    <string name="action_logout">退出</string>
+
+
+    <array name="normal_user_functions">
+        <item>全部</item>
+        <item>已借</item>
+    </array>
 
 
 </resources>

@@ -1,11 +1,17 @@
 package org.geeklub.smartlib.module.detail;
 
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.NavUtils;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.ShareActionProvider;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
@@ -16,7 +22,6 @@ import butterknife.InjectView;
 import org.geeklub.smartlib.GlobalContext;
 import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.beans.BookDetailInfo;
-import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.module.adapters.DetailAdapter;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.R;
@@ -49,6 +54,12 @@ public class BookDetailActivity extends BaseActivity {
     private View mFirstItemView;
 
     private float mTransHeight;
+
+    private String mBookLink;
+
+    private ShareActionProvider mShareActionProvider;
+
+    private Intent mShareInetnt;
 
     public static final String EXTRAS_BOOK_DETAIL_URL = "extras_book_detail_url";
 
@@ -131,11 +142,13 @@ public class BookDetailActivity extends BaseActivity {
         service.bookDetail(mBookDetailUrl, new Callback<BookDetailInfo>() {
             @Override
             public void success(BookDetailInfo bookDetailInfo, Response response) {
-                LogUtil.i("Detail ===>>>" + bookDetailInfo.book_list.toString());
+                LogUtil.i("Detail ===>>>" + bookDetailInfo.toString());
                 progressWheel.setVisibility(View.GONE);
                 mToolBar.setTitle(bookDetailInfo.book_name);
                 mToolBar.setTitleTextColor(Color.TRANSPARENT);
                 mAdapter.setBookDetailInfo(bookDetailInfo);
+                mBookLink = bookDetailInfo.book_link;
+                setShareIntent(getUpSendIntent(bookDetailInfo.book_link));
 
 
             }
@@ -148,6 +161,15 @@ public class BookDetailActivity extends BaseActivity {
         });
     }
 
+    private Intent getUpSendIntent(String bookLink) {
+        mShareInetnt = new Intent();
+        mShareInetnt.setAction(Intent.ACTION_SEND);
+        mShareInetnt.putExtra(Intent.EXTRA_TEXT, bookLink);
+        mShareInetnt.setType("text/plain");
+        return mShareInetnt;
+    }
+
+
     private void initToolBar() {
         mToolBar.setBackgroundColor(Color.TRANSPARENT);
         mToolBar.setTitle("");
@@ -156,14 +178,42 @@ public class BookDetailActivity extends BaseActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.detail, menu);
+        MenuItem item = menu.findItem(R.id.action_share);
+        mShareActionProvider = (ShareActionProvider) MenuItemCompat.getActionProvider(item);
+        return true;
+    }
+
+
+    private void setShareIntent(Intent shareIntent) {
+        if (mShareActionProvider != null) {
+            mShareActionProvider.setShareIntent(shareIntent);
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
                 NavUtils.navigateUpTo(this, getIntent());
                 return true;
+
+            case R.id.action_open:
+                openWithBrowser(mBookLink);
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void openWithBrowser(String mBookLink) {
+        if (TextUtils.isEmpty(mBookLink)) {
+            return;
+        }
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(mBookLink));
+        startActivity(intent);
     }
 
     private int color(float alpha) {

@@ -30,5 +30,10 @@ public class BookDetailInfo {
     public List<Book> book_list;
 
 
-
+    @Override
+    public String toString() {
+        return "BookDetailInfo{" +
+                "book_link='" + book_link + '\'' +
+                '}';
+    }
 }
