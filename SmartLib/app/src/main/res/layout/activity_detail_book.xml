@@ -17,12 +17,12 @@
 
 
     <com.pnikosis.materialishprogress.ProgressWheel
-        android:id="@+id/progress_wheel"
-        android:visibility="gone"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        wheel:barColor="@color/GREEN_SEA"
+    android:id="@+id/progress_wheel"
+    android:visibility="gone"
+    android:layout_width="80dp"
+    android:layout_height="80dp"
+    android:layout_gravity="center"
+    wheel:barColor="@color/GREEN_SEA"
         wheel:progressIndeterminate="true"/>
 
 

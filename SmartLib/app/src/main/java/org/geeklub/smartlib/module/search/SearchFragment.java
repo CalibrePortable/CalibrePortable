@@ -2,21 +2,17 @@ package org.geeklub.smartlib.module.search;
 
 import android.app.Fragment;
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.util.DisplayMetrics;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
-import com.squareup.picasso.Picasso;
 
 import butterknife.InjectView;
 
@@ -30,13 +26,10 @@ import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.module.adapters.SearchAdapter;
 import org.geeklub.smartlib.module.base.BaseFragment;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
-import org.geeklub.smartlib.utils.BitmapLruCache;
 import org.geeklub.smartlib.utils.BitmapUtil;
 import org.geeklub.smartlib.utils.DisplayParams;
-import org.geeklub.smartlib.utils.DisplayUtil;
 import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
-import org.geeklub.smartlib.utils.ToastUtil;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -47,6 +40,7 @@ import retrofit.client.Response;
  */
 public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
+    public static final String TAG = SearchFragment.class.getSimpleName();
 
     private static final String ARGS_KEYWORD = "args_query_word";
 
@@ -57,6 +51,9 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
     private int mPosition;
 
     private static final int[] drawables = {R.drawable.search_fragment_bg_1, R.drawable.search_fragment_bg_2, R.drawable.search_fragment_bg_3, R.drawable.search_fragment_bg_4};
+
+    private static final int mBackgroundDraweable = R.drawable.search_fragment_bg_1;
+
 
     private String mQueryWord;
 
@@ -75,6 +72,13 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
 
 
     private int mPage = 1;
+
+
+    public static Fragment newInstance() {
+        Fragment searchFragment = new SearchFragment();
+        Bundle args = new Bundle();
+        return searchFragment;
+    }
 
     public static Fragment newInstance(int type, String keyWord, int position) {
         Fragment searchFragment = new SearchFragment();
@@ -142,11 +146,11 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
         int width = DisplayParams.getInstance(mActivity).screenWidth;
 
 
-        if (GlobalContext.getBitmapLruCacheInstance().getBitmapFromMemoryCache(drawables[mPosition]) == null) {
+        if (GlobalContext.getBitmapLruCacheInstance().getBitmapFromMemoryCache(mBackgroundDraweable) == null) {
             LogUtil.i("内存中没有，添加到缓存中");
-            GlobalContext.getBitmapLruCacheInstance().addBitmapToMemoryCache(drawables[mPosition], BitmapUtil.decodeSampledBitmapFromResource(getResources(), drawables[mPosition], width / 2, height / 2));
+            GlobalContext.getBitmapLruCacheInstance().addBitmapToMemoryCache(mBackgroundDraweable, BitmapUtil.decodeSampledBitmapFromResource(getResources(), mBackgroundDraweable, width / 2, height / 2));
         }
-        mBackground.setImageBitmap(GlobalContext.getBitmapLruCacheInstance().getBitmapFromMemoryCache(drawables[mPosition]));
+        mBackground.setImageBitmap(GlobalContext.getBitmapLruCacheInstance().getBitmapFromMemoryCache(mBackgroundDraweable));
 
 
         mRefreshLayout.setOnRefreshListener(this);

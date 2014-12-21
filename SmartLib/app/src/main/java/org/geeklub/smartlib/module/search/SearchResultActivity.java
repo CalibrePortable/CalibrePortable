@@ -1,72 +1,266 @@
 package org.geeklub.smartlib.module.search;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v13.app.FragmentStatePagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
-import android.support.v7.graphics.Palette;
+import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
+import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageView;
+import android.widget.Spinner;
 
 import butterknife.InjectView;
+import retrofit.Callback;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
-import com.astuetz.PagerSlidingTabStrip;
 
 import org.geeklub.smartlib.GlobalContext;
 import org.geeklub.smartlib.R;
+import org.geeklub.smartlib.api.NormalUserService;
+import org.geeklub.smartlib.beans.ServerResponse;
+import org.geeklub.smartlib.beans.SummaryBook;
+import org.geeklub.smartlib.module.adapters.SearchAdapter;
 import org.geeklub.smartlib.module.base.BaseActivity;
+import org.geeklub.smartlib.module.detail.BookDetailActivity;
 import org.geeklub.smartlib.utils.BitmapUtil;
+import org.geeklub.smartlib.utils.DisplayParams;
 import org.geeklub.smartlib.utils.LogUtil;
-import org.geeklub.smartlib.utils.VersionUtil;
+import org.geeklub.smartlib.utils.SmartLibraryUser;
+
+import java.util.List;
 
 /**
  * Created by Vass on 2014/11/17.
  */
-public class SearchResultActivity extends BaseActivity {
+public class SearchResultActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-    @InjectView(R.id.pager)
-    ViewPager mViewPager;
 
-    @InjectView(R.id.tabs)
-    PagerSlidingTabStrip mTabs;
+    private SearchAdapter searchAdapter;
+
+    private int mPage = 1;
+
+    private String mQueryWord;
+
+    private static final int mBackgroundDrawable = R.drawable.search_fragment_bg_1;
 
     @InjectView(R.id.toolbar)
     Toolbar mToolBar;
 
-    private SearchPagerAdapter mAdapter;
+    @InjectView(R.id.filter)
+    Spinner mFilter;
+
+    @InjectView(R.id.swipe_layout)
+    SwipeRefreshLayout mRefreshLayout;
+
+
+    @InjectView(R.id.recycler_view)
+    RecyclerView mRecyclerView;
+
+
+    @InjectView(R.id.iv_background)
+    ImageView mBackground;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         initToolBar();
-        initTabs();
 
-        mAdapter = new SearchPagerAdapter(getFragmentManager());
-        mViewPager.setAdapter(mAdapter);
-        mViewPager.setOffscreenPageLimit(4);
-        mViewPager.setPageTransformer(true, new StackTransformer());
-        mTabs.setViewPager(mViewPager);
-        mTabs.setOnPageChangeListener(new SearchOnPageChangeListener());
+        setUpBackground();
+        setUpFilter();
+        setUpRecyclerView();
+        setUpSwipingLayout();
 
-        handleIntent(getIntent());
+
+        if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
+            mQueryWord = getIntent().getStringExtra(SearchManager.QUERY);
+        }
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        handleIntent(intent);
+    }
+
+    //处理新的请求，表示在同一个Activity内
+    private void handleIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            mQueryWord = intent.getStringExtra(SearchManager.QUERY);
+            onRefresh();
+        }
+    }
+
+    private void setUpBackground() {
+        int height = DisplayParams.getInstance(this).screenHeight;
+        int width = DisplayParams.getInstance(this).screenWidth;
+
+        mBackground.setImageBitmap(BitmapUtil.decodeSampledBitmapFromResource(getResources(), mBackgroundDrawable, width / 2, height / 2));
+    }
+
+
+    private void setUpSwipingLayout() {
+        mRefreshLayout.setOnRefreshListener(this);
+        mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light, android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+    }
+
+
+    private void setUpRecyclerView() {
+        searchAdapter = new SearchAdapter(this);
+        searchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(SummaryBook book) {
+                Intent intent = new Intent(SearchResultActivity.this, BookDetailActivity.class);
+                intent.putExtra(BookDetailActivity.EXTRAS_BOOK_DETAIL_URL, book.book_kind);
+                startActivity(intent);
+            }
+        });
+
+        searchAdapter.setOnFavourClickListener(new SearchAdapter.OnFavourClickListener() {
+            @Override
+            public void onFavourClick(SummaryBook book) {
+                book.isLike = "1";
+                book.favour = Integer.valueOf(book.favour) + 1 + "";
+                sendDianZanMsg(book);
+            }
+        });
+
+        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setAdapter(searchAdapter);
+
+        mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+
+                switch (newState) {
+                    case RecyclerView.SCROLL_STATE_IDLE:
+                        loadNextPage();
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        });
+    }
+
+
+    private void sendDianZanMsg(SummaryBook book) {
+        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+        NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
+
+        service.likePlusOne(book.book_kind, user.getUserId(), user.getPassWord(),
+                new Callback<ServerResponse>() {
+                    @Override
+                    public void success(ServerResponse serverResponse, Response response) {
+                        LogUtil.i("点赞成功 ...");
+                    }
+
+                    @Override
+                    public void failure(RetrofitError error) {
+                        LogUtil.i("点赞失败 ===>>>" + error.getMessage());
+                    }
+                });
+    }
+
+
+    private void loadData(int page) {
+        int type = 1;
+        switch (mFilter.getSelectedItemPosition()) {
+            case 0:
+                type = 1;
+                break;
+            case 1:
+                type = 2;
+                break;
+            case 2:
+                type = 3;
+                break;
+            case 3:
+                type = 4;
+                break;
+            default:
+                break;
+        }
+
+        final boolean isRefreshFromTop = (page == 1);
+
+        if (!mRefreshLayout.isRefreshing() && isRefreshFromTop) {
+            mRefreshLayout.setRefreshing(true);
+        }
+
+        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+        final NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
+
+        service.search(user.getUserId(), type, page, mQueryWord, new Callback<List<SummaryBook>>() {
+            @Override
+            public void success(List<SummaryBook> bookList, Response response) {
+                mRefreshLayout.setRefreshing(false);
+                if (isRefreshFromTop) {
+                    searchAdapter.replaceWith(bookList);
+                } else {
+                    searchAdapter.addAll(bookList);
+                }
+                mPage++;
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                LogUtil.i(error.getMessage());
+                mRefreshLayout.setRefreshing(false);
+            }
+        });
+    }
+
+    private void loadFirstPage() {
+        mPage = 1;
+        loadData(mPage);
+    }
+
+    private void loadNextPage() {
+        loadData(mPage);
+    }
+
+    private void setUpFilter() {
+
+        mFilter.setAdapter(ArrayAdapter.createFromResource(this, R.array.search_tabs,
+                android.R.layout.simple_spinner_dropdown_item));
+
+
+        mFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //          onItemSelected在init之后会自动被调用一次
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                onRefresh();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+    }
+
+
     private void initToolBar() {
-        mToolBar.setTitle("搜索");
+        mToolBar.setTitle("");
         mToolBar.setNavigationIcon(R.drawable.ic_arrow_back_black_24dp);
         setSupportActionBar(mToolBar);
     }
@@ -78,44 +272,10 @@ public class SearchResultActivity extends BaseActivity {
     }
 
 
-    private void initTabs() {
-        // 底部游标颜色
-        mTabs.setIndicatorColor(Color.parseColor("#e74c3c"));
-        // tab的分割线颜色
-        mTabs.setDividerColor(Color.TRANSPARENT);
-        // tab背景
-        mTabs.setBackgroundColor(Color.parseColor("#f1c40f"));
-        // tab底线高度
-        mTabs.setUnderlineHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                1, getResources().getDisplayMetrics()));
-        // 游标高度
-        mTabs.setIndicatorHeight((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                5, getResources().getDisplayMetrics()));
-
-        // 正常文字颜色
-        mTabs.setTextColor(Color.parseColor("#34495e"));
-    }
-
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        handleIntent(intent);
-    }
-
-    private void handleIntent(Intent intent) {
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String queryWord = intent.getStringExtra(SearchManager.QUERY);
-            LogUtil.i("搜索的关键字是 ===>>>" + queryWord);
-            mAdapter.setKeyWord(queryWord);
-            mAdapter.refresh();
-        }
-    }
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.search, menu);
-
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
@@ -128,106 +288,17 @@ public class SearchResultActivity extends BaseActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home:
-                //我也不知道这么做对不对
+                //TODO 我也不知道这么做对不对
                 NavUtils.navigateUpTo(this, getIntent());
         }
         return super.onOptionsItemSelected(item);
     }
 
-    private class SearchPagerAdapter extends FragmentStatePagerAdapter {
-        private final String[] TITLES = {"书名", "出版社", "作者", "种类"};
-
-        private String mKeyWord;
-
-        public SearchPagerAdapter(FragmentManager fm) {
-            super(fm);
-            mKeyWord = "";
-        }
-
-        public void setKeyWord(String keyWord) {
-            mKeyWord = keyWord;
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            return SearchFragment.newInstance(position + 1, mKeyWord, position);
-        }
-
-        @Override
-        public int getCount() {
-            return TITLES.length;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return TITLES[position];
-        }
-
-
-        public void refresh() {
-            notifyDataSetChanged();
-        }
-
-        @Override
-        public int getItemPosition(Object object) {
-            return POSITION_NONE;
-        }
-    }
-
-    private class SearchOnPageChangeListener implements ViewPager.OnPageChangeListener {
-
-        @Override
-        public void onPageScrolled(int i, float v, int i2) {
-
-        }
-
-        @Override
-        public void onPageSelected(int position) {
-            LogUtil.i("onPageSelected ===>>>position" + position);
-            changeColor(position);
-
-        }
-
-        @Override
-        public void onPageScrollStateChanged(int i) {
-
-        }
-    }
-
-    private void changeColor(int position) {
-        Bitmap bitmap = BitmapUtil.decodeSampledBitmapFromResource(getResources(), SearchFragment.getBackgroundBitmapPosition(position), 100, 100);
-
-        Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-                Palette.Swatch vibrant = palette.getVibrantSwatch();
-                  /* 界面颜色UI统一性处理,看起来更Material一些 */
-                mTabs.setBackgroundColor(vibrant.getRgb());
-                mTabs.setTextColor(vibrant.getTitleTextColor());
-                // 其中状态栏、游标、底部导航栏的颜色需要加深一下，也可以不加
-                mTabs.setIndicatorColor(colorBurn(vibrant.getRgb()));
-
-                mToolBar.setBackgroundColor(vibrant.getRgb());
-
-                if (VersionUtil.IS_LOLLIPOP) {
-                    Window window = getWindow();
-                    window.setStatusBarColor(colorBurn(vibrant.getRgb()));
-                    window.setNavigationBarColor(colorBurn(vibrant.getRgb()));
-                }
-
-            }
-        });
+    @Override
+    public void onRefresh() {
+        LogUtil.i("onRefresh");
+        loadFirstPage();
     }
 
 
-    private int colorBurn(int RGBValues) {
-        int alpha = RGBValues >> 24;
-        int red = RGBValues >> 16 & 0xFF;
-        int green = RGBValues >> 8 & 0xFF;
-        int blue = RGBValues & 0xFF;
-        red = (int) Math.floor(red * (1 - 0.1));
-        green = (int) Math.floor(green * (1 - 0.1));
-        blue = (int) Math.floor(blue * (1 - 0.1));
-        return Color.rgb(red, green, blue);
-    }
 }

@@ -43,5 +43,12 @@
         <item>已借</item>
     </array>
 
+    <array name="search_tabs">
+        <item>书名</item>
+        <item>出版社</item>
+        <item>作者</item>
+        <item>种类</item>
+    </array>
+
 
 </resources>
