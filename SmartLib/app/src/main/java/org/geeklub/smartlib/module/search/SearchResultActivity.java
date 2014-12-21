@@ -193,7 +193,7 @@ public class SearchResultActivity extends BaseActivity {
     }
 
     private void changeColor(int position) {
-        Bitmap bitmap = BitmapUtil.decodeSampledBitmapFromResource(getResources(), SearchFragment.getBackgroundBitmapPosition(position), 200, 400);
+        Bitmap bitmap = BitmapUtil.decodeSampledBitmapFromResource(getResources(), SearchFragment.getBackgroundBitmapPosition(position), 100, 100);
 
         Palette.generateAsync(bitmap, new Palette.PaletteAsyncListener() {
             @Override

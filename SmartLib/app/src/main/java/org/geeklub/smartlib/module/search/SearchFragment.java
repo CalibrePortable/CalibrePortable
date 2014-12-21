@@ -140,8 +140,7 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
 
 
         mBackground.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        mBackground.setImageBitmap(BitmapUtil.decodeSampledBitmapFromResource(mActivity.getResources(), drawables[mPosition], width, height));
-
+        mBackground.setImageBitmap(BitmapUtil.decodeSampledBitmapFromResource(getResources(), drawables[mPosition], width / 2, height / 2));
 
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,
