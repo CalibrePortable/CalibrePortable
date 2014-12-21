@@ -30,6 +30,7 @@ import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.module.adapters.SearchAdapter;
 import org.geeklub.smartlib.module.base.BaseFragment;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
+import org.geeklub.smartlib.utils.BitmapLruCache;
 import org.geeklub.smartlib.utils.BitmapUtil;
 import org.geeklub.smartlib.utils.DisplayParams;
 import org.geeklub.smartlib.utils.DisplayUtil;
@@ -46,6 +47,7 @@ import retrofit.client.Response;
  */
 public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
+
     private static final String ARGS_KEYWORD = "args_query_word";
 
     private static final String ARGS_TYPE = "args_type";
@@ -53,7 +55,6 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
     private static final String ARG_POSITION = "args_position";
 
     private int mPosition;
-
 
     private static final int[] drawables = {R.drawable.search_fragment_bg_1, R.drawable.search_fragment_bg_2, R.drawable.search_fragment_bg_3, R.drawable.search_fragment_bg_4};
 
@@ -89,6 +90,8 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
+        LogUtil.i("onCreate");
         mAdapter = new SearchAdapter(mActivity);
 
         mAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
@@ -139,8 +142,12 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
         int width = DisplayParams.getInstance(mActivity).screenWidth;
 
 
-        mBackground.setScaleType(ImageView.ScaleType.CENTER_CROP);
-        mBackground.setImageBitmap(BitmapUtil.decodeSampledBitmapFromResource(getResources(), drawables[mPosition], width / 2, height / 2));
+        if (GlobalContext.getBitmapLruCacheInstance().getBitmapFromMemoryCache(drawables[mPosition]) == null) {
+            LogUtil.i("内存中没有，添加到缓存中");
+            GlobalContext.getBitmapLruCacheInstance().addBitmapToMemoryCache(drawables[mPosition], BitmapUtil.decodeSampledBitmapFromResource(getResources(), drawables[mPosition], width / 2, height / 2));
+        }
+        mBackground.setImageBitmap(GlobalContext.getBitmapLruCacheInstance().getBitmapFromMemoryCache(drawables[mPosition]));
+
 
         mRefreshLayout.setOnRefreshListener(this);
         mRefreshLayout.setColorSchemeResources(android.R.color.holo_blue_bright,

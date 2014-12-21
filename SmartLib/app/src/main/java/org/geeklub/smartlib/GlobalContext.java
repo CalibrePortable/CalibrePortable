@@ -2,11 +2,13 @@ package org.geeklub.smartlib;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.LruCache;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.squareup.otto.Bus;
 
 import org.geeklub.smartlib.api.RestApiDispencer;
+import org.geeklub.smartlib.utils.BitmapLruCache;
 
 import retrofit.RestAdapter;
 
@@ -14,6 +16,11 @@ import retrofit.RestAdapter;
  * Created by Vass on 2014/10/7.
  */
 public class GlobalContext extends Application {
+
+    // 取运行内存阈值的1/8作为图片缓存
+    private static final int MEMORY_CACHE_SIZE = (int) (Runtime.getRuntime().maxMemory() / 1024 / 8);
+
+    private static BitmapLruCache sBitmapLruCache;
 
     private static Bus sBus;
 
@@ -33,10 +40,15 @@ public class GlobalContext extends Application {
         return sApiDispencer;
     }
 
+    public static BitmapLruCache getBitmapLruCacheInstance() {
+        return sBitmapLruCache;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
 
+        sBitmapLruCache = new BitmapLruCache(MEMORY_CACHE_SIZE);
         sBus = new Bus();
         sContext = getApplicationContext();
         sApiDispencer = new RestApiDispencer(

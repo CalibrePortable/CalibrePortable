@@ -25,6 +25,7 @@ import butterknife.InjectView;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+import org.geeklub.smartlib.GlobalContext;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.utils.BitmapUtil;
@@ -161,6 +162,7 @@ public class SearchResultActivity extends BaseActivity {
         public CharSequence getPageTitle(int position) {
             return TITLES[position];
         }
+
 
         public void refresh() {
             notifyDataSetChanged();
