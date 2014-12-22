@@ -36,7 +36,6 @@ import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.module.adapters.SearchAdapter;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
-import org.geeklub.smartlib.utils.BitmapUtil;
 import org.geeklub.smartlib.utils.DisplayParams;
 import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
@@ -55,7 +54,7 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
 
     private String mQueryWord;
 
-    private static final int mBackgroundDrawable = R.drawable.search_fragment_bg_1;
+//    private static final int mBackgroundDrawable = R.drawable.search_fragment_bg_1;
 
     @InjectView(R.id.toolbar)
     Toolbar mToolBar;
