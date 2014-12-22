@@ -23,7 +23,7 @@
 
 
     <style name="AppTheme.ActionBarStyle" parent="AppTheme.Base">
-        <item name="android:windowActionBar">false</item>
+        <item name="android:windowActionBar">true</item>
         <item name="android:actionBarStyle">@style/MyActionBarStyle</item>
     </style>
 
