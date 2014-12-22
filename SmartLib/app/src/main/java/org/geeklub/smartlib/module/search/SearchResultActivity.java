@@ -20,6 +20,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
+import com.squareup.picasso.Picasso;
+
 import butterknife.InjectView;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -108,7 +110,9 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
         int height = DisplayParams.getInstance(this).screenHeight;
         int width = DisplayParams.getInstance(this).screenWidth;
 
-        mBackground.setImageBitmap(BitmapUtil.decodeSampledBitmapFromResource(getResources(), mBackgroundDrawable, width / 2, height / 2));
+        Picasso.with(this).load(R.drawable.search_fragment_bg_1).resize(width / 2, height / 2).centerCrop().into(mBackground);
+
+//        mBackground.setImageBitmap(BitmapUtil.decodeSampledBitmapFromResource(getResources(), mBackgroundDrawable, width / 2, height / 2));
     }
 
 

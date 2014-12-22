@@ -10,10 +10,10 @@
 
     <ImageView
         android:id="@+id/iv_book_icon"
-        android:layout_width="70dp"
-        android:layout_height="120dp"
+        android:layout_width="100dp"
+        android:layout_height="150dp"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="5dp"
         android:layout_marginTop="10dp"/>
 
     <TextView
@@ -76,7 +76,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignTop="@+id/tv_book_pub"
-        android:layout_marginLeft="40dp"
+        android:layout_marginLeft="20dp"
         android:layout_toRightOf="@+id/tv_book_pub"
         android:text="价格"
         android:textSize="14sp"/>
