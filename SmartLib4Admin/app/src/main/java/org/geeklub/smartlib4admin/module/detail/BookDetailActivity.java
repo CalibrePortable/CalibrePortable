@@ -10,6 +10,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.facebook.rebound.SimpleSpringListener;
+import com.facebook.rebound.Spring;
+import com.facebook.rebound.SpringSystem;
 import com.pnikosis.materialishprogress.ProgressWheel;
 
 import org.geeklub.smartlib4admin.GlobalContext;
@@ -141,6 +144,27 @@ public class BookDetailActivity extends BaseActivity {
                     bookInfoDialog.setDialogContent(detailInfo);
                     bookInfoDialog.show(getFragmentManager(), BookInfoDialog.TAG);
                 }
+            }
+        });
+
+        bookDetailAdapter.setOnBookIconClickListener(new BookDetailAdapter.OnBookIconClickListener() {
+            @Override
+            public void onBookIconClick(final View bookIcon) {
+                SpringSystem springSystem = SpringSystem.create();
+                Spring spring = springSystem.createSpring();
+
+                spring.addListener(new SimpleSpringListener() {
+                    @Override
+                    public void onSpringUpdate(Spring spring) {
+                        super.onSpringUpdate(spring);
+
+                        float value = (float) spring.getCurrentValue();
+                        float scale = 1f - (value * 0.5f);
+                        bookIcon.setScaleX(scale);
+                        bookIcon.setScaleY(scale);
+                    }
+                });
+                spring.setEndValue(0.5);
             }
         });
 

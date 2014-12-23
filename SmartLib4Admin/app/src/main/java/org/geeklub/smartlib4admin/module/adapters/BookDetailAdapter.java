@@ -39,6 +39,8 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
 
     private OnDialogShowListener onDialogShowListener;
 
+    private OnBookIconClickListener onBookIconClickListener;
+
 
     public BookDetailAdapter(Context context) {
         this.mContext = context;
@@ -162,6 +164,16 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
                     }
                 });
 
+                header.mBookIcon.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (onBookIconClickListener != null) {
+                            onBookIconClickListener.onBookIconClick(v);
+                        }
+
+                    }
+                });
+
                 break;
 
             case VIEW_TYPE_BOOK_ITEM:
@@ -206,6 +218,14 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
         void onDialogShow(BookDetailInfo detailInfo);
     }
 
+    public static interface OnBookIconClickListener {
+        void onBookIconClick(View bookIcon);
+    }
+
+    public void setOnBookIconClickListener(OnBookIconClickListener listener) {
+        this.onBookIconClickListener = listener;
+    }
+
     public void setOnItemRemoveListener(OnItemRemoveListener listener) {
         this.onItemRemoveListener = listener;
     }
@@ -213,6 +233,7 @@ public class BookDetailAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void setOnDialogShowListener(OnDialogShowListener listener) {
         this.onDialogShowListener = listener;
     }
+
 
     private void setUpHeaderBackground(ImageView blurredImage) {
         BitmapFactory.Options options = new BitmapFactory.Options();
