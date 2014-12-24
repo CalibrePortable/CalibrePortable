@@ -40,4 +40,12 @@ public class SummaryBook {
         return ((SummaryBook) otherObject).book_kind.equals(book_kind);
 
     }
+
+    @Override
+    public String toString() {
+        return "SummaryBook{" +
+                "book_kind='" + book_kind + '\'' +
+                ", book_name='" + book_name + '\'' +
+                '}';
+    }
 }

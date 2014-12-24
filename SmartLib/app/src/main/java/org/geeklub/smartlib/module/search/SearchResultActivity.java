@@ -8,6 +8,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -145,6 +146,7 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
 
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setAdapter(searchAdapter);
 
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -210,11 +212,12 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
         }
 
         SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
-        final NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
+        NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
 
         service.search(user.getUserId(), type, page, mQueryWord, new Callback<List<SummaryBook>>() {
             @Override
             public void success(List<SummaryBook> bookList, Response response) {
+                LogUtil.i(bookList.toString());
                 mRefreshLayout.setRefreshing(false);
                 if (isRefreshFromTop) {
                     searchAdapter.replaceWith(bookList);
