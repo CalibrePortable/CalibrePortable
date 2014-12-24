@@ -45,7 +45,7 @@
 
     <array name="search_tabs">
         <item>书名</item>
-        <item>出版社</item>
+        <item>图书ID</item>
         <item>作者</item>
         <item>种类</item>
     </array>
