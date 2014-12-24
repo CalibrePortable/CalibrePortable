@@ -9,7 +9,6 @@ import org.geeklub.smartlib.beans.ServerResponse;
 import org.geeklub.smartlib.module.login.presenter.OnLoginFinishedListener;
 import org.geeklub.smartlib.module.login.presenter.OnUserInputListener;
 import org.geeklub.smartlib.api.NormalUserService;
-import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 
 import retrofit.Callback;
@@ -40,7 +39,6 @@ public class LoginModelImpl implements LoginModel {
         service.login(new LoginInfo(userId, password), new Callback<ServerResponse>() {
             @Override
             public void success(ServerResponse serverResponse, Response response) {
-                LogUtil.i(serverResponse.getInfo());
 
                 if (serverResponse.getStatus() == Constant.RESULT_SUCCESS) {
 
@@ -54,7 +52,6 @@ public class LoginModelImpl implements LoginModel {
 
             @Override
             public void failure(RetrofitError error) {
-                LogUtil.i(error.getMessage());
 
                 loginFinishedListener.onFail(error.getMessage());
             }

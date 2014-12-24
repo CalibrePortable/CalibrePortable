@@ -37,7 +37,6 @@ import org.geeklub.smartlib.module.settings.SettingsActivity;
 import org.geeklub.smartlib.module.type.Category;
 import org.geeklub.smartlib.module.borrow.BorrowFragment;
 import org.geeklub.smartlib.module.library.LibraryFragment;
-import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 import org.geeklub.smartlib.utils.ToastUtil;
 
@@ -116,14 +115,12 @@ public class MainActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        LogUtil.i("注册");
         GlobalContext.getBusInstance().register(this);
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        LogUtil.i("取消注册");
         GlobalContext.getBusInstance().unregister(this);
     }
 
@@ -287,7 +284,6 @@ public class MainActivity extends BaseActivity {
 
                             @Override
                             public void failure(RetrofitError error) {
-                                LogUtil.i(error.getMessage());
                                 ToastUtil.showShort(error.getMessage());
                             }
                         });

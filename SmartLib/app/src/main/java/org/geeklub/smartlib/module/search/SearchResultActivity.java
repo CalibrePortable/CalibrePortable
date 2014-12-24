@@ -37,7 +37,6 @@ import org.geeklub.smartlib.module.adapters.SearchAdapter;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
 import org.geeklub.smartlib.utils.DisplayParams;
-import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 
 import java.util.List;
@@ -46,6 +45,7 @@ import java.util.List;
  * Created by Vass on 2014/11/17.
  */
 public class SearchResultActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
+
 
     private SearchAdapter searchAdapter;
 
@@ -104,6 +104,7 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             mQueryWord = intent.getStringExtra(SearchManager.QUERY);
+
             onRefresh();
         }
     }
@@ -261,7 +262,6 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
         service.search(user.getUserId(), type, page, mQueryWord, new Callback<List<SummaryBook>>() {
             @Override
             public void success(List<SummaryBook> bookList, Response response) {
-                LogUtil.i(bookList.toString());
                 if (isRefreshFromTop) {
                     mRefreshLayout.setRefreshing(false);
                     searchAdapter.replaceWith(bookList);
@@ -274,7 +274,6 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
 
             @Override
             public void failure(RetrofitError error) {
-                LogUtil.i(error.getMessage());
                 mRefreshLayout.setRefreshing(false);
                 isLoading = false;
             }

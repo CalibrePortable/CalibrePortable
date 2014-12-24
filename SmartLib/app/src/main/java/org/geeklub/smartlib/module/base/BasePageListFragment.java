@@ -13,7 +13,6 @@ import android.view.ViewGroup;
 import butterknife.InjectView;
 
 import org.geeklub.smartlib.R;
-import org.geeklub.smartlib.utils.LogUtil;
 
 @Deprecated
 public abstract class BasePageListFragment<T> extends BaseFragment
@@ -85,7 +84,6 @@ public abstract class BasePageListFragment<T> extends BaseFragment
     }
 
     private void loadNextPage() {
-        LogUtil.i("加载下一页");
         loadData(mPage);
 
 

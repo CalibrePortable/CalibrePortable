@@ -28,7 +28,6 @@ import org.geeklub.smartlib.module.base.BaseFragment;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
 import org.geeklub.smartlib.utils.BitmapUtil;
 import org.geeklub.smartlib.utils.DisplayParams;
-import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 
 import retrofit.Callback;
@@ -93,7 +92,6 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
         super.onCreate(savedInstanceState);
 
 
-        LogUtil.i("onCreate");
         mAdapter = new SearchAdapter(mActivity);
 
         mAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
@@ -123,12 +121,10 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
                 new Callback<ServerResponse>() {
                     @Override
                     public void success(ServerResponse serverResponse, Response response) {
-                        LogUtil.i("点赞成功 ...");
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        LogUtil.i("点赞失败 ===>>>" + error.getMessage());
                     }
                 });
     }
@@ -145,7 +141,6 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
 
 
         if (GlobalContext.getBitmapLruCacheInstance().getBitmapFromMemoryCache(mBackgroundDraweable) == null) {
-            LogUtil.i("内存中没有，添加到缓存中");
             GlobalContext.getBitmapLruCacheInstance().addBitmapToMemoryCache(mBackgroundDraweable, BitmapUtil.decodeSampledBitmapFromResource(getResources(), mBackgroundDraweable, width / 2, height / 2));
         }
         mBackground.setImageBitmap(GlobalContext.getBitmapLruCacheInstance().getBitmapFromMemoryCache(mBackgroundDraweable));
@@ -211,7 +206,6 @@ public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.O
 
             @Override
             public void failure(RetrofitError error) {
-                LogUtil.i(error.getMessage());
                 mRefreshLayout.setRefreshing(false);
             }
         });

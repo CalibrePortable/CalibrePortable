@@ -24,7 +24,6 @@ import org.geeklub.smartlib.module.adapters.BorrowAdapter;
 import org.geeklub.smartlib.module.base.BaseFragment;
 import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.module.event.BookBorrowEvent;
-import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 import org.geeklub.smartlib.utils.ToastUtil;
 
@@ -188,7 +187,6 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     @Subscribe
     public void onBookBorrow(BookBorrowEvent event) {
-        LogUtil.i("接收 ===>>>借书事件");
         onRefresh();
     }
 

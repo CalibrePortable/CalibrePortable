@@ -17,7 +17,6 @@ import butterknife.InjectView;
 
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.beans.SummaryBook;
-import org.geeklub.smartlib.utils.LogUtil;
 
 /**
  * Created by Vass on 2014/11/3.
@@ -95,7 +94,6 @@ public class LibraryAdapter extends BaseRecyclerAdapter<SummaryBook, LibraryAdap
                 .append(book.book_status);
         viewHolder.mBookDescription.setText(description);
 
-        LogUtil.i("点赞数 ===>>>" + book.favour);
         viewHolder.mBookFavour.setText(book.favour);
         viewHolder.mAddOneTextView.setVisibility(View.GONE);
 

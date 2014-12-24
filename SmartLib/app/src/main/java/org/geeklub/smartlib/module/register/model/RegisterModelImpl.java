@@ -9,7 +9,6 @@ import org.geeklub.smartlib.module.register.presenter.OnPassWordMatchListener;
 import org.geeklub.smartlib.module.register.presenter.OnRegisterFinishedListener;
 import org.geeklub.smartlib.module.register.presenter.OnUserInputListener;
 import org.geeklub.smartlib.api.NormalUserService;
-import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 import retrofit.Callback;
 import retrofit.RetrofitError;
@@ -50,17 +49,14 @@ public class RegisterModelImpl implements RegisterModel {
           @Override public void success(ServerResponse serverResponse, Response response) {
 
             if (serverResponse.getStatus() == Constant.RESULT_SUCCESS) {
-              LogUtil.i("注册成功");
               SmartLibraryUser.saveUser(userId, password);
               finishedListener.onSuccess(serverResponse.getInfo());
             } else {
-              LogUtil.i("注册失败");
               finishedListener.onFail(serverResponse.getInfo());
             }
           }
 
           @Override public void failure(RetrofitError error) {
-            LogUtil.i("注册失败");
             finishedListener.onFail(error.getMessage());
           }
         });

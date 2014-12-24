@@ -48,7 +48,6 @@ public class SmartLibraryUser {
     String password = preferences.getString(USER_PASSWORD, "");
 
     if (userId == null || "".equals(userId)) {
-      LogUtil.i("userId 不存在");
       return null;
     }
     return new SmartLibraryUser(userId, password);

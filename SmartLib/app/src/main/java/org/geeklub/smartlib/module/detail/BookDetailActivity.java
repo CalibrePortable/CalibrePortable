@@ -25,7 +25,6 @@ import org.geeklub.smartlib.beans.BookDetailInfo;
 import org.geeklub.smartlib.module.adapters.DetailAdapter;
 import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.R;
-import org.geeklub.smartlib.utils.LogUtil;
 
 import retrofit.Callback;
 import retrofit.RetrofitError;
