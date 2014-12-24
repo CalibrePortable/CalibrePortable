@@ -54,13 +54,13 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
 
     private int mPage = 1;
 
-    private String mQueryWord;
-
-    private StaggeredGridLayoutManager staggeredGridLayoutManager;
-
     private boolean isLoading = true;
 
     private boolean isBottom = false;
+
+    private String mQueryWord;
+
+    private StaggeredGridLayoutManager staggeredGridLayoutManager;
 
     @InjectView(R.id.toolbar)
     Toolbar mToolBar;
@@ -71,10 +71,8 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
     @InjectView(R.id.swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
 
-
     @InjectView(R.id.recycler_view)
     RecyclerView mRecyclerView;
-
 
     @InjectView(R.id.iv_background)
     ImageView mBackground;
@@ -107,7 +105,6 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
     private void handleIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             mQueryWord = intent.getStringExtra(SearchManager.QUERY);
-
             onRefresh();
         }
     }
@@ -148,7 +145,6 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
             }
         });
 
-
         mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(false);
@@ -169,16 +165,12 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
                     lastItem = Math.max(lastItem, position);
                 }
                 isBottom = (lastItem + visibleItemCount >= totalItemCount);
-
-
                 logger.info("isBottom ===>>>{}", isBottom);
-
             }
 
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
-
 
                 if (newState == RecyclerView.SCROLL_STATE_IDLE && isBottom) {
                     if (!isLoading) {
@@ -191,10 +183,8 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
     }
 
     private void setUpFilter() {
-
         mFilter.setAdapter(ArrayAdapter.createFromResource(this, R.array.search_tabs,
                 android.R.layout.simple_spinner_dropdown_item));
-
 
         mFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             //          onItemSelected在init之后会自动被调用一次
@@ -257,7 +247,6 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
         }
 
         final boolean isRefreshFromTop = (page == 1);
-
         if (!mRefreshLayout.isRefreshing() && isRefreshFromTop) {
             mRefreshLayout.setRefreshing(true);
         }
@@ -302,13 +291,11 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-
         getMenuInflater().inflate(R.menu.search, menu);
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         SearchView searchView =
                 (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-
         return true;
     }
 
