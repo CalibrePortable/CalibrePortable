@@ -142,7 +142,6 @@ public class BookDetailActivity extends BaseActivity {
         service.bookDetail(mBookDetailUrl, new Callback<BookDetailInfo>() {
             @Override
             public void success(BookDetailInfo bookDetailInfo, Response response) {
-                LogUtil.i("Detail ===>>>" + bookDetailInfo.toString());
                 progressWheel.setVisibility(View.GONE);
                 mToolBar.setTitle(bookDetailInfo.book_name);
                 mToolBar.setTitleTextColor(Color.TRANSPARENT);
@@ -154,7 +153,6 @@ public class BookDetailActivity extends BaseActivity {
             @Override
             public void failure(RetrofitError error) {
                 progressWheel.setVisibility(View.GONE);
-                LogUtil.i("failure ===>>>" + error.getMessage());
             }
         });
     }

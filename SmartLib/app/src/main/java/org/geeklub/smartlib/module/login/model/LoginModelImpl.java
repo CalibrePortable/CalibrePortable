@@ -11,8 +11,8 @@ import org.geeklub.smartlib.module.login.presenter.OnUserInputListener;
 import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
+
 import retrofit.Callback;
-import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -21,52 +21,52 @@ import retrofit.client.Response;
  */
 public class LoginModelImpl implements LoginModel {
 
-  @Override
-  public void login(final String userId, final String password,
-      OnUserInputListener userInputListener, final OnLoginFinishedListener loginFinishedListener) {
+    @Override
+    public void login(final String userId, final String password,
+                      OnUserInputListener userInputListener, final OnLoginFinishedListener loginFinishedListener) {
 
-    if (TextUtils.isEmpty(userId)) {
-      userInputListener.onAccountError();
-      return;
-    }
-
-    if (TextUtils.isEmpty(password)) {
-      userInputListener.onPasswordError();
-      return;
-    }
-
-    //RestAdapter restAdapter =
-    //    new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
-
-    NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
-
-    service.login(new LoginInfo(userId, password), new Callback<ServerResponse>() {
-      @Override public void success(ServerResponse serverResponse, Response response) {
-        LogUtil.i(serverResponse.getInfo());
-
-        if (serverResponse.getStatus() == Constant.RESULT_SUCCESS) {
-
-          SmartLibraryUser.saveUser(userId, password);
-
-          loginFinishedListener.onSuccess(serverResponse.getInfo());
-        } else {
-          loginFinishedListener.onFail(serverResponse.getInfo());
+        if (TextUtils.isEmpty(userId)) {
+            userInputListener.onAccountError();
+            return;
         }
-      }
 
-      @Override public void failure(RetrofitError error) {
-        LogUtil.i(error.getMessage());
+        if (TextUtils.isEmpty(password)) {
+            userInputListener.onPasswordError();
+            return;
+        }
 
-        loginFinishedListener.onFail(error.getMessage());
-      }
-    });
-  }
+        NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
 
-  @Override public boolean ifLoginBefore() {
-    SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
-    if (user == null) {
-      return false;
+        service.login(new LoginInfo(userId, password), new Callback<ServerResponse>() {
+            @Override
+            public void success(ServerResponse serverResponse, Response response) {
+                LogUtil.i(serverResponse.getInfo());
+
+                if (serverResponse.getStatus() == Constant.RESULT_SUCCESS) {
+
+                    SmartLibraryUser.saveUser(userId, password);
+
+                    loginFinishedListener.onSuccess(serverResponse.getInfo());
+                } else {
+                    loginFinishedListener.onFail(serverResponse.getInfo());
+                }
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                LogUtil.i(error.getMessage());
+
+                loginFinishedListener.onFail(error.getMessage());
+            }
+        });
     }
-    return true;
-  }
+
+    @Override
+    public boolean ifLoginBefore() {
+        SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
+        if (user == null) {
+            return false;
+        }
+        return true;
+    }
 }

@@ -43,9 +43,6 @@ public class RegisterModelImpl implements RegisterModel {
       return;
     }
 
-    //RestAdapter restAdapter =
-    //    new RestAdapter.Builder().setEndpoint("http://www.flappyant.com/book/API.php").build();
-
     NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
 
     service.register(new RegisterInfo(userId, userName, password, passWordConfirm),

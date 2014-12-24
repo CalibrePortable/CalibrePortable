@@ -21,7 +21,6 @@ import org.geeklub.smartlib.GlobalContext;
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.beans.Book;
 import org.geeklub.smartlib.module.adapters.BorrowAdapter;
-import org.geeklub.smartlib.beans.SummaryBook;
 import org.geeklub.smartlib.module.base.BaseFragment;
 import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.module.event.BookBorrowEvent;

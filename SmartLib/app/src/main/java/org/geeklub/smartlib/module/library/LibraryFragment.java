@@ -26,9 +26,7 @@ import org.geeklub.smartlib.module.adapters.LibraryAdapter;
 import org.geeklub.smartlib.module.base.BaseFragment;
 import org.geeklub.smartlib.api.NormalUserService;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
-import org.geeklub.smartlib.module.event.BookBorrowEvent;
 import org.geeklub.smartlib.module.event.BookPlusEvent;
-import org.geeklub.smartlib.utils.LogUtil;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
 import org.geeklub.smartlib.utils.ToastUtil;
 
@@ -113,12 +111,10 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
                 new Callback<ServerResponse>() {
                     @Override
                     public void success(ServerResponse serverResponse, Response response) {
-                        LogUtil.i("点赞成功 ...");
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        LogUtil.i("点赞失败 ===>>>" + error.getMessage());
                     }
                 });
     }
@@ -220,7 +216,6 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
 
     @Subscribe
     public void onBookPlusEvent(BookPlusEvent event) {
-        LogUtil.i("接收 ===>>>书本+1事件");
         onRefresh();
     }
 }

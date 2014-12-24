@@ -14,12 +14,9 @@ import com.squareup.picasso.Picasso;
 import butterknife.ButterKnife;
 import butterknife.InjectView;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.beans.Book;
-import org.geeklub.smartlib.beans.SummaryBook;
 
 /**
  * Created by Vass on 2014/11/8.

@@ -26,7 +26,6 @@ public class BitmapUtil {
             inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
         }
 
-        LogUtil.i("inSampleSize ===>>>" + inSampleSize);
 
         return inSampleSize;
     }
@@ -45,7 +44,6 @@ public class BitmapUtil {
         // Decode bitmap with inSampleSize set
         options.inJustDecodeBounds = false;
 
-        LogUtil.i("压缩后大小 ===>>>" + BitmapFactory.decodeResource(res, resId, options).getByteCount() / 1024 / 1024 + "MB");
         return BitmapFactory.decodeResource(res, resId, options);
     }
 }

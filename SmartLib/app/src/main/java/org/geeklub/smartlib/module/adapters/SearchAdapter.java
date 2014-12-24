@@ -15,8 +15,6 @@ import butterknife.InjectView;
 
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
-import java.util.List;
 
 import org.geeklub.smartlib.R;
 import org.geeklub.smartlib.beans.SummaryBook;

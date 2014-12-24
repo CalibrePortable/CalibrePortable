@@ -5,12 +5,11 @@ package org.geeklub.smartlib.module.register.presenter;
  */
 public interface OnUserInputListener {
 
-  void userIdError();
+    void userIdError();
 
-  void userNameError();
+    void userNameError();
 
-  void passwordError();
-
+    void passwordError();
 
 
 }
