@@ -38,6 +38,8 @@ import org.geeklub.smartlib.module.base.BaseActivity;
 import org.geeklub.smartlib.module.detail.BookDetailActivity;
 import org.geeklub.smartlib.utils.DisplayParams;
 import org.geeklub.smartlib.utils.SmartLibraryUser;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -46,6 +48,7 @@ import java.util.List;
  */
 public class SearchResultActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
+    private static final Logger logger = LoggerFactory.getLogger(SearchResultActivity.class);
 
     private SearchAdapter searchAdapter;
 
@@ -166,6 +169,9 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
                     lastItem = Math.max(lastItem, position);
                 }
                 isBottom = (lastItem + visibleItemCount >= totalItemCount);
+
+
+                logger.info("isBottom ===>>>{}", isBottom);
 
             }
 
