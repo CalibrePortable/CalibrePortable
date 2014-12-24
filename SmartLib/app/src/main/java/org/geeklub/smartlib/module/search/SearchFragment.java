@@ -35,9 +35,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
-/**
- * Created by Vass on 2014/11/17.
- */
+@Deprecated
 public class SearchFragment extends BaseFragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String TAG = SearchFragment.class.getSimpleName();

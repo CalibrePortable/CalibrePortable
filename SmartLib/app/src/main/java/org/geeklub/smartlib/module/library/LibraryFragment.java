@@ -44,11 +44,23 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
 
     @InjectView(R.id.swipe_layout)
     SwipeRefreshLayout mRefreshLayout;
+
     @InjectView(R.id.recycler_view)
     RecyclerView mRecyclerView;
 
     private LibraryAdapter mAdapter;
+
     private int mPage = 1;
+
+    private LinearLayoutManager linearLayoutManager;
+
+    private boolean isLoading = true;
+
+    private int firstVisibleItem;
+
+    private int visibleItemCount;
+
+    private int totalItemCount;
 
     public static Fragment newInstance() {
         Fragment libraryFragment = new LibraryFragment();
@@ -60,6 +72,7 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
         super.onCreate(savedInstanceState);
 
         mAdapter = new LibraryAdapter(mActivity);
+        linearLayoutManager = new LinearLayoutManager(mActivity);
 
         mAdapter.setOnItemClickListener(new LibraryAdapter.OnItemClickListener() {
             @Override
@@ -83,14 +96,12 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
     @Override
     public void onResume() {
         super.onResume();
-        LogUtil.i("注册");
         GlobalContext.getBusInstance().register(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        LogUtil.i("取消注册");
         GlobalContext.getBusInstance().unregister(this);
     }
 
@@ -124,22 +135,30 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                visibleItemCount = linearLayoutManager.getChildCount();
+                totalItemCount = linearLayoutManager.getItemCount();
+                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+            }
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                switch (newState) {
-                    case RecyclerView.SCROLL_STATE_IDLE:
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && (firstVisibleItem + visibleItemCount >= totalItemCount)) {
+                    if (!isLoading) {
+                        isLoading = true;
                         loadNextPage();
-                        break;
-
-                    default:
-                        break;
+                    }
                 }
             }
         });
@@ -161,7 +180,7 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
     private void loadData(int page) {
         SmartLibraryUser user = SmartLibraryUser.getCurrentUser();
         NormalUserService service = GlobalContext.getApiDispencer().getRestApi(NormalUserService.class);
-
+        //如果是第一页的话，表示用户想要进行刷新操作
         final boolean isRefreshFromTop = (page == 1);
         if (!mRefreshLayout.isRefreshing() && isRefreshFromTop) {
             mRefreshLayout.setRefreshing(true);
@@ -170,18 +189,20 @@ public class LibraryFragment extends BaseFragment implements SwipeRefreshLayout.
         service.search(user.getUserId(), 5, page, "all", new Callback<List<SummaryBook>>() {
             @Override
             public void success(List<SummaryBook> summaryBooks, Response response) {
-                mRefreshLayout.setRefreshing(false);
                 if (isRefreshFromTop) {
+                    mRefreshLayout.setRefreshing(false);
                     mAdapter.replaceWith(summaryBooks);
                 } else {
                     mAdapter.addAll(summaryBooks);
                 }
+                isLoading = false;
                 mPage++;
             }
 
             @Override
             public void failure(RetrofitError error) {
                 mRefreshLayout.setRefreshing(false);
+                isLoading = false;
                 ToastUtil.showShort("Failed to load. Try again later...");
             }
         });

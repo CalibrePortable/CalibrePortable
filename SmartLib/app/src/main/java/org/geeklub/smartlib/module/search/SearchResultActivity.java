@@ -8,7 +8,6 @@ import android.support.v4.app.NavUtils;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -48,14 +47,17 @@ import java.util.List;
  */
 public class SearchResultActivity extends BaseActivity implements SwipeRefreshLayout.OnRefreshListener {
 
-
     private SearchAdapter searchAdapter;
 
     private int mPage = 1;
 
     private String mQueryWord;
 
-//    private static final int mBackgroundDrawable = R.drawable.search_fragment_bg_1;
+    private StaggeredGridLayoutManager staggeredGridLayoutManager;
+
+    private boolean isLoading = true;
+
+    private boolean isBottom = false;
 
     @InjectView(R.id.toolbar)
     Toolbar mToolBar;
@@ -82,9 +84,9 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
         initToolBar();
 
         setUpBackground();
-        setUpFilter();
-        setUpRecyclerView();
         setUpSwipingLayout();
+        setUpRecyclerView();
+        setUpFilter();
 
 
         if (Intent.ACTION_SEARCH.equals(getIntent().getAction())) {
@@ -109,10 +111,7 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
     private void setUpBackground() {
         int height = DisplayParams.getInstance(this).screenHeight;
         int width = DisplayParams.getInstance(this).screenWidth;
-
         Picasso.with(this).load(R.drawable.search_fragment_bg_1).resize(width / 2, height / 2).centerCrop().into(mBackground);
-
-//        mBackground.setImageBitmap(BitmapUtil.decodeSampledBitmapFromResource(getResources(), mBackgroundDrawable, width / 2, height / 2));
     }
 
 
@@ -125,6 +124,7 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
 
 
     private void setUpRecyclerView() {
+        staggeredGridLayoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         searchAdapter = new SearchAdapter(this);
         searchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
             @Override
@@ -144,24 +144,61 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
             }
         });
 
-        mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL));
+
+        mRecyclerView.setLayoutManager(staggeredGridLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setHasFixedSize(false);
         mRecyclerView.setAdapter(searchAdapter);
 
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int visibleItemCount = staggeredGridLayoutManager.getChildCount();
+                int totalItemCount = staggeredGridLayoutManager.getItemCount();
+                int[] lastVisibleItemPositions = staggeredGridLayoutManager.findLastVisibleItemPositions(null);
+
+                int lastItem = 0;
+                for (int position : lastVisibleItemPositions) {
+                    lastItem = Math.max(lastItem, position);
+                }
+                isBottom = (lastItem + visibleItemCount >= totalItemCount);
+
+            }
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                switch (newState) {
-                    case RecyclerView.SCROLL_STATE_IDLE:
-                        loadNextPage();
-                        break;
 
-                    default:
-                        break;
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && isBottom) {
+                    if (!isLoading) {
+                        isLoading = true;
+                        loadNextPage();
+                    }
                 }
+            }
+        });
+    }
+
+    private void setUpFilter() {
+
+        mFilter.setAdapter(ArrayAdapter.createFromResource(this, R.array.search_tabs,
+                android.R.layout.simple_spinner_dropdown_item));
+
+
+        mFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            //          onItemSelected在init之后会自动被调用一次
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                onRefresh();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
@@ -175,16 +212,23 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
                 new Callback<ServerResponse>() {
                     @Override
                     public void success(ServerResponse serverResponse, Response response) {
-                        LogUtil.i("点赞成功 ...");
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
-                        LogUtil.i("点赞失败 ===>>>" + error.getMessage());
                     }
                 });
     }
 
+
+    private void loadFirstPage() {
+        mPage = 1;
+        loadData(mPage);
+    }
+
+    private void loadNextPage() {
+        loadData(mPage);
+    }
 
     private void loadData(int page) {
         int type = 1;
@@ -218,12 +262,13 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
             @Override
             public void success(List<SummaryBook> bookList, Response response) {
                 LogUtil.i(bookList.toString());
-                mRefreshLayout.setRefreshing(false);
                 if (isRefreshFromTop) {
+                    mRefreshLayout.setRefreshing(false);
                     searchAdapter.replaceWith(bookList);
                 } else {
                     searchAdapter.addAll(bookList);
                 }
+                isLoading = false;
                 mPage++;
             }
 
@@ -231,35 +276,7 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
             public void failure(RetrofitError error) {
                 LogUtil.i(error.getMessage());
                 mRefreshLayout.setRefreshing(false);
-            }
-        });
-    }
-
-    private void loadFirstPage() {
-        mPage = 1;
-        loadData(mPage);
-    }
-
-    private void loadNextPage() {
-        loadData(mPage);
-    }
-
-    private void setUpFilter() {
-
-        mFilter.setAdapter(ArrayAdapter.createFromResource(this, R.array.search_tabs,
-                android.R.layout.simple_spinner_dropdown_item));
-
-
-        mFilter.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            //          onItemSelected在init之后会自动被调用一次
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                onRefresh();
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+                isLoading = false;
             }
         });
     }
@@ -302,7 +319,6 @@ public class SearchResultActivity extends BaseActivity implements SwipeRefreshLa
 
     @Override
     public void onRefresh() {
-        LogUtil.i("onRefresh");
         loadFirstPage();
     }
 

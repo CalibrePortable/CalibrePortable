@@ -149,8 +149,6 @@ public class BookDetailActivity extends BaseActivity {
                 mAdapter.setBookDetailInfo(bookDetailInfo);
                 mBookLink = bookDetailInfo.book_link;
                 setShareIntent(getUpSendIntent(bookDetailInfo.book_link));
-
-
             }
 
             @Override

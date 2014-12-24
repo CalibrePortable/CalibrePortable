@@ -50,6 +50,16 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
 
     private int mPage = 1;
 
+    private LinearLayoutManager linearLayoutManager;
+
+    private boolean isLoading = true;
+
+    private int firstVisibleItem;
+
+    private int visibleItemCount;
+
+    private int totalItemCount;
+
     public static Fragment newInstance() {
         Fragment borrowFragment = new BorrowFragment();
         return borrowFragment;
@@ -60,6 +70,8 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
         super.onCreate(savedInstanceState);
 
         mAdapter = new BorrowAdapter(mActivity);
+
+        linearLayoutManager = new LinearLayoutManager(mActivity);
 
 
     }
@@ -76,22 +88,30 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
                 android.R.color.holo_green_light, android.R.color.holo_orange_light,
                 android.R.color.holo_red_light);
 
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(mActivity));
+        mRecyclerView.setLayoutManager(linearLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+
+            @Override
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                visibleItemCount = linearLayoutManager.getChildCount();
+                totalItemCount = linearLayoutManager.getItemCount();
+                firstVisibleItem = linearLayoutManager.findFirstVisibleItemPosition();
+            }
+
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int newState) {
                 super.onScrollStateChanged(recyclerView, newState);
 
-                switch (newState) {
-                    case RecyclerView.SCROLL_STATE_IDLE:
+                if (newState == RecyclerView.SCROLL_STATE_IDLE && (firstVisibleItem + visibleItemCount >= totalItemCount)) {
+                    if (!isLoading) {
+                        isLoading = true;
                         loadNextPage();
-                        break;
-
-                    default:
-                        break;
+                    }
                 }
             }
         });
@@ -105,14 +125,12 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
     @Override
     public void onResume() {
         super.onResume();
-        LogUtil.i("注册");
         GlobalContext.getBusInstance().register(this);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        LogUtil.i("取消注册");
         GlobalContext.getBusInstance().unregister(this);
     }
 
@@ -149,22 +167,21 @@ public class BorrowFragment extends BaseFragment implements SwipeRefreshLayout.O
                 new Callback<List<Book>>() {
                     @Override
                     public void success(List<Book> bookList, Response response) {
-                        mRefreshLayout.setRefreshing(false);
-
-                        LogUtil.i("借阅记录 ===>>>" + bookList.toString());
 
                         if (isRefreshFromTop) {
+                            mRefreshLayout.setRefreshing(false);
                             mAdapter.replaceWith(bookList);
                         } else {
                             mAdapter.addAll(bookList);
                         }
                         mPage++;
+                        isLoading = false;
                     }
 
                     @Override
                     public void failure(RetrofitError error) {
                         mRefreshLayout.setRefreshing(false);
-                        LogUtil.i("错误 ===>>>" + error.getMessage());
+                        isLoading = false;
                         ToastUtil.showShort("Failed to load. Try again later...");
                     }
                 });
