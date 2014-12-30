@@ -305,7 +305,7 @@
 
 
 
-4.图书搜索/获取图书列表(可以detail)
+4.图书搜索/获取图书列表(可以detail)(有翻页)
 (有两种表 bookbasic【id】 booklist【id,book_kind】)
 >API.php/normal/search/:userId/:type/page=:page/:keyword
 
@@ -345,7 +345,7 @@
 
 
 
-5.已借阅(可以detail)(有翻页)
+5.已借阅(无法detail)(可点赞)(有翻页)
 >API.php/normal/showRe/:userId/:password/page=:page
 
 **请求**
@@ -366,12 +366,13 @@
 `Response`
 >[
 {"book_id":书本id,
+"book_kind":书本kind,
 "book_name":书本名称,
 "book_author":书本作者,
 "book_status":书本状态,
 "favour":点赞数,
 "book_pic":图书图片,
-"isLike":是否被赞
+"isLike":是否被赞,
 "created_at":借阅时间,
 "return_at":剩余天数},
 {
@@ -412,7 +413,7 @@ Method:POST
 
 
 
-2.图书搜索/获取图书列表(可以detail)
+2.图书搜索/获取图书列表(可以detail)(有翻页)
 >API.php/admin/search/:userId/:type/page=:page/:keyword
 
 **请求**
@@ -509,35 +510,7 @@ Method:GET
 
 
 
-5.更新图书资料(显示在搜索出的列表中 移动端直接调取摄像头 网页端弹出输入框)
->API.php/admin/renew/:bookId/:bookIsbn/:userId/:password
-
-***请求***
-
->Method:GET
-
-***用例***
-
->API.php/admin/renew/47/9787111358732/12108238/12108238
-
-***参数***
-
->bookId:String
->>bookIsbn:String
->>>userId:String
->>>>password:String(获取)
-
-`Response `
->{
-    "status":RESULT_CONSTANT,
-	"info":"成功/错误原因"
-}
-
----
-
-
-
-6.添加图书(仅用于捐赠的图书添加，购买的图书通过购买系统添加)
+5.添加图书(仅用于捐赠的图书添加，购买的图书通过购买系统添加)
 >API.php/admin/add/:bookIsbn/:bookType/:userId/:password
 
 ***请求***
@@ -565,7 +538,7 @@ Method:GET
 
 
 
-7.删除图书(在已借出或已超期中可以删除)
+6.删除图书(在已借出或已超期中可以删除)
 
 >API.php/admin/delete/:bookId/:userId/:password
 
@@ -593,7 +566,7 @@ Method:GET
 
 
 
-8.查看已经借出的图书(无法detail)(无法点赞)(有翻页)
+7.查看已经借出的图书(无法detail)(无法点赞)(有翻页)
 >API.php/admin/showRe/:userId/:password/page=:page
 
 ***请求***
@@ -612,11 +585,9 @@ API.php/admin/showRe/12108238/12108238/page=1
 
 `Response`
 >[
-{"cir_id":借阅活动id,
-"book_id":书本id,
+{"book_id":书本id,
 "book_name":书本名称,
-"boou_author":作者,
-"book_status":书本状态,
+"book_author":作者,
 "user_name":借阅人,
 "favour":点赞数,
 "book_pic":图书图片,
